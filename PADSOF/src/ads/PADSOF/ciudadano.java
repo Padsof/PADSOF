@@ -1,3 +1,4 @@
+package ads.PADSOF;
 
 public class ciudadano extends Usuario {
 	
@@ -36,6 +37,8 @@ public class ciudadano extends Usuario {
 		this.bloqueado = bloqueado;
 	}
 	  
+	
+	
 	public void aceptarUsuario() {
 		
 	}

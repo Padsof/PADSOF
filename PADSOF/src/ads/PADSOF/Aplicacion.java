@@ -1,4 +1,4 @@
-
+package ads.PADSOF;
 
 public class Aplicacion {
 
@@ -17,7 +17,7 @@ public class Aplicacion {
 		this.umbral = umbral;
 	}
 	
-	public void login (String user, String contraseña) {
+	public void login (String user, String contraseï¿½a) {
 		
 	}
 	

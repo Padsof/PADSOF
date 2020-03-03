@@ -1,3 +1,4 @@
+package ads.PADSOF;
 
 public enum TipoNotificacion {
 	aceptado(1),

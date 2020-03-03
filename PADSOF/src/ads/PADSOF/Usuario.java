@@ -1,12 +1,13 @@
+package ads.PADSOF;
 
 public abstract class Usuario {
 
 	private String nombre;
-    private String contraseña;
+    private String contraseï¿½a;
     
 	  public Usuario (String name, String password) {
 		  nombre = name;
-		  contraseña = password;
+		  contraseï¿½a = password;
 	  }
 
 	public String getNombre() {
@@ -17,11 +18,11 @@ public abstract class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContraseï¿½a() {
+		return contraseï¿½a;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContraseï¿½a(String contraseï¿½a) {
+		this.contraseï¿½a = contraseï¿½a;
 	}
 }

@@ -1,3 +1,5 @@
+package ads.PADSOF;
+
 import java.time.LocalDate; 
 
 public class Notificacion {
