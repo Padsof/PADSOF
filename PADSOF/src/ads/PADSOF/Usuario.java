@@ -1,14 +1,36 @@
 package ads.PADSOF;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Usuario {
 
 	private String nombre;
-    private String contraseï¿½a;
+    private String contrasenia;
+    private List<Ciudadano> PorAceptar = new ArrayList<>(); //Se debe crear en aplicacion
+    private Ciudadano persona;
     
-	  public Usuario (String name, String password) {
+    
+	  public Usuario (String name, String password, String DNI) {
 		  nombre = name;
-		  contraseï¿½a = password;
+		  contrasenia = password;
+		  persona = new Ciudadano(DNI, name, password);
+		  PorAceptar.add(persona); //debe añadir un nuevo ciudadano pero no se crea la lista en esta clase
 	  }
+	  
+	
+
+	public List<Ciudadano> getPorAceptar() { //No deberia estar aqui
+		return PorAceptar;
+	}
+
+
+
+	public void setPorAceptar(List<Ciudadano> porAceptar) { //No deberia estar aqui
+		PorAceptar = porAceptar;
+	}
+
+
 
 	public String getNombre() {
 		return nombre;
@@ -18,11 +40,11 @@ public abstract class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getContraseï¿½a() {
-		return contraseï¿½a;
+	public String getcontrasenia() {
+		return contrasenia;
 	}
 
-	public void setContraseï¿½a(String contraseï¿½a) {
-		this.contraseï¿½a = contraseï¿½a;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 }
