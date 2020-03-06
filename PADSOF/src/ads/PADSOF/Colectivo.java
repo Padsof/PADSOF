@@ -3,13 +3,12 @@ package ads.PADSOF;
 public class Colectivo {
 	
 	private String nombre;
-	private String representante;
     private int numMiembros;
     
     
-	  public Colectivo(String name, String rep) {
+	  public Colectivo(String name, int miembros) {
 		nombre = name;
-		representante = rep;
+		numMiembros = miembros;
 
 	  }
 
@@ -33,11 +32,11 @@ public class Colectivo {
 		this.numMiembros = numMiembros;
 	}
 	
-	public void agregarMiembro(Ciudadano c) {
+	public void agregarMiembro(ciudadano c) {
 		
 	}
 	
-	public void quitarMiembro(Ciudadano c) {
+	public void quitarMiembro(ciudadano c) {
 		
 	}
 	

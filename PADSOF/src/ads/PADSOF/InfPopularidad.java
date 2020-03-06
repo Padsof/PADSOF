@@ -1,4 +1,5 @@
 package ads.PADSOF;
+
 public class InfPopularidad extends Informe {
 
 	private double popularidad;
