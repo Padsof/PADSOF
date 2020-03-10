@@ -28,5 +28,10 @@ public enum EstadoProyecto {
 	/**
 	 * El proyecto has sido aprobado y financiado por la app externa
 	 */
-	financiado;
+	financiado
+	;
+	
+	public final boolean equals(EstadoProyecto ep) {
+		return this==ep;
+	}
 }

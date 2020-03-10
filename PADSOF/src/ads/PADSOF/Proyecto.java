@@ -1,5 +1,5 @@
 package ads.PADSOF;
-
+import java.util.*;
 import java.time.*;
 
 /**
@@ -20,6 +20,8 @@ public abstract class Proyecto {
 	private LocalDate fechaUltimoVoto;
 	private EstadoProyecto estado;
 	
+	private ArrayList<ciudadano>suscritos;
+	private ArrayList<ciudadano>votos;
 	
 	
 	public Proyecto(String titulo, String descripcion, double presupuesto, double presupuestoFinal, int nVotos,
@@ -89,5 +91,70 @@ public abstract class Proyecto {
 	}
 	public void setEstado(EstadoProyecto estado) {
 		this.estado = estado;
+	}
+	
+	public int suscribir(ciudadano c) {
+		for (ciudadano aux: suscritos) {
+			if (aux == c) {
+				return -1;
+			}
+		}
+		
+		suscritos.add(c);
+		return 0;
+	}
+	
+	// estaria mejor crear una funcion para comparar ciudadanos
+	public int desuscribir(ciudadano c) {
+		for (ciudadano aux: suscritos) {
+			if (aux == c) {
+				suscritos.remove(c);
+				return 0;
+			}
+		}
+		return 0;
+	}
+	
+	public InfPopularidad informePopularidad() {
+		InfPopularidad informe = new InfPopularidad(nVotos);
+		return informe;
+	}
+	
+	public void solicitudFinanciar(Aplicacion a) {
+		if (estado.equals(EstadoProyecto.umbralSuperado)) {
+			//mandar a financiar (al arrayList de paraFinanciar)
+		}
+	}
+	
+	public void anularVoto(ciudadano c) {
+		for (ciudadano aux: votos) {
+			if (aux == c) {
+				votos.remove(c);
+				nVotos--;
+			}
+		}
+	}
+	
+	public void votarProyecto(ciudadano c) {
+		for (ciudadano aux: votos) {
+			if (aux == c) {
+				votos.add(c);
+				nVotos++;
+			}
+		}
+	}
+	
+	public void aceptarProyecto() {
+		this.estado = EstadoProyecto.aceptado;
+	}
+	
+	public void rechazarProyecto() {
+		this.estado = EstadoProyecto.rechazado;
+		// eliminar proyecto??
+	}
+	
+	public void caducarProyecto() {
+		this.estado = EstadoProyecto.caducado;
+		// eliminar proyecto??
 	}
 }

@@ -17,7 +17,7 @@ public class Aplicacion {
 		this.umbral = umbral;
 	}
 	
-	public void login (String user, String contrase�a) {
+	public void login (String user, String contrasenia) {
 		
 	}
 	

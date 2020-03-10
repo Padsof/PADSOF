@@ -3,11 +3,11 @@ package ads.PADSOF;
 public abstract class Usuario {
 
 	private String nombre;
-    private String contrase�a;
+    private String contrasenia;
     
 	  public Usuario (String name, String password) {
 		  nombre = name;
-		  contrase�a = password;
+		  contrasenia = password;
 	  }
 
 	public String getNombre() {
@@ -18,11 +18,11 @@ public abstract class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getContrase�a() {
-		return contrase�a;
+	public String getContrasenia() {
+		return contrasenia;
 	}
 
-	public void setContrase�a(String contrase�a) {
-		this.contrase�a = contrase�a;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 }
