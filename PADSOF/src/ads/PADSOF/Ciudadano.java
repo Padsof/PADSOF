@@ -33,7 +33,7 @@ public class Ciudadano extends Usuario {
 	 * Un atributo de tipo boolean que indica si el usuario ha sido bloqueado o no por el administrador
 	 
 	 */
-    private boolean bloqueado;
+    private boolean bloqueado = false;
     
     /**
 
@@ -89,6 +89,12 @@ public class Ciudadano extends Usuario {
 		  super(nombre, password, dni);
 		  bloqueado = false;
 		  representanteProyecto = false;
+		  
+		  poraceptar = Aplicacion.getUsuariosPorAceptar();
+
+		  poraceptar.add(this); //Cuando se crea un usuario debe aniadirse a un array de usuarios por aceptar en la aplicacion
+
+		  Aplicacion.setUsuariosPorAceptar(poraceptar);
 	 }
 
 	 /**
@@ -103,18 +109,19 @@ public class Ciudadano extends Usuario {
       */
 	public void crearColectivo(String name) {
 
-		if (bloqueado = true) { //Si el ciudadano está bloqueado no puede crear un colectivo.
+		if (this.bloqueado == true) { //Si el ciudadano está bloqueado no puede crear un colectivo.
 			return;
 		}
 
 		asociacion = new Colectivo (name, this); //Creamos un colectivo
 
-		colectivos.add(asociacion); //Añadimos el colectivo al array de colectivos de los cuales el usuario es representante
+		this.getColectivos().add(asociacion); //Añadimos el colectivo al array de colectivos de los cuales el usuario es representante
 
-		representanteProyecto = true;
+		this.setRepresentanteProyecto(true);
 		
 		Aplicacion.getColectivos().add(asociacion); //Añadimos el colectivo al array de colectivos creados en la aplicacion
-
+		
+		return;
 	}
 
 
@@ -164,9 +171,9 @@ public class Ciudadano extends Usuario {
 	 * @param bloqueado 
 
 	 */
-	public void setBloqueado(boolean bloqueado) {
+	public void setBloqueado(boolean bool) {
 
-		this.bloqueado = bloqueado;
+		this.bloqueado = bool;
 
 	}
 
@@ -208,17 +215,16 @@ public class Ciudadano extends Usuario {
 
 
      */
-	public boolean aceptarUsuario(Ciudadano C) {
+	public void aceptarUsuario(Usuario C) {
+		
+		System.out.println( Aplicacion.getUsuariosAceptados().size());
+		System.out.println( Aplicacion.getUsuariosPorAceptar().size());
 
-		aceptados = Aplicacion.getUsuariosAceptados();
-		Aplicacion.getUsuariosAceptados().add(C); //Añadimos el ciudadano a la lista de usuarios aceptados
-		Aplicacion.setUsuariosAceptados(aceptados); //Modificamos el array ubicado en Aplicacion con todos los ciudadanos aceptados
-
-		poraceptar = Aplicacion.getUsuariosPorAceptar();
-		poraceptar.remove(C); //Borramos al ciudadano de la lista de usuarios por aceptar
-		Aplicacion.setUsuariosPorAceptar(poraceptar); //Modificamos el array ubicado en Aplicacion con todos los usuarios por aceptar.
-
-		return true;
+		Aplicacion.getUsuariosAceptados().add((Ciudadano) C); //Añadimos el ciudadano a la lista de usuarios aceptados
+		
+		Aplicacion.getUsuariosPorAceptar().remove(C); //Borramos al ciudadano de la lista de usuarios por aceptar
+		
+		
 	}
 
 	/**
@@ -233,14 +239,13 @@ public class Ciudadano extends Usuario {
 
 
      */
-	public boolean rechazarUsuario(Ciudadano C) {
-
-		poraceptar = Aplicacion.getUsuariosPorAceptar();
-		poraceptar.remove(C); //Eliminamos al ciudadano de la lista de usuarios por aceptar
-		Aplicacion.setUsuariosPorAceptar(poraceptar); //Modificamos el array ubicado en Aplicacion con todos los usuarios por aceptar
-		C = null; //Eliminamos la clase creada.
+	public void rechazarUsuario(Usuario C) {
 		
-		return true;
+		System.out.println( Aplicacion.getUsuariosPorAceptar().size());
+
+		Aplicacion.getUsuariosPorAceptar().remove((Ciudadano)C); //Eliminamos al ciudadano de la lista de usuarios por aceptar
+		//C = null; //Eliminamos la clase creada.
+		
 	}
 	
 	/**
@@ -254,11 +259,10 @@ public class Ciudadano extends Usuario {
 
 
      */
-	public boolean bloquearUsuario() {
+	public void bloquearUsuario() {
 
-		bloqueado = true;
+		this.bloqueado = true;
 		
-		return true;
 	}
 
 	/**
@@ -272,12 +276,10 @@ public class Ciudadano extends Usuario {
 
 
      */
-	public boolean desbloquearUsuario() {
+	public void desbloquearUsuario() {
 
-		bloqueado = false;
+		this.bloqueado = false;
 		
-		return true;
-
 	}
 
 
@@ -291,6 +293,18 @@ public class Ciudadano extends Usuario {
 
 
 	}
+
+	public List<Colectivo> getColectivos() {
+		return colectivos;
+	}
+
+	public void setColectivos(List<Colectivo> colectivos) {
+		this.colectivos = colectivos;
+	}
+
+
+	
+	
 
 
 

@@ -50,4 +50,66 @@ public class Administrador extends Usuario {
 	public static void setCreado(int creado) {
 		Administrador.creado = creado;
 	}
+	
+	
+	
+	
+	
+	
+
+	@Override
+	protected void setRepresentanteProyecto(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected boolean isRepresentanteProyecto() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void aceptarUsuario(Usuario ciudadano) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void crearColectivo(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void setBloqueado(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void rechazarUsuario(Usuario ciudadano) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected boolean isBloqueado() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected void bloquearUsuario() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void desbloquearUsuario() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

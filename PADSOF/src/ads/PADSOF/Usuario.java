@@ -43,6 +43,8 @@ public abstract class Usuario {
 	 */
 	private String contrasenia;
 	
+	private String DNI;
+	
 	/**
 
 	 * Un atributo auxiliar de tipo Ciudadano
@@ -87,22 +89,10 @@ public abstract class Usuario {
 
      */
 
-	  public Usuario (String name, String password, String DNI) {
+	  public Usuario (String name, String password, String dni) {
 		  nombre = name;
 		  contrasenia = password;
-		  creado = Administrador.getCreado(); //Comprobamos si el administrador está ya creado o no
-		  if (DNI == null && creado != 1) { //El administrador no necesita DNI para registrarse/iniciar sesion
-			  administrador = new Administrador(name, password, DNI);//Si el argumento DNI es null suponemos que el usuario es de tipo administrador
-			                                                         // Y lo creamos en el caso de que no exista.
-		  }
-		  else {//El usuario creado es de tipo ciudadano
-			persona = new Ciudadano(name, password, DNI); //Creamos el ciudadano
-			poraceptar = Aplicacion.getUsuariosPorAceptar();
-			poraceptar.add(persona); //Cuando se crea un usuario debe aniadirse a un array de usuarios por aceptar en la aplicacion
-			Aplicacion.setUsuariosPorAceptar(poraceptar);
-
-		  }
-
+		  DNI = dni;
 	  }
 
 	  
@@ -149,4 +139,52 @@ public abstract class Usuario {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
+
+
+	public Ciudadano getPersona() {
+		return persona;
+	}
+
+
+	public void setPersona(Ciudadano persona) {
+		this.persona = persona;
+	}
+
+
+	protected List<Colectivo> getColectivos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	protected abstract void setRepresentanteProyecto(boolean b);
+
+
+	protected abstract boolean isRepresentanteProyecto();
+
+
+	protected abstract void aceptarUsuario(Usuario ciudadano);
+
+
+	protected abstract void crearColectivo(String string);
+
+
+	protected abstract void rechazarUsuario(Usuario ciudadano);
+
+
+	protected abstract void bloquearUsuario();
+
+
+	protected abstract boolean isBloqueado();
+
+
+	protected abstract void desbloquearUsuario();
+
+
+	protected void setBloqueado(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }
