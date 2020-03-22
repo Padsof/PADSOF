@@ -39,7 +39,7 @@ public class Colectivo {
     private ArrayList<Colectivo> hijos;
     
 	/**
-     * Constructor de la clase Frigorifico.
+     * Constructor de la clase Colectivo.
      * 
      * @param nombre El nombre del colectivo
      * @param representante Un objeto Ciudadano que correspondera con el representante y creador del colectivo
