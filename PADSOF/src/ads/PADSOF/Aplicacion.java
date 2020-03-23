@@ -76,7 +76,8 @@ public class Aplicacion {
 	}
 
 	public Notificacion generarNotificacion(String titulo) {
-		
+		Notificacion notificaciones = null;
+		return notificaciones;
 	}
 
 
