@@ -31,6 +31,11 @@ public enum EstadoProyecto {
 	financiado
 	;
 	
+	/**
+	 * Este metodo devuelve si el estado del parametro ese igual al estado del proyecto actual
+	 * @param ep Estado del proyecto a comparar
+	 * @return true or false
+	 */
 	public final boolean equals(EstadoProyecto ep) {
 		return this==ep;
 	}
