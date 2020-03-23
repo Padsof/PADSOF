@@ -279,13 +279,15 @@ public abstract class Proyecto {
 	 * Este metodo aniade un ciudadano a la lista de votos y suma un voto a nVotos
 	 * @param c Ciudadano que vota el proyecto
 	 */
-	public void votarProyecto(ciudadano c) {
+	public int votarProyecto(ciudadano c) {
 		for (ciudadano aux: votos) {
 			if (aux == c) {
-				votos.add(c);
-				nVotos++;
+				return -1;
 			}
 		}
+		votos.add(c);
+		nVotos++;
+		return 0;
 	}
 
 	/**
