@@ -41,6 +41,8 @@ public class Administrador extends Usuario {
 	  public Administrador (String nombre, String password, String DNI) {
 		  super(nombre, password, null);
 		  creado = 1;
+		  Aplicacion.setAdministradorCreado(1);
+		  Aplicacion.setAdministrador(this);
 	  }
 
 	public static int getCreado() {
@@ -70,12 +72,6 @@ public class Administrador extends Usuario {
 	}
 
 	@Override
-	protected void aceptarUsuario(Usuario ciudadano) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void crearColectivo(String string) {
 		// TODO Auto-generated method stub
 		
@@ -83,12 +79,6 @@ public class Administrador extends Usuario {
 
 	@Override
 	protected void setBloqueado(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void rechazarUsuario(Usuario ciudadano) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -109,6 +99,10 @@ public class Administrador extends Usuario {
 	protected void desbloquearUsuario() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public String toString() {
+		return "Nombre: " +this.getNombre()+ "  Contraseña: " +this.getcontrasenia()+"  DNI: "+this.getDNI()+"";
 	}
 
 	

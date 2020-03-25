@@ -43,6 +43,11 @@ public abstract class Usuario {
 	 */
 	private String contrasenia;
 	
+	/**
+
+	 * El DNI con el que el usuario se ha registrado
+
+	 */
 	private String DNI;
 	
 	/**
@@ -141,6 +146,17 @@ public abstract class Usuario {
 	}
 
 
+
+	public String getDNI() {
+		return DNI;
+	}
+
+
+	public void setDNI(String dNI) {
+		DNI = dNI;
+	}
+
+
 	public Ciudadano getPersona() {
 		return persona;
 	}
@@ -161,15 +177,6 @@ public abstract class Usuario {
 
 
 	protected abstract boolean isRepresentanteProyecto();
-
-
-	protected abstract void aceptarUsuario(Usuario ciudadano);
-
-
-	protected abstract void crearColectivo(String string);
-
-
-	protected abstract void rechazarUsuario(Usuario ciudadano);
 
 
 	protected abstract void bloquearUsuario();

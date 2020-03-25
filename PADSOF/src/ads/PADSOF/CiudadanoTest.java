@@ -16,9 +16,8 @@ public class CiudadanoTest {
 	@Test
 	public void testCrearColectivo(){
 				
-		ciudadano.crearColectivo("Coronavirus");
+		((Ciudadano) ciudadano).crearColectivo("Coronavirus");
 		
-		Aplicacion.getUsuariosPorAceptar().remove(ciudadano);
 		
 		assertEquals(1, ciudadano.getColectivos().size()); //Comprueba que se ha incluido la asociacion
 		assertTrue(ciudadano.isRepresentanteProyecto()); //Comprueba que el ciudadano es representante
@@ -29,10 +28,8 @@ public class CiudadanoTest {
 	@Test
 	public void testAceptarUsuario(){
 				
-		ciudadano.aceptarUsuario(ciudadano);
-		
-		Aplicacion.getUsuariosPorAceptar().remove(ciudadano);
-		
+		((Ciudadano) ciudadano).aceptarUsuario((Ciudadano) ciudadano);
+				
 		assertEquals(1, Aplicacion.getUsuariosAceptados().size());
 		
 		assertEquals(0, Aplicacion.getUsuariosPorAceptar().size()); 
@@ -44,10 +41,8 @@ public class CiudadanoTest {
 	public void testRechazarUsuario(){
 		
 		Aplicacion.getUsuariosPorAceptar().remove(ciudadano);
-
-		Usuario ciudadano = new Ciudadano("Javier", "Contraseña", "02298366E");
 								
-		ciudadano.rechazarUsuario(ciudadano);	
+		((Ciudadano) ciudadano).rechazarUsuario(ciudadano);	
 				
 		assertEquals(0, Aplicacion.getUsuariosPorAceptar().size()); 
 		

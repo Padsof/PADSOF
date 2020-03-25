@@ -9,7 +9,7 @@ package ads.PADSOF;
  *
 */
 public enum EstadoProyecto {
-	/**
+	/** 
 	 * El proyecto ha sido aceptado
 	 */
 	aceptado,
@@ -28,8 +28,11 @@ public enum EstadoProyecto {
 	/**
 	 * El proyecto has sido aprobado y financiado por la app externa
 	 */
-	financiado
-	;
+	financiado,
+	/**
+	 * El proyecto todavía no ha sido aprobado
+	 */
+	poraceptar;
 	
 	/**
 	 * Este metodo devuelve si el estado del parametro ese igual al estado del proyecto actual

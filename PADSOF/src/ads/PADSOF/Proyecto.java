@@ -16,6 +16,11 @@ public abstract class Proyecto {
 	 * El titulo del proyecto
 	 */
 	private String titulo;
+	
+	/**
+	 * El proponente del proyecto
+	 */
+	private Ciudadano proponente;
 
 	/**
 	 * Breve descripcion sobre el proyecto
@@ -25,7 +30,7 @@ public abstract class Proyecto {
 	/**
 	 * El presupuesto del proyecto
 	 */
-	private double presupuesto;
+	private double presupuestoSolicitado;
 
 	/**
 	 * El presupuesto final del proyecto
@@ -55,36 +60,66 @@ public abstract class Proyecto {
 	/**
 	 * Un arrayList con los ciudadanos que se han suscrito al proyecto
 	 */
-	private ArrayList<ciudadano>suscritos;
+	private List <Ciudadano> suscritos = new ArrayList<>();
 
 	/**
 	 * Un arrayList con los ciudadanos que han votado el proyecto
 	 */
-	private ArrayList<ciudadano>votos;
+	private List<Ciudadano>votos = new ArrayList<>();
 	
+		
 	/**
-	 * Constructor de la clase Proyecto
+	 * Constructor de la clase Proyecto cuando lo crea un usuario de forma individual
 	 * 
 	 * @param titulo Titulo del proyecto
 	 * @param descripcion Descripcion del proyecto
+	 * @param proponente del proyecto
 	 * @param presupuesto Presupuesto inicial
-	 * @param presupuestoFinal Presupuesto final
-	 * @param nVotos Numeros de votos del proyecto
 	 * @param fechaCreacion Fecha de creacion
-	 * @param fechaUltimoVoto Fecha del ultimo voto
 	 * @param estado Estado en el que se encuentra el proyecto
 	 */
-	public Proyecto(String titulo, String descripcion, double presupuesto, double presupuestoFinal, int nVotos,
-			LocalDate fechaCreacion, LocalDate fechaUltimoVoto, EstadoProyecto estado) {
+	public Proyecto(String titulo, String descripcion, Ciudadano ciudadano, double presupuesto, 
+			LocalDate fechaCreacion, EstadoProyecto estado) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
-		this.presupuesto = presupuesto;
-		this.presupuestoFinal = presupuestoFinal;
-		this.nVotos = nVotos;
+		this.presupuestoSolicitado = presupuesto;
+		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
 		this.fechaCreacion = fechaCreacion;
-		this.fechaUltimoVoto = fechaUltimoVoto;
+		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO
 		this.estado = estado;
+		this.nVotos = 0;
+		this.proponente = ciudadano;
+		this.proponente.getProyectos().add(this);
+
+	}
+	
+	/**
+	 * Constructor de la clase Proyecto cuando lo crea un usuario de forma individual
+	 * 
+	 * @param titulo Titulo del proyecto
+	 * @param descripcion Descripcion del proyecto
+	 * @param proponente del proyecto
+	 * @param numero de votos asignados
+	 * @param colectivo que ha creado el proyecto
+	 * @param presupuesto Presupuesto inicial
+	 * @param fechaCreacion Fecha de creacion
+	 * @param estado Estado en el que se encuentra el proyecto
+	 */
+	public Proyecto(String titulo, String descripcion, Colectivo colectivo, double presupuesto, 
+			LocalDate fechaCreacion, EstadoProyecto estado) {
+		super();
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.presupuestoSolicitado = presupuesto;
+		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
+		this.fechaCreacion = fechaCreacion;
+		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO
+		this.estado = estado;
+		this.nVotos = colectivo.getNumMiembros(); //SE LE ASIGNA UN VOTO POR CADA UNO DE LOS MIEMBROS DEL COLECTIVO
+		this.proponente = colectivo.getRepresentante();
+		this.proponente.getProyectos().add(this);
+
 	}
 	
 	/**
@@ -124,7 +159,7 @@ public abstract class Proyecto {
 	 * @return presupuesto
 	 */
 	public double getPresupuesto() {
-		return presupuesto;
+		return presupuestoSolicitado;
 	}
 
 	/**
@@ -132,7 +167,7 @@ public abstract class Proyecto {
 	 * @param presupuesto Pesupuesto del proyecto
 	 */
 	public void setPresupuesto(double presupuesto) {
-		this.presupuesto = presupuesto;
+		this.presupuestoSolicitado = presupuesto;
 	}
 	
 	/**
@@ -219,8 +254,8 @@ public abstract class Proyecto {
 	 * Este metodo aniade un ciudadano a la lista de suscritos si no estaba anteriormente
 	 * @param c Ciudadano a aniadir a suscritos
 	 */
-	public int suscribir(ciudadano c) {
-		for (ciudadano aux: suscritos) {
+	public int suscribir(Ciudadano c) {
+		for (Ciudadano aux: suscritos) {
 			if (aux == c) {
 				return -1;
 			}
@@ -234,8 +269,8 @@ public abstract class Proyecto {
 	 * Este metodo elimina a un ciudadano suscrito de la lista
 	 * @param c Ciudadano a eliminar de la lista
 	 */
-	public int desuscribir(ciudadano c) {
-		for (ciudadano aux: suscritos) {
+	public int desuscribir(Ciudadano c) {
+		for (Ciudadano aux: suscritos) {
 			if (aux == c) {
 				suscritos.remove(c);
 				return 0;
@@ -266,8 +301,8 @@ public abstract class Proyecto {
 	 * Este metodo anula un voto del proyecto
 	 * @param c Ciudadano que quita su voto
 	 */
-	public void anularVoto(ciudadano c) {
-		for (ciudadano aux: votos) {
+	public void anularVoto(Ciudadano c) {
+		for (Ciudadano aux: votos) {
 			if (aux == c) {
 				votos.remove(c);
 				nVotos--;
@@ -279,30 +314,32 @@ public abstract class Proyecto {
 	 * Este metodo aniade un ciudadano a la lista de votos y suma un voto a nVotos
 	 * @param c Ciudadano que vota el proyecto
 	 */
-	public int votarProyecto(ciudadano c) {
-		for (ciudadano aux: votos) {
-			if (aux == c) {
-				return -1;
-			}
-		}
-		votos.add(c);
-		nVotos++;
-		return 0;
-	}
+	public abstract void votarProyecto(Ciudadano c);
+	
+	public abstract void votarProyectoColectivo (Colectivo colectivo);
 
 	/**
 	 * Este metodo acepta el proyecto, cambia su estado
 	 */
 	public void aceptarProyecto() {
 		this.estado = EstadoProyecto.aceptado;
+		
+		Aplicacion.getProyectosAceptados().add(this);
+		
+		Aplicacion.getProyectosPorAceptar().remove(this);
+		
+		this.proponente.getProyectos().add(this);
+		
 	}
 	
 	/**
 	 * Este metodo rechaza el proyecto, cambia su estado
 	 */
 	public void rechazarProyecto() {
+		
 		this.estado = EstadoProyecto.rechazado;
-		// eliminar proyecto??
+		
+		Aplicacion.getProyectosPorAceptar().remove(this);
 	}
 	
 	/**
@@ -312,4 +349,45 @@ public abstract class Proyecto {
 		this.estado = EstadoProyecto.caducado;
 		// eliminar proyecto??
 	}
+
+	public Ciudadano getProponente() {
+		return proponente;
+	}
+
+	public void setProponente(Ciudadano proponente) {
+		this.proponente = proponente;
+	}
+
+	public double getPresupuestoSolicitado() {
+		return presupuestoSolicitado;
+	}
+
+	public void setPresupuestoSolicitado(double presupuestoSolicitado) {
+		this.presupuestoSolicitado = presupuestoSolicitado;
+	}
+
+	public List<Ciudadano> getSuscritos() {
+		return suscritos;
+	}
+
+	public void setSuscritos(List<Ciudadano> suscritos) {
+		this.suscritos = suscritos;
+	}
+
+	public List<Ciudadano> getVotos() {
+		return votos;
+	}
+
+	public void setVotos(List<Ciudadano> votos) {
+		this.votos = votos;
+	}
+	
+	public String toString() {
+		return "Titulo: " +this.titulo+ "  Descripcion: " +this.descripcion+ "  Estado: "+this.estado+"  Fecha Creacion: "+this.fechaCreacion+"  Proponente: "+this.proponente+"";
+	}
+
+	protected abstract String getCaracter();
+
+	protected abstract List<String> getDistrito();
+	
 }

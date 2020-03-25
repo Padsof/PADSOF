@@ -7,6 +7,12 @@ public class Aplicacion {
 
 	public int umbral;
 
+	static Administrador administrador;
+	 
+	private static int administradorCreado;
+	
+	private static List<CiudadanoNoRegistrado> CNR = new ArrayList<>();
+	
 	private static List<Ciudadano> usuariosAceptados = new ArrayList<>();
 
     private static List<Ciudadano> usuariosPorAceptar = new ArrayList<>();
@@ -16,6 +22,8 @@ public class Aplicacion {
     private static List<Proyecto> proyectosAceptados = new ArrayList<>();
     
     private static List<Proyecto> proyectosPorAceptar = new ArrayList<>();
+    
+    private static List<Proyecto> proyectos = new ArrayList<>();
 
 	public Aplicacion(int limite) {
 		umbral = limite;
@@ -41,8 +49,8 @@ public class Aplicacion {
 
 
 
-	public static void setUsuariosPorAceptar(List<Ciudadano> usuariosPorAceptar) {
-		Aplicacion.usuariosPorAceptar = usuariosPorAceptar;
+	public static void setUsuariosPorAceptar(List poraceptar) {
+		Aplicacion.usuariosPorAceptar = poraceptar;
 	}
 
 
@@ -67,7 +75,7 @@ public class Aplicacion {
 		this.umbral = umbral;
 	}
 
-	public void login (String user, String contrasenia) {
+	public void login (String user, String contrasenia, String DNI) {
 
 	}
 
@@ -79,6 +87,59 @@ public class Aplicacion {
 		Notificacion notificaciones = null;
 		return notificaciones;
 	}
+
+
+	public Administrador getAdministrador() {
+		return administrador;
+	}
+
+
+	public static void setAdministrador(Administrador administrador) {
+		Aplicacion.administrador = administrador;
+	}
+
+
+	public static int getAdministradorCreado() {
+		return administradorCreado;
+	}
+
+
+	public static void setAdministradorCreado(int administradorCreado) {
+		Aplicacion.administradorCreado = administradorCreado;
+	}
+
+	public static void setCNR(List<CiudadanoNoRegistrado> cNR) {
+		CNR = cNR;
+	}
+
+
+	public static List<CiudadanoNoRegistrado> getCNR() {
+		return CNR;
+	}
+
+
+	public static List<Proyecto> getProyectosAceptados() {
+		return proyectosAceptados;
+	}
+
+
+	public static void setProyectosAceptados(List<Proyecto> proyectosAceptados) {
+		Aplicacion.proyectosAceptados = proyectosAceptados;
+	}
+
+
+	public static List<Proyecto> getProyectosPorAceptar() {
+		return proyectosPorAceptar;
+	}
+
+
+	public static void setProyectosPorAceptar(List<Proyecto> proyectosPorAceptar) {
+		Aplicacion.proyectosPorAceptar = proyectosPorAceptar;
+	}
+	
+	
+	
+	
 
 
 

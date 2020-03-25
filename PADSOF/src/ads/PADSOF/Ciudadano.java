@@ -1,6 +1,10 @@
 package ads.PADSOF;
 
+import java.io.File;
+import java.time.LocalDate;
 import java.util.*;
+
+import fechasimulada.FechaSimulada;
 
 
 /**
@@ -55,6 +59,13 @@ public class Ciudadano extends Usuario {
 
 	 */
     private List<Colectivo> colectivos = new ArrayList<>(); //Array con los colectivos de los que es representante
+    
+    /**
+
+	 * Lista en la que almacenamos los proyectos creados por el usuario
+
+	 */
+    private List<Proyecto> proyectos = new ArrayList<>();
 
     /**
 
@@ -87,6 +98,7 @@ public class Ciudadano extends Usuario {
 	 public Ciudadano (String nombre, String password, String dni) {
 
 		  super(nombre, password, dni);
+		  DNI = dni;
 		  bloqueado = false;
 		  representanteProyecto = false;
 		  
@@ -107,21 +119,32 @@ public class Ciudadano extends Usuario {
       * 
 
       */
-	public void crearColectivo(String name) {
-
+	public Colectivo crearColectivo(String name) {
+		int i;
+		int j = Aplicacion.getColectivos().size();
 		if (this.bloqueado == true) { //Si el ciudadano está bloqueado no puede crear un colectivo.
-			return;
+			return null;
+		}
+		
+		
+		if (j > 0) {
+
+			for (i = 0; i < j; i++) {
+				
+				if (name == Aplicacion.getColectivos().get(i).getNombre()) {
+					System.out.println("Ya existe un colectivo con ese nombre");
+					return null;
+				}
+
+			}
 		}
 
 		asociacion = new Colectivo (name, this); //Creamos un colectivo
 
-		this.getColectivos().add(asociacion); //Añadimos el colectivo al array de colectivos de los cuales el usuario es representante
-
 		this.setRepresentanteProyecto(true);
-		
-		Aplicacion.getColectivos().add(asociacion); //Añadimos el colectivo al array de colectivos creados en la aplicacion
-		
-		return;
+				
+		return asociacion;
+	
 	}
 
 
@@ -148,7 +171,6 @@ public class Ciudadano extends Usuario {
 	public void setDNI(String dni) {
 
 		DNI = dni;
-
 	}
 
 	 /**
@@ -215,11 +237,8 @@ public class Ciudadano extends Usuario {
 
 
      */
-	public void aceptarUsuario(Usuario C) {
+	public void aceptarUsuario(Ciudadano C) {
 		
-		System.out.println( Aplicacion.getUsuariosAceptados().size());
-		System.out.println( Aplicacion.getUsuariosPorAceptar().size());
-
 		Aplicacion.getUsuariosAceptados().add((Ciudadano) C); //Añadimos el ciudadano a la lista de usuarios aceptados
 		
 		Aplicacion.getUsuariosPorAceptar().remove(C); //Borramos al ciudadano de la lista de usuarios por aceptar
@@ -241,8 +260,6 @@ public class Ciudadano extends Usuario {
      */
 	public void rechazarUsuario(Usuario C) {
 		
-		System.out.println( Aplicacion.getUsuariosPorAceptar().size());
-
 		Aplicacion.getUsuariosPorAceptar().remove((Ciudadano)C); //Eliminamos al ciudadano de la lista de usuarios por aceptar
 		//C = null; //Eliminamos la clase creada.
 		
@@ -298,12 +315,59 @@ public class Ciudadano extends Usuario {
 		return colectivos;
 	}
 
-	public void setColectivos(List<Colectivo> colectivos) {
+	public void setColectivos(ArrayList<Colectivo> colectivos) {
 		this.colectivos = colectivos;
 	}
-
-
 	
+	public String toString() {
+		return "Nombre: " +this.getNombre()+ "  Contraseña: " +this.getcontrasenia()+" DNI: "+this.getDNI()+"";
+	}
+	
+	public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
+		
+		if(titulo.length() > 25) {
+			System.out.println("El titutlo es demasiado grande");
+			return;
+		}
+		
+		if (descripcion.length() > 500) {
+			System.out.println("La descripcion es demasiado grande");
+			return;
+		}
+		
+		if (claseSocial.length() > 50) {
+			System.out.println("La clase social es demasiado grande");
+			return;
+		}
+		Proyecto proyecto;
+		
+		FechaSimulada.restablecerHoyReal(); //MODIFICAMOS LA FECHA ANTES DE INTRODUCIRLA
+		
+		if (tipo == "Social") {
+			
+			proyecto = new PoySocial(titulo, descripcion, this, presupuesto, FechaSimulada.getHoy(), estado, claseSocial, nacional );			
+			
+		}
+		else if (tipo == "Infraestructura") {
+			
+			proyecto = new ProyInfraestructura(titulo, descripcion, this, presupuesto, FechaSimulada.getHoy(), estado, null, distrito);
+			
+		}
+		else {
+			System.out.println("No se ha creado ningun proyecto");
+		}
+	}
+
+	public List<Proyecto> getProyectos() {
+		return proyectos;
+	}
+
+	public void setProyectos(List<Proyecto> proyectos) {
+		this.proyectos = proyectos;
+	}
+	
+	
+
 	
 
 

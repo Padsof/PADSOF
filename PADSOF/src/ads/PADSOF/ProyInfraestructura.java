@@ -2,6 +2,8 @@ package ads.PADSOF;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Esta clase modela la clase PryInfraestructura
@@ -15,14 +17,80 @@ import java.time.LocalDate;
 public class ProyInfraestructura extends Proyecto {
 
 	/**
+	 * El titulo del proyecto
+	 */
+	private String titulo;
+	
+	/**
+	 * El proponente del proyecto
+	 */
+	private Ciudadano proponente;
+
+	/**
+	 * Breve descripcion sobre el proyecto
+	 */
+	private String descripcion;
+
+	/**
+	 * El presupuesto del proyecto
+	 */
+	private double presupuestoSolicitado;
+
+	/**
+	 * El presupuesto final del proyecto
+	 */
+	private double presupuestoFinal;
+
+	/**
+	 * Numero de votos con los que cuenta el proyecto
+	 */
+	private int nVotos;
+
+	/**
+	 * La fecha en la que se creo el proyecto
+	 */
+	private LocalDate fechaCreacion;
+
+	/**
+	 * La fecha del ultimo voto
+	 */
+	private LocalDate fechaUltimoVoto;
+
+	/**
+	 * Estado en el que se encuentra el proyecto
+	 */
+	private EstadoProyecto estado;
+	 
+	/**
+	 * Un arrayList con los ciudadanos que se han suscrito al proyecto
+	 */
+	private List <Ciudadano> suscritos;
+
+	/**
+	 * Un arrayList con los ciudadanos que han votado el proyecto
+	 */
+	private List<Ciudadano>votos;
+	
+	/**
+	 * Un arraylist con la lista de distritos a los que afecta el proyecto
+	 */
+	private List<String>distritos = new ArrayList<>();
+	
+	/**
 	 * Esquema de la infraestructura
 	 */
 	private File esquema;
-
+	
 	/**
-	 * Distrito donde se va a realizar
+	 * El proyecto puede ser de caracter nacional o internacional
 	 */
-	private String distrito;
+	private String caracter;
+	
+	/**
+	 * Si es de caracter nacional o internacional
+	 */
+	private boolean nacional;
+	
 	
 	/**
 	 * Constructor de la clase ProyInfraestuctura
@@ -30,20 +98,68 @@ public class ProyInfraestructura extends Proyecto {
 	 * @param titulo Titulo del proyecto
 	 * @param descripcion Descripcion del proyecto
 	 * @param presupuesto Presupuesto inicial
-	 * @param presupuestoFinal Presupuesto final
-	 * @param nVotos Numeros de votos del proyecto
 	 * @param fechaCreacion Fecha de creacion
-	 * @param fechaUltimoVoto Fecha del ultimo voto
 	 * @param estado Estado en el que se encuentra el proyecto
 	 * @param esquema Esquema de la realizacion del proyecto
 	 * @param distrito Distrito donde se va a llevar a cabo el proyecto
-	 */
-	public ProyInfraestructura(String titulo, String descripcion, double presupuesto, double presupuestoFinal,
-			int nVotos, LocalDate fechaCreacion, LocalDate fechaUltimoVoto, EstadoProyecto estado, File esquema,
-			String distrito) {
-		super(titulo, descripcion, presupuesto, presupuestoFinal, nVotos, fechaCreacion, fechaUltimoVoto, estado);
+	 */ 
+	public ProyInfraestructura(String titulo, String descripcion, Ciudadano proponente, double presupuesto,
+			 LocalDate fechaCreacion, EstadoProyecto estado, File esquema,
+			List<String> distrito) {
+		super(titulo, descripcion, proponente, presupuesto, fechaCreacion, estado);
 		this.esquema = esquema;
-		this.distrito = distrito;
+		this.distritos = distrito;
+		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
+		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO
+		this.nVotos = 0;
+		this.suscritos = new ArrayList<>();
+		this.votos = new ArrayList<>();
+		this.proponente = proponente;
+		
+		Aplicacion.getProyectosPorAceptar().add(this);
+
+	}
+	
+	/**
+	 * Constructor de la clase ProyInfraestuctura
+	 * 
+	 * @param titulo Titulo del proyecto
+	 * @param descripcion Descripcion del proyecto
+	 * @param proponente del proyecto
+	 * @param numero de votos asignados
+	 * @param colectivo que ha creado el proyecto
+	 * @param presupuesto Presupuesto inicial
+	 * @param fechaCreacion Fecha de creacion
+	 * @param estado Estado en el que se encuentra el proyecto
+	 * @param esquema Esquema de la realizacion del proyecto
+	 * @param distrito Distrito donde se va a llevar a cabo el proyecto
+	 */ 
+	public ProyInfraestructura(String titulo, String descripcion, Colectivo colectivo, double presupuesto,
+			 LocalDate fechaCreacion, EstadoProyecto estado, File esquema,
+			 List<String> distrito) {
+		super(titulo, descripcion, colectivo, presupuesto, fechaCreacion, estado);
+		this.esquema = esquema;
+		this.distritos = distrito;
+		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
+		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO
+		this.nVotos = colectivo.getNumMiembros();
+		this.suscritos = new ArrayList<>();
+		this.votos = new ArrayList<>();
+		
+		Aplicacion.getProyectosPorAceptar().add(this);
+		
+		int i;
+		for (i = 0; i < colectivo.getNumMiembros(); i++) {
+			this.votos.add(colectivo.getMiembros().get(i));
+		}
+		
+		if (nacional == true) {
+			this.caracter = "nacional";
+		}
+		else {
+			this.caracter = "Internacional";
+		}
+
 	}
 
 	/**
@@ -66,18 +182,143 @@ public class ProyInfraestructura extends Proyecto {
 	 * Este metodo devuelve el distrito donde se va a realizar el proyecto
 	 * @return distrito
 	 */
-	public String getDistrito() {
-		return distrito;
+	public List<String> getDistrito() {
+		return distritos;
 	}
 
 	/**
 	 * Este metodo cambia el distrito del proyecto
 	 * @param distrito Distrito del proyecto
 	 */
-	public void setDistrito(String distrito) {
-		this.distrito = distrito;
+	public void setDistrito(List<String> distrito) {
+		this.distritos = distrito;
 	}
-	
-	
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public Ciudadano getProponente() {
+		return proponente;
+	}
+
+	public void setProponente(Ciudadano proponente) {
+		this.proponente = proponente;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public double getPresupuestoSolicitado() {
+		return presupuestoSolicitado;
+	}
+
+	public void setPresupuestoSolicitado(double presupuestoSolicitado) {
+		this.presupuestoSolicitado = presupuestoSolicitado;
+	}
+
+	public double getPresupuestoFinal() {
+		return presupuestoFinal;
+	}
+
+	public void setPresupuestoFinal(double presupuestoFinal) {
+		this.presupuestoFinal = presupuestoFinal;
+	}
+
+	public int getnVotos() {
+		return nVotos;
+	}
+
+	public void setnVotos(int nVotos) {
+		this.nVotos = nVotos;
+	}
+
+	public LocalDate getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(LocalDate fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public LocalDate getFechaUltimoVoto() {
+		return fechaUltimoVoto;
+	}
+
+	public void setFechaUltimoVoto(LocalDate fechaUltimoVoto) {
+		this.fechaUltimoVoto = fechaUltimoVoto;
+	}
+
+	public EstadoProyecto getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoProyecto estado) {
+		this.estado = estado;
+	}
+
+	public List<Ciudadano> getSuscritos() {
+		return suscritos;
+	}
+
+	public void setSuscritos(List<Ciudadano> suscritos) {
+		this.suscritos = suscritos;
+	}
+
+	public List<Ciudadano> getVotos() {
+		return votos;
+	}
+
+	public void setVotos(List<Ciudadano> votos) {
+		this.votos = votos;
+	}
+
+	@Override
+	protected String getCaracter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void votarProyecto(Ciudadano c) {
+		int ciudadanos = Aplicacion.getUsuariosAceptados().size();
+		int i;
+		
+		if (c.getNombre() == this.proponente.getNombre()){
+			System.out.println("El proponente no puede votar el proyecto");
+			return;
+		}
+			
+		if (this.getVotos().size() > 0) {
+				
+			for (i = 0; i < this.getVotos().size(); i++ ) {
+					
+				if (c.getNombre() == this.getVotos().get(i).getNombre()) {
+					System.out.println("Voto anulado");
+					return;
+				}
+
+			}
+		}
+			
+		this.votos.add(c);
+		this.nVotos++;
+	}
+
+	@Override
+	public void votarProyectoColectivo(Colectivo colectivo) {
+		// TODO Auto-generated method stub
+		
+	}				
+		
 	
 }
