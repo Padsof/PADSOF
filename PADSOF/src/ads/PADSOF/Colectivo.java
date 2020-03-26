@@ -628,6 +628,11 @@ public class Colectivo {
 	
 public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
 		
+		if(this.representante.isBloqueado() == true) {
+			System.out.println("ESTAS BLOQUEADO. ACCION NO PERMITIDA");
+			return;
+		}
+	
 		if(titulo.length() > 25) {
 			System.out.println("El titutlo es demasiado grande");
 			return;

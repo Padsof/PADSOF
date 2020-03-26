@@ -11,6 +11,7 @@ public class Prueba {
 		
 		CiudadanoNoRegistrado CiuAuxiliar;
 		Ciudadano ciudadano;
+		Administrador administrador;
 		Colectivo ColAuxiliar;
 		Proyecto proyecto;
 		Aplicacion aplicacion = new Aplicacion(5);
@@ -266,6 +267,7 @@ public class Prueba {
 		
 		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
 		ColAuxiliar.proponerProyecto("Anarquia", "Vamos a prenderle fuego a las universidades", 1000, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
+		System.out.println(aplicacion.getProyectosAceptados().size());
 		System.out.println(aplicacion.getProyectosPorAceptar());
 		proyecto = aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
@@ -476,10 +478,104 @@ public class Prueba {
 		
 		aplicacion.getUsuariosAceptados().get(3).soyMiembro();
 		System.out.println(" ");
+		
+		//BLOQUEAMOS UNO DE LOS USUARIOS
+		
+		//DATOS PREVIOS AL BLOQUEO
+		
+		ciudadano = aplicacion.getUsuariosAceptados().get(2);
+		
+		System.out.println(ciudadano);
+		System.out.println(" ");
 
+		System.out.println("Colectivos creados: ");
+		System.out.println(ciudadano.getColectivos());
+		System.out.println(" ");
 
+		System.out.println("Proyectos creados: ");
+		System.out.println(ciudadano.getProyectos());
+		System.out.println(" ");
+		
+		System.out.println("Proyectos apoyados: ");
+		System.out.println(ciudadano.getVotado());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(0).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(1).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(ciudadano.getVotado().get(2).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(3).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(4).getnVotos());
+		System.out.println(" ");
+		
+		//DATOS POSTERIORES AL BLOQUEO Y ACCIONES CANCELADAS
+		
+		administrador = aplicacion.getAdministrador();
+		
+		administrador.bloquearUsuario(ciudadano);
+		//UN USUARIO BLOQUEADO NO PUEDE CREAR UN COLECTIVO
+		ciudadano.crearColectivo("nombre");
+		//UN USUARIO BLOQUEADO NO PUEDE PROPONER UN PROYECTO
+		ciudadano.proponerProyecto("Porros", "Fiesta post pandemia", 100, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
+		//UN USUARIO BLOQUEADO NO PUEDE PROPONER UN PROYECTO COMO REPRESENTANTE DE UN COLECTIVO
+		ciudadano.getColectivos().get(0).proponerProyecto("Porros", "Fiesta post pandemia", 100, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
+		System.out.println(" ");
+		//LOS VOTOS DE UN USUARIO BLOQUEADO NO SE CONTABILIZAN
+		//EL USUARIO YA NO APOYA A NINGUN PROYECTO
+		System.out.println("Proyectos apoyados: ");
+		System.out.println(ciudadano.getVotado());
+		System.out.println(" ");
+		//EL NUMMERO DE VOTOS SE HA REDUCIDO EN UNO
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(0).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(1).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(2).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(3).getnVotos());
+		System.out.println(" ");
+		
+		System.out.println("Votos proyecto: ");
+		System.out.println(aplicacion.getProyectosAceptados().get(4).getnVotos());
+		System.out.println(" ");
+		//EL USUARIO BLOQUEADO (DANI) YA NO APARECE COMO APOYO EN LOS PROYECTOS
+		System.out.println(aplicacion.getProyectosAceptados().get(0).getVotos());
+		System.out.println(" ");
+		
+		//UN PROYECTO ALCANZA EL LIMITE Y SE CONVIERTE EN FINANCIABLE
+		
+		//CREAMOS UN NUEVO USUARIO
 
+		CiuAuxiliar = new CiudadanoNoRegistrado ("Dolores", "contra", "65372845E");
+		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
+		ciudadano = aplicacion.getUsuariosPorAceptar().get(0);
+		ciudadano.aceptarUsuario(ciudadano);
 
+		proyecto = aplicacion.getProyectosAceptados().get(0);
+		proyecto.setnVotos(aplicacion.umbral); //EL UMBRAL ESTA EN 5 VOTOS
+		
+		proyecto.votarProyecto(ciudadano);
+		
+		System.out.println(aplicacion.getUsuariosAceptados().get(0).getNotificaciones());
 
 		
 	}

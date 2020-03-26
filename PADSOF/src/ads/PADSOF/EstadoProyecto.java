@@ -32,7 +32,15 @@ public enum EstadoProyecto {
 	/**
 	 * El proyecto todavía no ha sido aprobado
 	 */
-	poraceptar;
+	poraceptar,
+	/**
+	 * El proyecto puede pedir financiacion
+	 */
+	financiable,
+	/**
+	 * El proyecto espera a ser financiado
+	 */
+	esperando;
 	
 	/**
 	 * Este metodo devuelve si el estado del parametro ese igual al estado del proyecto actual

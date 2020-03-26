@@ -74,7 +74,7 @@ public class ProyInfraestructura extends Proyecto {
 	/**
 	 * Un arraylist con la lista de distritos a los que afecta el proyecto
 	 */
-	private List<String>distritos = new ArrayList<>();
+	private List<String>distritos = new ArrayList<>(); 
 	
 	/**
 	 * Esquema de la infraestructura
@@ -90,6 +90,11 @@ public class ProyInfraestructura extends Proyecto {
 	 * Si es de caracter nacional o internacional
 	 */
 	private boolean nacional;
+	
+	/**
+	 * Codigo identificativo
+	 */
+	private int codigo;
 	
 	
 	/**
@@ -118,6 +123,7 @@ public class ProyInfraestructura extends Proyecto {
 		this.titulo = titulo;
 		
 		Aplicacion.getProyectosPorAceptar().add(this);
+		Aplicacion.generarIdentificador(this);
 		this.getSuscritos().add(proponente);
 		proponente.getSuscrito().add(this);
 
@@ -166,6 +172,7 @@ public class ProyInfraestructura extends Proyecto {
 		}
 		
 		Aplicacion.getProyectosPorAceptar().add(this);
+		Aplicacion.generarIdentificador(this);
 		this.getSuscritos().add(colectivo.getRepresentante());
 		colectivo.getRepresentante().getSuscrito().add(this);
 	}
@@ -322,6 +329,10 @@ public class ProyInfraestructura extends Proyecto {
 		c.getVotado().add(this);
 		c.getVotoIndividual().add(this);
 		this.nVotos++;
+		
+		if (this.nVotos >= Aplicacion.getUmbral() && this.estado != EstadoProyecto.financiable) {
+			estadoFinanciable();
+		}
 	}
 
 	@Override
@@ -362,6 +373,9 @@ public class ProyInfraestructura extends Proyecto {
 		}
 		
 		colectivo.getVotoColectivo().add(this);
+		if (this.nVotos >= Aplicacion.getUmbral() && this.estado != EstadoProyecto.financiable) {
+			this.estadoFinanciable();
+		}
 						
 	}
 
@@ -396,7 +410,13 @@ public class ProyInfraestructura extends Proyecto {
 			}
 		}
 		return;
-	}	
+	}
+	
+	public void estadoFinanciable() {
+		this.estado = EstadoProyecto.financiable;
+		Aplicacion.generarNotificacion("Hola", null, this);
+
+	}
 		
 	
 }

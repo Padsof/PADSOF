@@ -1,4 +1,6 @@
 package ads.PADSOF;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 
@@ -53,11 +55,6 @@ public class Administrador extends Usuario {
 		Administrador.creado = creado;
 	}
 	
-	
-	
-	
-	
-	
 
 	@Override
 	protected void setRepresentanteProyecto(boolean b) {
@@ -71,38 +68,64 @@ public class Administrador extends Usuario {
 		return false;
 	}
 
-	@Override
 	protected void crearColectivo(String string) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	protected void setBloqueado(boolean b) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		
 	}
 
-	@Override
 	protected boolean isBloqueado() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	protected void bloquearUsuario() {
-		// TODO Auto-generated method stub
+	
+	protected void bloquearUsuario(Ciudadano c) {
+
+		List<Proyecto> numero = c.getVotado();
+		int numero1 = c.getVotado().size();
+		int votos;
+		int i;
+		
+		c.setBloqueado(true);
+		System.out.println("Se ha bloqueado correctamente al usuario: "+c+"");
+		
+		for (i = 0; i < numero1; i++) {
+			c.getVotado().get(0).getVotos().remove(c);
+			votos = c.getVotado().get(0).getnVotos();
+			votos--;
+			c.getVotado().get(0).setnVotos(votos);
+			c.getVotado().remove(c.getVotado().get(0));
+			
+		}
+		
+		/*for(Proyecto aux: numero) {
+			aux.getVotos().remove(c);
+			votos = aux.getnVotos();
+			votos--;
+			aux.setnVotos(votos);
+		}*/
+		
 		
 	}
 
-	@Override
-	protected void desbloquearUsuario() {
-		// TODO Auto-generated method stub
+	
+	protected void desbloquearUsuario(Ciudadano c) {
 		
+		c.setBloqueado(false);
 	}
 	
 	public String toString() {
 		return "Nombre: " +this.getNombre()+ "  Contraseña: " +this.getcontrasenia()+"  DNI: "+this.getDNI()+"";
+	}
+	
+	public void limiteVotos (int limite) {
+		
+		Aplicacion.setUmbral(limite);
 	}
 
 	

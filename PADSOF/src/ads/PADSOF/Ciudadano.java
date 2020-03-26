@@ -89,6 +89,10 @@ public class Ciudadano extends Usuario {
      
      private List<Proyecto> votoIndividual = new ArrayList<>();
 
+     private List<Notificacion> notificaciones = new ArrayList<>();
+     
+     private List<Notificacion> notificacionesLeidas = new ArrayList<>();
+
      
      /**
 
@@ -130,7 +134,9 @@ public class Ciudadano extends Usuario {
 	public Colectivo crearColectivo(String name) {
 		int i;
 		int j = Aplicacion.getColectivos().size();
+		
 		if (this.bloqueado == true) { //Si el ciudadano está bloqueado no puede crear un colectivo.
+			System.out.println("ESTAS BLOQUEADO. ACCION NO PERMITIDA");
 			return null;
 		}
 		
@@ -272,40 +278,6 @@ public class Ciudadano extends Usuario {
 		//C = null; //Eliminamos la clase creada.
 		
 	}
-	
-	/**
-
-     * Funcion mediante la cual se bloquea a un usuario de la aplicacion.
-
-     * 
-
-     * 
-     * @return true en el caso de que no ocurra ningun error
-
-
-     */
-	public void bloquearUsuario() {
-
-		this.bloqueado = true;
-		
-	}
-
-	/**
-
-     * Funcion mediante la cual se desbloquea a un usuario de la aplicacion.
-
-     * 
-
-     * 
-     * @return true en el caso de que no ocurra ningun error
-
-
-     */
-	public void desbloquearUsuario() {
-
-		this.bloqueado = false;
-		
-	}
 
 
 	public void eliminarNotificacion() {
@@ -332,6 +304,11 @@ public class Ciudadano extends Usuario {
 	}
 	
 	public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
+		
+		if (this.bloqueado == true) { //Si el ciudadano está bloqueado no puede crear un colectivo.
+			System.out.println("ESTAS BLOQUEADO. ACCION NO PERMITIDA");
+			return;
+		}
 		
 		if(titulo.length() > 25) {
 			System.out.println("El titutlo es demasiado grande");
@@ -488,6 +465,24 @@ public class Ciudadano extends Usuario {
 		System.out.println(this.getMiembro());
 
 	}
+
+	public List<Notificacion> getNotificaciones() {
+		return notificaciones;
+	}
+
+	public void setNotificaciones(List<Notificacion> notificaciones) {
+		this.notificaciones = notificaciones;
+	}
+
+	public List<Notificacion> getNotificacionesLeidas() {
+		return notificacionesLeidas;
+	}
+
+	public void setNotificacionesLeidas(List<Notificacion> notificacionesLeidas) {
+		this.notificacionesLeidas = notificacionesLeidas;
+	}
+	
+	
 	
 	
 

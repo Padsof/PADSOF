@@ -3,9 +3,11 @@ package ads.PADSOF;
 import java.util.ArrayList;
 import java.util.List;
 
+import fechasimulada.FechaSimulada;
+
 public class Aplicacion {
 
-	public int umbral;
+	public static int umbral;
 
 	static Administrador administrador;
 	 
@@ -24,7 +26,17 @@ public class Aplicacion {
     private static List<Proyecto> proyectosPorAceptar = new ArrayList<>();
     
     private static List<Proyecto> proyectos = new ArrayList<>();
+        
+    
+    public static void generarIdentificador(Proyecto p) {
+    	    	
+    	
+    	int i = Aplicacion.getProyectosAceptados().size();
+    	p.setCodigo(i);
+    	
 
+    }
+    
 	public Aplicacion(int limite) {
 		umbral = limite;
 
@@ -66,15 +78,6 @@ public class Aplicacion {
 	}
 
 
-
-	public int getUmbral() {
-		return umbral;
-	}
-
-	public void setUmbral(int umbral) {
-		this.umbral = umbral;
-	}
-
 	public void login (String user, String contrasenia, String DNI) {
 
 	}
@@ -83,9 +86,22 @@ public class Aplicacion {
 
 	}
 
-	public Notificacion generarNotificacion(String titulo) {
-		Notificacion notificaciones = null;
-		return notificaciones;
+	public static void generarNotificacion(String titulo, Ciudadano c, Proyecto p) {
+		Notificacion notificacion;
+		int suscritos = p.getSuscritos().size();
+		int i;
+		FechaSimulada.restablecerHoyReal();
+		
+		if (p.getEstado() == EstadoProyecto.financiable) {
+			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ya es financiable", FechaSimulada.getHoy(), TipoNotificacion.financiable);
+			
+			for(i = 0; i < suscritos; i++) {
+				p.getSuscritos().get(i).getNotificaciones().add(notificacion);
+			}
+			
+		}
+		
+		return;
 	}
 
 
@@ -135,6 +151,16 @@ public class Aplicacion {
 
 	public static void setProyectosPorAceptar(List<Proyecto> proyectosPorAceptar) {
 		Aplicacion.proyectosPorAceptar = proyectosPorAceptar;
+	}
+
+
+	public static int getUmbral() {
+		return umbral;
+	}
+
+
+	public static void setUmbral(int umbral) {
+		Aplicacion.umbral = umbral;
 	}
 	
 	

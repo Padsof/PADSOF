@@ -87,6 +87,11 @@ public class PoySocial extends Proyecto{
 	private boolean nacional;
 	
 	/**
+	 * Codigo identificativo
+	 */
+	private int codigo;
+	
+	/**
 	 * Constructor de la clase ProyInfraestuctura
 	 * 
 	 * @param titulo Titulo del proyecto
@@ -119,6 +124,7 @@ public class PoySocial extends Proyecto{
 		}
 		
 		Aplicacion.getProyectosPorAceptar().add(this);
+		Aplicacion.generarIdentificador(this);
 		this.getSuscritos().add(proponente);
 		proponente.getSuscrito().add(this);
 	}
@@ -141,6 +147,7 @@ public class PoySocial extends Proyecto{
 			LocalDate fechaCreacion,  EstadoProyecto estado, String claseSocial, 
 			boolean nacional) {
 		super(titulo, descripcion, colectivo, presupuesto, fechaCreacion, estado);
+		this.titulo = titulo;
 		this.claseSocial = claseSocial;
 		this.nacional = nacional;
 		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
@@ -165,6 +172,7 @@ public class PoySocial extends Proyecto{
 		}
 		
 		Aplicacion.getProyectosPorAceptar().add(this);
+		Aplicacion.generarIdentificador(this);
 		this.getSuscritos().add(colectivo.getRepresentante());
 		colectivo.getRepresentante().getSuscrito().add(this);
 		
@@ -333,6 +341,10 @@ public class PoySocial extends Proyecto{
 		c.getVotado().add(this);
 		c.getVotoIndividual().add(this);
 		this.nVotos++;
+		if (this.nVotos >= Aplicacion.getUmbral() && this.estado != EstadoProyecto.financiable) {
+			this.estadoFinanciable();
+		}
+		
 		}
 
 	@Override
@@ -364,10 +376,15 @@ public class PoySocial extends Proyecto{
 			this.votos.add(colectivo.getMiembros().get(j));
 			colectivo.getMiembros().get(j).getVotado().add(this);
 			this.nVotos++;
+
 			
 			if (flag == 1) {
 				this.nVotos--;
 				this.votos.remove(colectivo.getMiembros().get(j));
+			}
+			
+			if (this.nVotos >= Aplicacion.getUmbral() && this.estado != EstadoProyecto.financiable) {
+				this.estadoFinanciable();
 			}
 			
 		}
@@ -406,6 +423,11 @@ public class PoySocial extends Proyecto{
 			}
 		}
 		return;
+	}
+	
+	public void estadoFinanciable() {
+		this.estado = EstadoProyecto.financiable;
+		Aplicacion.generarNotificacion("Hola", null, this);
 	}
 	
 	

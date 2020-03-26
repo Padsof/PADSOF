@@ -18,6 +18,11 @@ public abstract class Proyecto {
 	private String titulo;
 	
 	/**
+	 * Codigo identificativo
+	 */
+	private int codigo;
+	
+	/**
 	 * El proponente del proyecto
 	 */
 	private Ciudadano proponente;
@@ -383,11 +388,25 @@ public abstract class Proyecto {
 	}
 	
 	public String toString() {
-		return "Titulo: " +this.titulo+ "  Descripcion: " +this.descripcion+ "  Estado: "+this.estado+"  Fecha Creacion: "+this.fechaCreacion+"  Proponente: "+this.proponente+"";
+		return "Codigo: "+this.codigo+" Titulo: " +this.titulo+ "  Descripcion: " +this.descripcion+ "  Estado: "+this.estado+"  Fecha Creacion: "+this.fechaCreacion+"  Proponente: "+this.proponente+"";
 	}
 
 	protected abstract String getCaracter();
 
 	protected abstract List<String> getDistrito();
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
+	
+	
+	
+	
+	
 	
 }

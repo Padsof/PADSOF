@@ -178,20 +178,6 @@ public abstract class Usuario {
 
 	protected abstract boolean isRepresentanteProyecto();
 
-
-	protected abstract void bloquearUsuario();
-
-
-	protected abstract boolean isBloqueado();
-
-
-	protected abstract void desbloquearUsuario();
-
-
-	protected void setBloqueado(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

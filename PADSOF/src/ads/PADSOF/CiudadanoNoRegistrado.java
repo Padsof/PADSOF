@@ -97,21 +97,10 @@ public class CiudadanoNoRegistrado extends Usuario {
 	}
 
 	@Override
-	protected void bloquearUsuario() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected boolean isBloqueado() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	protected void desbloquearUsuario() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

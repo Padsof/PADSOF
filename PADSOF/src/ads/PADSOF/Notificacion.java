@@ -89,5 +89,9 @@ public class Notificacion {
 		this.tipo = tipo;
 	}
 	
+	public String toString() {
+		return ""+this.texto+"  "+this.fecha+" "+this.tipo+"";
+	}
+	
 	
 }
