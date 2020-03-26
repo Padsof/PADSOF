@@ -80,6 +80,16 @@ public class Colectivo {
 
 
     private boolean hijo;
+    
+    private List<Proyecto> votoColectivo = new ArrayList<>();
+    
+    /**
+
+	 * Lista en la que almacenamos los proyectos creados por el colectivo
+
+	 */
+    private List<Proyecto> proyectos = new ArrayList<>();
+    
 
 	/**
 
@@ -156,6 +166,7 @@ public class Colectivo {
 			}
 			
 			this.miembros.add(c);
+			c.getMiembro().add(this);
 			this.numMiembros++;
 			return;
 		}
@@ -180,6 +191,7 @@ public class Colectivo {
 			}
 		}
 		this.miembros.add(c);
+		c.getMiembro().add(this);
 		this.numMiembros++;
 
 		return;
@@ -206,6 +218,7 @@ public class Colectivo {
 	public void quitarMiembro(Ciudadano c) {
 
 		this.getMiembros().remove(c);
+		c.getMiembro().remove(this);
 		this.numMiembros--;
 	}
 	
@@ -624,25 +637,60 @@ public void proponerProyecto(String titulo, String descripcion, double presupues
 			System.out.println("La descripcion es demasiado grande");
 			return;
 		}
+		
+		if (claseSocial.length() > 50) {
+			System.out.println("La clase social es demasiado grande");
+			return;
+		}
+		
 		Proyecto proyecto;
 		
-		int votos = this.hijos.size();
+		int votos = this.getNumMiembros();
 		int i;
 		
 		FechaSimulada.restablecerHoyReal(); //MODIFICAMOS LA FECHA ANTES DE INTRODUCIRLA
 		
 		if (tipo == "Social") {
 			
-			proyecto = new PoySocial(titulo, descripcion, this, presupuesto, FechaSimulada.getHoy(), estado, claseSocial, nacional );			
+			proyecto = new PoySocial(titulo, descripcion, this, votos, presupuesto, FechaSimulada.getHoy(), estado, claseSocial, nacional );			
 			
 		}
 		else if (tipo == "Infraestructura") {
 			
-			proyecto = new ProyInfraestructura(titulo, descripcion, this, presupuesto, FechaSimulada.getHoy(), estado, null, distrito);
+			proyecto = new ProyInfraestructura(titulo, descripcion, votos, this, presupuesto, FechaSimulada.getHoy(), estado, null, distrito);
 			
 		}
 		else {
 			System.out.println("No se ha creado ningun proyecto");
+		}
+		
+		
+	}
+
+	public List<Proyecto> getVotoColectivo() {
+		return votoColectivo;
+	}
+
+	public void setVotoColectivo(List<Proyecto> votoColectivo) {
+		this.votoColectivo = votoColectivo;
+	}
+	
+	
+	public List<Proyecto> getProyectos() {
+		return proyectos;
+	}
+
+	public void setProyectos(List<Proyecto> proyectos) {
+		this.proyectos = proyectos;
+	}
+
+	public void informePopularidad(Proyecto informe) {
+		List<Proyecto> votadosI = this.getVotoColectivo();
+		for (Proyecto aux: votadosI) {
+			if (aux == informe) { 
+				System.out.println("INFORME DE POPULARIDAD: El proyecto: "+informe.getTitulo()+" ha recibido "+informe.getnVotos()+" votos");
+				return;
+			}		
 		}
 	}
     

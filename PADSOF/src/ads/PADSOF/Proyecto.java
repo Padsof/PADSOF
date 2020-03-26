@@ -90,7 +90,8 @@ public abstract class Proyecto {
 		this.estado = estado;
 		this.nVotos = 0;
 		this.proponente = ciudadano;
-		this.proponente.getProyectos().add(this);
+		proponente.getProyectos().add(this);
+
 
 	}
 	
@@ -118,7 +119,8 @@ public abstract class Proyecto {
 		this.estado = estado;
 		this.nVotos = colectivo.getNumMiembros(); //SE LE ASIGNA UN VOTO POR CADA UNO DE LOS MIEMBROS DEL COLECTIVO
 		this.proponente = colectivo.getRepresentante();
-		this.proponente.getProyectos().add(this);
+		
+		colectivo.getProyectos().add(this);
 
 	}
 	
@@ -254,30 +256,13 @@ public abstract class Proyecto {
 	 * Este metodo aniade un ciudadano a la lista de suscritos si no estaba anteriormente
 	 * @param c Ciudadano a aniadir a suscritos
 	 */
-	public int suscribir(Ciudadano c) {
-		for (Ciudadano aux: suscritos) {
-			if (aux == c) {
-				return -1;
-			}
-		}
-		
-		suscritos.add(c);
-		return 0;
-	}
+	public abstract void suscribir(Ciudadano c);
 	
 	/**
 	 * Este metodo elimina a un ciudadano suscrito de la lista
 	 * @param c Ciudadano a eliminar de la lista
 	 */
-	public int desuscribir(Ciudadano c) {
-		for (Ciudadano aux: suscritos) {
-			if (aux == c) {
-				suscritos.remove(c);
-				return 0;
-			}
-		}
-		return 0;
-	}
+	public abstract void desuscribir(Ciudadano c);
 	
 	/**
 	 * Este metodo genera un informe de popularidad con los votos del proyecto
@@ -324,22 +309,37 @@ public abstract class Proyecto {
 	public void aceptarProyecto() {
 		this.estado = EstadoProyecto.aceptado;
 		
-		Aplicacion.getProyectosAceptados().add(this);
-		
 		Aplicacion.getProyectosPorAceptar().remove(this);
 		
-		this.proponente.getProyectos().add(this);
+		Aplicacion.getProyectosAceptados().add(this);
 		
 	}
 	
 	/**
 	 * Este metodo rechaza el proyecto, cambia su estado
 	 */
-	public void rechazarProyecto() {
+	public void rechazarProyectoUsuario(Ciudadano c) {
 		
 		this.estado = EstadoProyecto.rechazado;
 		
 		Aplicacion.getProyectosPorAceptar().remove(this);
+		
+		c.getProyectos().remove(this);		
+
+	}
+	
+	/**
+	 * Este metodo rechaza el proyecto, cambia su estado
+	 */
+	public void rechazarProyectoColectivo(Colectivo c) {
+		
+		this.estado = EstadoProyecto.rechazado;
+		
+		Aplicacion.getProyectosPorAceptar().remove(this);
+		
+		c.getProyectos().remove(this);
+		
+
 	}
 	
 	/**

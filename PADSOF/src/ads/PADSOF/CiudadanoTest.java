@@ -55,7 +55,7 @@ public class CiudadanoTest {
 				
 		ciudadano.bloquearUsuario();
 		
-		Aplicacion.getUsuariosPorAceptar().remove(ciudadano);
+		Aplicacion.getUsuariosPorAceptar().remove(ciudadano); 
 		
 		assertTrue(ciudadano.isBloqueado());
 	}

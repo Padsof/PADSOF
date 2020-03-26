@@ -79,7 +79,15 @@ public class Ciudadano extends Usuario {
 	  * Una lista auxiliar en la que almacenamos los usuarios por aceptar en la aplicación
 
 	  */
-     private static List<Ciudadano> poraceptar = new ArrayList<>();
+     private  List<Ciudadano> poraceptar = new ArrayList<>();
+     
+     private List<Colectivo> miembro = new ArrayList<>();
+     
+     private  List<Proyecto> suscrito = new ArrayList<>();
+     
+     private List<Proyecto> votado = new ArrayList<>();
+     
+     private List<Proyecto> votoIndividual = new ArrayList<>();
 
      
      /**
@@ -365,9 +373,122 @@ public class Ciudadano extends Usuario {
 	public void setProyectos(List<Proyecto> proyectos) {
 		this.proyectos = proyectos;
 	}
-	
-	
 
+	public List<Proyecto> getVotado() {
+		return votado;
+	}
+
+	public void setVotado(List<Proyecto> votado) {
+		this.votado = votado;
+	}
+
+	public List<Proyecto> getVotoIndividual() {
+		return votoIndividual;
+	}
+
+	public void setVotoIndividual(List<Proyecto> votoIndividual) {
+		this.votoIndividual = votoIndividual;
+	}
+
+	public List<Proyecto> getSuscrito() {
+		return suscrito;
+	}
+
+	public void setSuscrito(List<Proyecto> suscrito) {
+		this.suscrito = suscrito;
+	}
+	
+	public void informePopularidad(Proyecto informe) {
+		List<Proyecto> votadosI = this.votoIndividual;
+		
+		for (Proyecto aux: votadosI) {
+			if (aux == informe) { 
+				System.out.println("INFORME DE POPULARIDAD: El proyecto: "+informe.getTitulo()+" ha recibido "+informe.getnVotos()+" votos");
+				return;
+			}		
+		}
+	}
+	
+	
+	
+	public List<Colectivo> getMiembro() {
+		return miembro;
+	}
+
+	public void setMiembro(List<Colectivo> miembro) {
+		this.miembro = miembro;
+	}
+
+	public void informeAfinidad(Colectivo uno, Colectivo dos) {
+		
+		List<Colectivo> colectivos = this.getMiembro();
+		List<Proyecto> proyectosA = uno.getProyectos();
+		List<Proyecto> proyectosB = dos.getProyectos();
+		List<Proyecto> votadosA = uno.getVotoColectivo();
+		List<Proyecto> votadosB = dos.getVotoColectivo();
+		int i = 0;
+		int m = 0;
+		int A = 0, B = 0;
+		int pA = uno.getProyectos().size();
+		int pB = dos.getProyectos().size();
+		double total = pA + pB;
+		double afinidad;
+		double porcentaje;
+
+
+		if (this.getMiembro().size() < 2) {
+			System.out.println("El usuario debe de pertener al menos a DOS colectivos");
+			return;
+		}
+		
+		for (Colectivo aux: colectivos) {
+			if (aux == uno) {
+				i = 1;
+			}
+			
+			if (aux == dos) {
+				m = 1;
+			}
+		}
+		
+		if (i == 0 || m == 0) {
+			System.out.println("El usuario debe de pertenecer a los DOS colectivos");
+			return;
+		}
+		
+		for(Proyecto aux: proyectosA) {
+			
+			for(Proyecto aux2: votadosB) {
+				
+				if (aux == aux2) {
+					A++;
+				}
+			}
+		}
+		
+		for(Proyecto aux: proyectosB) {
+			
+			for(Proyecto aux2: votadosA) {
+				
+				if (aux == aux2) {
+					B++;
+				}
+			}
+		}
+		
+		afinidad = (((A+B)/total));
+		porcentaje = ((double)afinidad*100.0);
+				
+		System.out.println("Los colectivos "+uno.getNombre()+ " y "+dos.getNombre()+" tienen una afinidad del: "+porcentaje+ " %");
+		
+	}
+	
+	public void soyMiembro() {
+		
+		System.out.println(this.getMiembro());
+
+	}
+	
 	
 
 

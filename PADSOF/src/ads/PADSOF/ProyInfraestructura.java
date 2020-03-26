@@ -115,8 +115,11 @@ public class ProyInfraestructura extends Proyecto {
 		this.suscritos = new ArrayList<>();
 		this.votos = new ArrayList<>();
 		this.proponente = proponente;
+		this.titulo = titulo;
 		
 		Aplicacion.getProyectosPorAceptar().add(this);
+		this.getSuscritos().add(proponente);
+		proponente.getSuscrito().add(this);
 
 	}
 	
@@ -134,23 +137,25 @@ public class ProyInfraestructura extends Proyecto {
 	 * @param esquema Esquema de la realizacion del proyecto
 	 * @param distrito Distrito donde se va a llevar a cabo el proyecto
 	 */ 
-	public ProyInfraestructura(String titulo, String descripcion, Colectivo colectivo, double presupuesto,
+	public ProyInfraestructura(String titulo, String descripcion, int votos, Colectivo colectivo, double presupuesto,
 			 LocalDate fechaCreacion, EstadoProyecto estado, File esquema,
 			 List<String> distrito) {
 		super(titulo, descripcion, colectivo, presupuesto, fechaCreacion, estado);
 		this.esquema = esquema;
 		this.distritos = distrito;
+		this.proponente = colectivo.getRepresentante();
 		this.presupuestoFinal = 0; //TODAVIA NO SE LE HA ASIGNADO NINGUN PRESUPUESTO
-		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO
-		this.nVotos = colectivo.getNumMiembros();
+		this.fechaUltimoVoto = fechaCreacion; //CUANDO SE CREA EL PROYECTO EL PRIMER VOTO SE LE ASIGNA NADA MAS CREARLO 
+		this.nVotos = votos;
 		this.suscritos = new ArrayList<>();
 		this.votos = new ArrayList<>();
-		
+		this.titulo = titulo;
 		Aplicacion.getProyectosPorAceptar().add(this);
 		
 		int i;
 		for (i = 0; i < colectivo.getNumMiembros(); i++) {
 			this.votos.add(colectivo.getMiembros().get(i));
+			colectivo.getMiembros().get(i).getVotado().add(this);
 		}
 		
 		if (nacional == true) {
@@ -159,7 +164,10 @@ public class ProyInfraestructura extends Proyecto {
 		else {
 			this.caracter = "Internacional";
 		}
-
+		
+		Aplicacion.getProyectosPorAceptar().add(this);
+		this.getSuscritos().add(colectivo.getRepresentante());
+		colectivo.getRepresentante().getSuscrito().add(this);
 	}
 
 	/**
@@ -311,14 +319,84 @@ public class ProyInfraestructura extends Proyecto {
 		}
 			
 		this.votos.add(c);
+		c.getVotado().add(this);
+		c.getVotoIndividual().add(this);
 		this.nVotos++;
 	}
 
 	@Override
 	public void votarProyectoColectivo(Colectivo colectivo) {
-		// TODO Auto-generated method stub
+		int ciudadanos = colectivo.getNumMiembros();
+		int i, j, flag;
 		
-	}				
+		if (colectivo.getRepresentante().getNombre() == this.proponente.getNombre()){
+			System.out.println("El proponente no puede votar el proyecto");
+		}
+		
+		for (j = 0; j < ciudadanos; j++) {
+			
+			flag = 0;
+		
+			if (this.getVotos().size() > 0) {
+				
+				for (i = 0; i < this.getVotos().size(); i++ ) {
+										
+					if (colectivo.getMiembros().get(j).getNombre() == this.getVotos().get(i).getNombre()) {
+						System.out.println("Voto anulado");
+						System.out.println(colectivo.getMiembros().get(j).getNombre());
+						flag = 1;
+					}
+
+				}
+			}
+				
+			this.votos.add(colectivo.getMiembros().get(j));
+			colectivo.getMiembros().get(j).getVotado().add(this);
+			this.nVotos++;
+			
+			if (flag == 1) {
+				this.nVotos--;
+				this.votos.remove(colectivo.getMiembros().get(j));
+			}
+			
+		}
+		
+		colectivo.getVotoColectivo().add(this);
+						
+	}
+
+
+	@Override
+	public void suscribir(Ciudadano c) {
+		
+		if (c.getNombre() == this.getProponente().getNombre()) {
+			return;
+		}
+		
+		for (Ciudadano aux: suscritos) {
+			
+			if (aux == c) { 
+				return;
+			}		
+		}
+		
+		suscritos.add(c);
+		return;
+	}
+
+	@Override
+	public void desuscribir(Ciudadano c) {
+		if (c.getNombre() == this.getProponente().getNombre()) {
+			return;
+		}
+		for (Ciudadano aux: suscritos) {
+			if (aux == c) {
+				suscritos.remove(c);
+				return;
+			}
+		}
+		return;
+	}	
 		
 	
 }
