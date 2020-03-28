@@ -78,8 +78,19 @@ public class Colectivo {
     
     private List<Colectivo> hijos = new ArrayList<>();
 
+    /**
 
+     * Un auxiliar boolean para saber si es un colectivo "hijo"
+
+     */
+    
     private boolean hijo;
+    
+    /**
+
+     * Un ArrayList que almacenara los proyectos a los que ha apoyado el colectivo
+
+     */
     
     private List<Proyecto> votoColectivo = new ArrayList<>();
     
@@ -240,15 +251,9 @@ public class Colectivo {
 
     /**
 
-
-
      * Este metodo devuelve el nombre del Colectivo
 
-
-
-     * @return el nombre del colectivo
-
-
+     * @return nombre
 
      */
 
@@ -268,15 +273,9 @@ public class Colectivo {
 
 	/**
 
-
-
 	 * Este metodo modifica el nombre del Colectivo
 
-
-
 	 * @param nombre
-
-
 
 	 */
 
@@ -300,15 +299,9 @@ public class Colectivo {
 
 	/**
 
-
-
 	 * Este metodo devuelve el numero  de miembros del colectivo
 
-
-
-	 * @return
-
-
+	 * @return numMiembros
 
 	 */
 
@@ -366,7 +359,7 @@ public class Colectivo {
 
 
 
-	 * @return
+	 * @return representante
 
 
 
@@ -426,7 +419,7 @@ public class Colectivo {
 
 
 
-	 * @return
+	 * @return miembros
 
 
 
@@ -486,7 +479,7 @@ public class Colectivo {
 
 
 
-	 * @return
+	 * @return padre 
 
 
 
@@ -546,7 +539,7 @@ public class Colectivo {
 
 
 
-	 * @return
+	 * @return hijos 
 
 
 
@@ -573,13 +566,10 @@ public class Colectivo {
 	/**
 
 
-
 	 * Este metodo modifica el ArrayList de objetos de tipo Colectivo que corresponde con la lista de hijos del colectivo
 
 
-
 	 * @param hijos
-
 
 
 	 */
@@ -596,37 +586,26 @@ public class Colectivo {
 
 	}
 
-
-
-
-
-
 	/**
 
 
 
-	 * Este metodo crea un informe de afinidad entre dos colectivos
+	 * Este metodo crea un proyecto propuesto por un colectivo
 
 
-
-	 * @param colectivo
-
-
-
-	 * @return el informe de afinidad creado
-
-
+	 * @param titulo titulo del proyecto
+     * @param descripcion descripcion del proyecto
+     * @param presupuesto presupuesto del proyecto
+     * @param estado estado del proyecto
+     * @param tipo tipo del proyecto (social o innfraestructuras)
+     * @param claseSocial clase social del proyecto
+     * @param nacional indica si el proyecto es de ambito nacional o interncional
+     * @param distrito lista de distritos en los que se va aplicar el proyecto
 
 	 */
-
-
-
-	public InfAfinidad informeAfinidad(Colectivo colectivo) {
-		return null;
-
-	}
 	
-public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
+	
+	public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
 		
 		if(this.representante.isBloqueado() == true) {
 			System.out.println("ESTAS BLOQUEADO. ACCION NO PERMITIDA");
@@ -671,32 +650,92 @@ public void proponerProyecto(String titulo, String descripcion, double presupues
 		
 		
 	}
+	
+	/**
+
+	 * Este metodo devuelve la lista de proyectos a los que ha votado el colectivo
+
+	 * @return votoColectivo
+
+	 */
 
 	public List<Proyecto> getVotoColectivo() {
 		return votoColectivo;
 	}
+	
+	/**
+
+	 * Este metodo modifica la lista de proyectos a los que ha votado el colectivo
+
+	 * @param votoColectivo
+
+	 */
 
 	public void setVotoColectivo(List<Proyecto> votoColectivo) {
 		this.votoColectivo = votoColectivo;
 	}
 	
+	/**
+
+	 * Este metodo devuelve la lista de proyectos creados por el colectivo
+
+	 * @return proyectos
+
+	 */
+	
 	
 	public List<Proyecto> getProyectos() {
 		return proyectos;
 	}
+	
+	/**
+
+	 * Este metodo modifica la lista de proyectos creados por el colectivo
+
+	 * @param proyectos
+
+	 */
 
 	public void setProyectos(List<Proyecto> proyectos) {
 		this.proyectos = proyectos;
 	}
+	
+	/**
 
-	public void informePopularidad(Proyecto informe) {
+	 * Este metodo modifica la lista de proyectos creados por el colectivo
+
+	 * @param proyectos
+
+	 */
+
+	public boolean informePopularidad(Proyecto informe) {
 		List<Proyecto> votadosI = this.getVotoColectivo();
 		for (Proyecto aux: votadosI) {
 			if (aux == informe) { 
 				System.out.println("INFORME DE POPULARIDAD: El proyecto: "+informe.getTitulo()+" ha recibido "+informe.getnVotos()+" votos");
-				return;
+				return true;
 			}		
 		}
+		
+		return false;
 	}
+	
+	/**
+
+	 * Este metodo devuelve un atributo boolean que indica si el colectivo es hijo de otro
+
+	 * @return hijo
+
+	 */
+
+	public boolean isHijo() {
+		return hijo;
+	}
+
+	public void setHijo(boolean hijo) {
+		this.hijo = hijo;
+	}
+	
+	
     
 }

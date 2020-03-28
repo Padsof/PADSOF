@@ -3,20 +3,56 @@ package ads.PADSOF;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+
+ * Esta clase modela los usuarios de tipo Ciudadano.
+
+ *
+
+ * @author Ciro Alonso Aquino ciro.alonso@estudiante.uam.es
+
+ * @author Enrique Gutierrez Perez enrique.gutierrezp@estudiante.uam.es
+
+ * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
+
+ *
+
+*/
+
 public class CiudadanoNoRegistrado extends Usuario {
 	
-	private static List<CiudadanoNoRegistrado> CNR = new ArrayList<>();
-	
+	/**
 
+     * Constructor de la clase Ciudadano no Registrado.
+
+     * 
+
+     * @param name El nombre con el que el usuario se ha registrado
+     * 
+     * @param password La contraseña con la que el usuario se ha registrado
+
+     * @param dni El DNI del usuario 
+
+     */
+	
 	public CiudadanoNoRegistrado(String name, String password, String dni) {
 		super(name, password, dni);
 		
-		CNR = Aplicacion.getCNR();
+		Aplicacion.getCNR().add(this);
 
-		CNR.add(this); 
-		
-	   Aplicacion.setCNR(CNR);
 	}
+	
+	/**
+
+     * Funcion que permite a un usuario registrarse
+
+     * @param name El nombre con el que el usuario se ha registrado
+     * 
+     * @param password La contraseña con la que el usuario se ha registrado
+
+     * @param dni El DNI del usuario 
+
+     */
 	
 	public void Registrarse(String name, String password, String dni) {
 		
@@ -77,30 +113,8 @@ public class CiudadanoNoRegistrado extends Usuario {
 			return;
 		}
 		
-		CNR = Aplicacion.getCNR();
+		Aplicacion.getCNR().remove(this);
 
-		CNR.remove(this); 
-		
-	   Aplicacion.setCNR(CNR);
 	}
-
-	@Override
-	protected void setRepresentanteProyecto(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected boolean isRepresentanteProyecto() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean isBloqueado() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 }

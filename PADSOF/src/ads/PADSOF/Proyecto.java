@@ -1,5 +1,8 @@
 package ads.PADSOF;
 import java.util.*;
+
+import fechasimulada.FechaSimulada;
+
 import java.time.*;
 
 /**
@@ -74,14 +77,16 @@ public abstract class Proyecto {
 	
 		
 	/**
-	 * Constructor de la clase Proyecto cuando lo crea un usuario de forma individual
+	 * Constructor de la clase ProyInfraestuctura
 	 * 
 	 * @param titulo Titulo del proyecto
 	 * @param descripcion Descripcion del proyecto
-	 * @param proponente del proyecto
+	 * @param proponente Ciudadano que propone el proyecto
 	 * @param presupuesto Presupuesto inicial
 	 * @param fechaCreacion Fecha de creacion
 	 * @param estado Estado en el que se encuentra el proyecto
+	 * @param claseSocial clase social a la que va dirigida
+	 * @param nacional Si es de caracter nacional
 	 */
 	public Proyecto(String titulo, String descripcion, Ciudadano ciudadano, double presupuesto, 
 			LocalDate fechaCreacion, EstadoProyecto estado) {
@@ -101,16 +106,17 @@ public abstract class Proyecto {
 	}
 	
 	/**
-	 * Constructor de la clase Proyecto cuando lo crea un usuario de forma individual
+	 * Constructor de la clase ProyInfraestuctura
 	 * 
 	 * @param titulo Titulo del proyecto
 	 * @param descripcion Descripcion del proyecto
-	 * @param proponente del proyecto
-	 * @param numero de votos asignados
+	 * @param votos numero de votos asignados
 	 * @param colectivo que ha creado el proyecto
 	 * @param presupuesto Presupuesto inicial
 	 * @param fechaCreacion Fecha de creacion
 	 * @param estado Estado en el que se encuentra el proyecto
+	 * @param esquema Esquema de la realizacion del proyecto
+	 * @param distrito Distrito donde se va a llevar a cabo el proyecto
 	 */
 	public Proyecto(String titulo, String descripcion, Colectivo colectivo, double presupuesto, 
 			LocalDate fechaCreacion, EstadoProyecto estado) {
@@ -306,82 +312,95 @@ public abstract class Proyecto {
 	 */
 	public abstract void votarProyecto(Ciudadano c);
 	
+	/**
+	 * Este metodo añade los miembros de un colectivo a la lista de votos y suma el mismo numero de votos a nVotos (sin contar los que estan repetidos)
+	 * @param c Ciudadano que vota el proyecto
+	 */
 	public abstract void votarProyectoColectivo (Colectivo colectivo);
 
 	/**
 	 * Este metodo acepta el proyecto, cambia su estado
 	 */
-	public void aceptarProyecto() {
-		this.estado = EstadoProyecto.aceptado;
-		
-		Aplicacion.getProyectosPorAceptar().remove(this);
-		
-		Aplicacion.getProyectosAceptados().add(this);
-		
-	}
+	public abstract boolean aceptarProyecto();
 	
 	/**
 	 * Este metodo rechaza el proyecto, cambia su estado
 	 */
-	public void rechazarProyectoUsuario(Ciudadano c) {
-		
-		this.estado = EstadoProyecto.rechazado;
-		
-		Aplicacion.getProyectosPorAceptar().remove(this);
-		
-		c.getProyectos().remove(this);		
-
-	}
+	public abstract boolean rechazarProyectoUsuario(Ciudadano c, String motivo);
 	
 	/**
 	 * Este metodo rechaza el proyecto, cambia su estado
 	 */
-	public void rechazarProyectoColectivo(Colectivo c) {
-		
-		this.estado = EstadoProyecto.rechazado;
-		
-		Aplicacion.getProyectosPorAceptar().remove(this);
-		
-		c.getProyectos().remove(this);
-		
+	public abstract boolean rechazarProyectoColectivo(Colectivo c, String motivo);
 
-	}
-	
 	/**
-	 * Este metodo caduca el proyecto, cambia su estado
+	 * Este metodo devuelve el proponente de un proyecto
+	 * @return proponente proponente de un proyecto
 	 */
-	public void caducarProyecto() {
-		this.estado = EstadoProyecto.caducado;
-		// eliminar proyecto??
-	}
-
+	
 	public Ciudadano getProponente() {
 		return proponente;
 	}
+	
+	/**
+	 * Este metodo modifica el proponente de un proyecto
+	 * @param proponente proponente de un proyecto
+	 */
+	 
 
 	public void setProponente(Ciudadano proponente) {
 		this.proponente = proponente;
 	}
+	
+	/**
+	 * Este metodo devuelve el presupusto solicitado por el proponente
+	 * @return presupuestoSolicitado presupusto solicitado por el proponente
+	 */
 
 	public double getPresupuestoSolicitado() {
 		return presupuestoSolicitado;
 	}
+	
+	/**
+	 * Este metodo modifica el presupusto solicitado por el proponente
+	 * @param presupuestoSolicitado presupusto solicitado por el proponente
+	 */
 
 	public void setPresupuestoSolicitado(double presupuestoSolicitado) {
 		this.presupuestoSolicitado = presupuestoSolicitado;
 	}
+	
+	/**
+	 * Este metodo devuelve una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 * @return suscritos una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 */
 
 	public List<Ciudadano> getSuscritos() {
 		return suscritos;
 	}
+	
+	/**
+	 * Este metodo modifica una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 * @param suscritos una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 */
 
 	public void setSuscritos(List<Ciudadano> suscritos) {
 		this.suscritos = suscritos;
 	}
+	
+	/**
+	 * Este metodo devuelve una lista con los usuarios de tipo ciudadano que han votado el proyecto
+	 * @return votos una lista con los usuarios de tipo ciudadano que han votado el proyecto
+	 */
 
 	public List<Ciudadano> getVotos() {
 		return votos;
 	}
+	
+	/**
+	 * Este metodo modifica una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 * @param votos una lista con los usuarios de tipo ciudadano suscritos al proyecto
+	 */
 
 	public void setVotos(List<Ciudadano> votos) {
 		this.votos = votos;
@@ -391,17 +410,43 @@ public abstract class Proyecto {
 		return "Codigo: "+this.codigo+" Titulo: " +this.titulo+ "  Descripcion: " +this.descripcion+ "  Estado: "+this.estado+"  Fecha Creacion: "+this.fechaCreacion+"  Proponente: "+this.proponente+"";
 	}
 
+	/**
+	 * Este metodo devuelve el caracter del proyecto de tipo social (nacional o internacional)
+	 */
+	
 	protected abstract String getCaracter();
 
+	/**
+	 * Este metodo devuelve la lista de los distritos en los cuales se aplica el proyecto de caracter infraestructura
+	 */
+	
 	protected abstract List<String> getDistrito();
 
-	public int getCodigo() {
-		return codigo;
-	}
+	/**
+	 * Este metodo devuelve el codigo del proyecto
+	 * @return codigo
+	 */
+	
+	public abstract int getCodigo();
+	
+	/**
+	 * Este metodo modifica el codigo del proyecto
+	 * @param codigo
+	 */
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
+	public abstract void setCodigo(int codigo);
+	
+	/**
+	 * Este metodo caduca el proyecto, cambia su estado
+	 */
+
+	public abstract void caducarProyecto();
+	
+	/**
+	 * Este metodo cambia el estado del proyecto a financiable
+	 */
+	
+	public abstract boolean estadoFinanciable();
 	
 	
 	

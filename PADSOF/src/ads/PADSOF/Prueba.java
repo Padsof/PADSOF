@@ -1,5 +1,6 @@
 package ads.PADSOF;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,40 +15,36 @@ public class Prueba {
 		Administrador administrador;
 		Colectivo ColAuxiliar;
 		Proyecto proyecto;
-		Aplicacion aplicacion = new Aplicacion(5);
 		List<String> distrito = new ArrayList<>();
 		distrito.add("Usera");
 		distrito.add("Estrecho");
 		
 		
-		int numero = 5; //Vamos a trabajar con 5 Usuarios
+		int numero = 5; //COMENZAMOS TRABAJANDO CON 5 USUARIOS
 		int i;
 		String[] nombres = {"Quique", "Alicia", "Dani", "Irene", "Rosa"};
 		String[] contrasenias = {"CQ", "CA", "CD", "CI", "CR"};
 		String[] DNIS = {"12345678Q", "12345678A", "12345678D", "12345678I", "12345678R"};
 		String[]nombreColectivo = {"CQ", "CA", "CD", "CI", "CR"};
 		String[]nombreColectivoHijo = {"CQH", "CAH", "CDH", "CIH", "CRH"};
-		String[]identificadorAdministrador = {"Javier", "contraseña"};
-
+		String[]identificadorAdministrador = {"Javier", "contraseña"}; //IDENTIFICADOR DE ADMINISTRADOR usuario y contraseña predefinidos y no modificables.
 		
-		List<Ciudadano> Aceptados = new ArrayList<>();
-		List<Ciudadano> PorAceptar = new ArrayList<>();	    
 		
 		//CREAMOS UN ADMINISTRADOR PARA LA APLICACION
 		CiuAuxiliar = new CiudadanoNoRegistrado (identificadorAdministrador[0], identificadorAdministrador[1], null);
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
-		System.out.println(aplicacion.administrador);
+		System.out.println(Aplicacion.getAdministrador());
 		//INTENTAMOS INTRODUCIR UN NUEVO ADMINISTRADOR
 		CiuAuxiliar = new CiudadanoNoRegistrado ("Ciro", "contraseña", null);
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
-		System.out.println(aplicacion.administrador);
+		System.out.println(Aplicacion.getAdministrador());
 		
 		System.out.println(" ");
 		//INTRODUCIMOS EN EL SISTEMA LOS NUEVOS USUARIOS (USUARIOS NO ACEPTADOS)
 		for (i = 0;i < numero; i++) {
 			CiuAuxiliar = new CiudadanoNoRegistrado (nombres[i], contrasenias[i], DNIS[i]);
 			CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
-			System.out.println(aplicacion.getUsuariosPorAceptar().get(i));
+			System.out.println(Aplicacion.getUsuariosPorAceptar().get(i));
 
 		}
 		
@@ -62,23 +59,23 @@ public class Prueba {
 		
 		System.out.println(" ");
 		//ACEPTAMOS LOS USUARIOS
-		numero = aplicacion.getUsuariosPorAceptar().size();
+		numero = Aplicacion.getUsuariosPorAceptar().size();
 		System.out.println("Numero de Usuarios por aceptar: "+numero+"");
-		System.out.println("Numero de Usuarios aceptados: "+aplicacion.getUsuariosAceptados().size()+"");
+		System.out.println("Numero de Usuarios aceptados: "+Aplicacion.getUsuariosAceptados().size()+"");
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosPorAceptar().get(0);
+			ciudadano = Aplicacion.getUsuariosPorAceptar().get(0);
 			ciudadano.aceptarUsuario(ciudadano);
 		}
 		
-		System.out.println("Numero de Usuarios por aceptar: "+aplicacion.getUsuariosPorAceptar().size()+"");
-		System.out.println("Numero de Usuarios aceptados: "+aplicacion.getUsuariosAceptados().size()+"");
-		numero = aplicacion.getUsuariosAceptados().size();
+		System.out.println("Numero de Usuarios por aceptar: "+Aplicacion.getUsuariosPorAceptar().size()+"");
+		System.out.println("Numero de Usuarios aceptados: "+Aplicacion.getUsuariosAceptados().size()+"");
+		numero = Aplicacion.getUsuariosAceptados().size();
 		System.out.println(" ");
 
 		//USUARIOS ACEPTADOS
 		for (i = 0;i < numero; i++) {
-			System.out.println(aplicacion.getUsuariosAceptados().get(i));
+			System.out.println(Aplicacion.getUsuariosAceptados().get(i));
 		}
 		
 		System.out.println(" ");
@@ -87,91 +84,91 @@ public class Prueba {
 		//RECHAZAMOS USUARIOS
 		CiuAuxiliar = new CiudadanoNoRegistrado ("Pedro", "Pablo", "12305678q");
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
-		System.out.println(aplicacion.getUsuariosPorAceptar());
-		ciudadano = aplicacion.getUsuariosPorAceptar().get(0);
+		System.out.println(Aplicacion.getUsuariosPorAceptar());
+		ciudadano = Aplicacion.getUsuariosPorAceptar().get(0);
 		ciudadano.rechazarUsuario(ciudadano);
-		System.out.println(aplicacion.getUsuariosPorAceptar());
+		System.out.println(Aplicacion.getUsuariosPorAceptar());
 
 		System.out.println(" ");
 
 		//CADA USUARIO CREARÁ UN COLECTIVO
 		for (i = 0;i < numero; i++) {
-			aplicacion.getUsuariosAceptados().get(i).crearColectivo(nombreColectivo[i]);
+			Aplicacion.getUsuariosAceptados().get(i).crearColectivo(nombreColectivo[i]);
 		}
 		
 		//COLECTIVOS CREADOS
 		for (i = 0;i < numero; i++) {
-			System.out.println(aplicacion.getColectivos().get(i));
+			System.out.println(Aplicacion.getColectivos().get(i));
 		}
 		System.out.println(" ");
 		
 		//CREAMOS UN NUEVO COLECTIVO PARA UNO DE LOS USUARIOS
-		aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQ2");
+		Aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQ2");
 		
 		//COLECTIVOS CREADOS
-		numero = aplicacion.getColectivos().size();
+		numero = Aplicacion.getColectivos().size();
 		for (i = 0;i < numero; i++) {
-			System.out.println(aplicacion.getColectivos().get(i));
+			System.out.println(Aplicacion.getColectivos().get(i));
 		}
 		System.out.println(" ");
 		
 		//UN USUARIO PUEDE TENER SER REPRESENTANTE DE MAS DE UN COLECTIVO
-		System.out.println(aplicacion.getUsuariosAceptados().get(0).getColectivos());
+		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos());
 		System.out.println(" ");
 
 		//NO PUEDE HABER DOS COLECTIVOS CON EL MISMO NOMBRE 
 		//INTRODUCIMOS EN EL SISTEMA NUEVOS COLECTIVOS CON UN MISMO NOMBRE (NO ES POSIBLE)
-		aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQ2");
+		Aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQ2");
 		System.out.println(" ");
 
 		
 		//CREAMOS COLECTIVOS HIJOS (IGUAL NO SE PUEDEN CREAR SI EL NOMBRE ESTA REPETIDO)
 
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).crearColectivo(nombreColectivoHijo[0]);
-		aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQH2");
-		aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).crearColectivo(nombreColectivoHijo[0]);
+		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQH2");
+		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
 
-		System.out.println(aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).getHijos()); 
-		System.out.println(aplicacion.getUsuariosAceptados().get(0).getColectivos());
-		System.out.println(aplicacion.getUsuariosAceptados().get(0).getColectivos().get(1).getHijos());
+		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).getHijos()); 
+		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos());
+		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(1).getHijos());
 		
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(1).crearColectivo(nombreColectivoHijo[1]);
-		aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(1).crearColectivo(nombreColectivoHijo[1]);
+		Aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
 
-		System.out.println(aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).getHijos()); 
-		System.out.println(aplicacion.getUsuariosAceptados().get(1).getColectivos());
+		System.out.println(Aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).getHijos()); 
+		System.out.println(Aplicacion.getUsuariosAceptados().get(1).getColectivos());
 		
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).crearColectivo(nombreColectivoHijo[0]); //NO SE VA A PODER CREAR
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).crearColectivo(nombreColectivoHijo[0]); //NO SE VA A PODER CREAR
 		
 		System.out.println(" ");
 		
 		//METEMOS MIEMBROS EN LOS DIFERENTES COLECTIVOS
-		numero = aplicacion.getUsuariosAceptados().size();
+		numero = Aplicacion.getUsuariosAceptados().size();
 		
 		
 		for (i = 1; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
-			aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			Aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
 		}
 		
-		System.out.println("Miembros del colectivo: "+aplicacion.getColectivos().get(0)+"");
-		System.out.println(aplicacion.getColectivos().get(0).getMiembros());
+		System.out.println("Miembros del colectivo: "+Aplicacion.getColectivos().get(0)+"");
+		System.out.println(Aplicacion.getColectivos().get(0).getMiembros());
 		System.out.println(" ");
 
 				
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
 																  //EL RESTO DE CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO (NO SE AÑADEN)
-			aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
+			Aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
 		}
 		
 		System.out.println(" ");
 
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO PADRE (NO SE AÑADEN)
-			aplicacion.getColectivos().get(0).getHijos().get(0).agregarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO PADRE (NO SE AÑADEN)
+			Aplicacion.getColectivos().get(0).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		
 		System.out.println(" ");
@@ -179,97 +176,97 @@ public class Prueba {
 		//LOS CIUDADANOS SE UNEN AL COLECTIVO DEL HIJO DE UNO DE LOS MIEMBROS SIN PERTENECER AL COLECTIVO PADRE
 		//NO ESTAN INCLUIDOS EN EL COLECTIVO PADRE (SE AÑADEN)
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
-			aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			Aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		System.out.println(" ");
 
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO HIJO (NO SE AÑADEN)
-			aplicacion.getColectivos().get(1).agregarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO HIJO (NO SE AÑADEN)
+			Aplicacion.getColectivos().get(1).agregarMiembro(ciudadano);
 		}
 
-		System.out.println("Miembros del colectivo: "+aplicacion.getColectivos().get(1).getHijos().get(0)+"");
-		System.out.println(aplicacion.getColectivos().get(1).getHijos().get(0).getMiembros());
-		System.out.println("Miembros del colectivo: "+aplicacion.getColectivos().get(1)+"");
-		System.out.println(aplicacion.getColectivos().get(1).getMiembros());
+		System.out.println("Miembros del colectivo: "+Aplicacion.getColectivos().get(1).getHijos().get(0)+"");
+		System.out.println(Aplicacion.getColectivos().get(1).getHijos().get(0).getMiembros());
+		System.out.println("Miembros del colectivo: "+Aplicacion.getColectivos().get(1)+"");
+		System.out.println(Aplicacion.getColectivos().get(1).getMiembros());
 		System.out.println(" ");	
 
 		//BORRAMOS LOS MIEMBROS DEL COLECTIVO HIJO
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
-			aplicacion.getColectivos().get(1).getHijos().get(0).quitarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			Aplicacion.getColectivos().get(1).getHijos().get(0).quitarMiembro(ciudadano);
 		}
-		System.out.println("Miembros del colectivo: "+aplicacion.getColectivos().get(1).getHijos().get(0)+"");
-		System.out.println(aplicacion.getColectivos().get(1).getHijos().get(0).getMiembros());
+		System.out.println("Miembros del colectivo: "+Aplicacion.getColectivos().get(1).getHijos().get(0)+"");
+		System.out.println(Aplicacion.getColectivos().get(1).getHijos().get(0).getMiembros());
 		System.out.println(" ");	
 
 		//LOS AÑADIMOS DE NUEVO. VAMOS A NECESITARLOS MAS ADELANTE
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
-			aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			Aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		
 		//CREAMOS PROYECTOS
 		
 		System.out.println("Creamos un proyecto social");
 
-		ciudadano = aplicacion.getUsuariosAceptados().get(0);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
 		ciudadano.proponerProyecto("Coronavirus", "Recaudar dinero", 1000, EstadoProyecto.poraceptar, "Social", "Infectados", true, null);
 		
-		System.out.println(aplicacion.getProyectosPorAceptar());
+		System.out.println(Aplicacion.getProyectosPorAceptar());
 		
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		
 		proyecto.aceptarProyecto();
 		
-		System.out.println(aplicacion.getProyectosAceptados().get(0));
-		System.out.println(aplicacion.getProyectosAceptados().get(0).getCaracter());
+		System.out.println(Aplicacion.getProyectosAceptados().get(0));
+		System.out.println(Aplicacion.getProyectosAceptados().get(0).getCaracter());
 		System.out.println(" ");	
 
 		System.out.println("Creamos un proyecto de Infraestructura");
-		ciudadano = aplicacion.getUsuariosAceptados().get(0);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
 		ciudadano.proponerProyecto("Hospitales", "España se va a la mierda", 1000, EstadoProyecto.poraceptar, "Infraestructura", "que mas da", true, distrito);
 
-		System.out.println(aplicacion.getProyectosPorAceptar());
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		System.out.println(Aplicacion.getProyectosPorAceptar());
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		
 		proyecto.aceptarProyecto();
 		
-		System.out.println(aplicacion.getProyectosAceptados().get(1));
-		System.out.println(aplicacion.getProyectosAceptados().get(1).getDistrito());
+		System.out.println(Aplicacion.getProyectosAceptados().get(1));
+		System.out.println(Aplicacion.getProyectosAceptados().get(1).getDistrito());
 		System.out.println(" ");	
 
 		
 		//NOMBRE DE PROYECTO (MAX 50 CARACTERERES) DESCRIPCION (MAX 500 CARACTERES)
 		
-		ciudadano = aplicacion.getUsuariosAceptados().get(0);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
 		ciudadano.proponerProyecto("qwertyuiopasdfghjklñzxcvbn", "Recaudar dinero", 1000, EstadoProyecto.poraceptar, "Social", "Infectados", true, null);
 		System.out.println(" ");	
 
 		//RECHAZAMOS PROYECTO
 		
-		ciudadano = aplicacion.getUsuariosAceptados().get(0);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
 		ciudadano.proponerProyecto("Coronavirus", "Recaudar dinero", 1000, EstadoProyecto.poraceptar, "Social", "Infectados", true, null);
 		
-		System.out.println(aplicacion.getProyectosPorAceptar());
+		System.out.println(Aplicacion.getProyectosPorAceptar());
 		
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		
-		proyecto.rechazarProyectoUsuario(ciudadano);
+		proyecto.rechazarProyectoUsuario(ciudadano, "No se considera apropiado");
 		
-		System.out.println(aplicacion.getProyectosPorAceptar());
+		System.out.println(Aplicacion.getProyectosPorAceptar());
 		System.out.println(" ");	
 
 		//UN COLECTIVO CREA UN PROYECTO
 		
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
 		ColAuxiliar.proponerProyecto("Anarquia", "Vamos a prenderle fuego a las universidades", 1000, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
-		System.out.println(aplicacion.getProyectosAceptados().size());
-		System.out.println(aplicacion.getProyectosPorAceptar());
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		System.out.println(Aplicacion.getProyectosAceptados().size());
+		System.out.println(Aplicacion.getProyectosPorAceptar());
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
 		System.out.println(" ");	
 		System.out.println(ColAuxiliar.getMiembros());
@@ -278,14 +275,14 @@ public class Prueba {
 
 		//VOTAMOS UN PROYECTO
 		
-		proyecto = aplicacion.getProyectosAceptados().get(0);
+		proyecto = Aplicacion.getProyectosAceptados().get(0);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
 		
-		numero = aplicacion.getUsuariosAceptados().size();
+		numero = Aplicacion.getUsuariosAceptados().size();
 
 		for (i = 0; i < numero; i++) {
-			proyecto.votarProyecto(aplicacion.getUsuariosAceptados().get(i));
+			proyecto.votarProyecto(Aplicacion.getUsuariosAceptados().get(i));
 		}
 		
 		System.out.println (proyecto.getnVotos());
@@ -295,12 +292,12 @@ public class Prueba {
 		//NO SE PUEDEN AÑADIR VOTOS PORQUE EL USUARIO HA VOTADO CON ANTERIORIDAD
 		//COGEMOS COMO EJEMPLO EL PROYECTO CREADO POR UN COLECTIVO (LOS VOTOS YA HAN SIDO CONTABILIZADOS)
 
-		proyecto = aplicacion.getProyectosAceptados().get(2);
+		proyecto = Aplicacion.getProyectosAceptados().get(2);
 		
-		numero = aplicacion.getUsuariosAceptados().size();
+		numero = Aplicacion.getUsuariosAceptados().size();
 
 		for (i = 0; i < numero; i++) {
-			proyecto.votarProyecto(aplicacion.getUsuariosAceptados().get(i));
+			proyecto.votarProyecto(Aplicacion.getUsuariosAceptados().get(i));
 		}
 		
 		System.out.println (proyecto.getnVotos());
@@ -309,29 +306,29 @@ public class Prueba {
 
 		//UN COLECTIVO VOTA UN PROYECTO
 		
-		proyecto = aplicacion.getProyectosAceptados().get(1);
+		proyecto = Aplicacion.getProyectosAceptados().get(1);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
-		ColAuxiliar = aplicacion.getColectivos().get(0);
+		ColAuxiliar = Aplicacion.getColectivos().get(0);
 		proyecto.votarProyectoColectivo(ColAuxiliar);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
 		System.out.println(" ");
 		
 		//PROYECTOS VOTADOS POR UN USUARIO
-		ciudadano = aplicacion.getUsuariosAceptados().get(0);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
 		System.out.println(ciudadano.getVotado()); //NO HA VOTADO NINGUN PROYECTO
-		ciudadano = aplicacion.getUsuariosAceptados().get(1);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(1);
 		System.out.println(ciudadano.getVotado()); //HA VOTADO LOS TRES PROYECTOS CREADOS
 		System.out.println(" ");
 
 		
 		//USUARIOS SE SUSCRIBEN A UN PROYECTO
-		numero = aplicacion.getUsuariosAceptados().size();
-		proyecto = aplicacion.getProyectosAceptados().get(0);
+		numero = Aplicacion.getUsuariosAceptados().size();
+		proyecto = Aplicacion.getProyectosAceptados().get(0);
 
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);
 			proyecto.suscribir(ciudadano);
 		}
 		System.out.println(proyecto.getSuscritos()); //SE HAN SUSCRITO 5 USUARIOS
@@ -339,14 +336,14 @@ public class Prueba {
 		
 		//USUARIOS SE DESUSCRIBEN DE UN PROYECTO
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosAceptados().get(i);
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);
 			proyecto.desuscribir(ciudadano);
 		}
 		System.out.println(proyecto.getSuscritos()); //ARRAY VACIO MENOS EL PROPONENTE
 		System.out.println(" ");
 		
 		//CONSULTAR PROYECTOS QUE SE HA VOTADO INDIVIDUALMENTE
-		ciudadano = aplicacion.getUsuariosAceptados().get(1);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(1);
 		System.out.println(ciudadano.getVotado());  //TOTAL DE PROYECTOS VOTADOS
 		System.out.println(ciudadano.getVotado().size());
 		System.out.println(ciudadano.getVotoIndividual()); //PROYECTOS VOTADOS INDIVIDUALMENTE
@@ -356,13 +353,13 @@ public class Prueba {
 		//SOLICITAR INFORMES DE POPULARIDAD INDIVIDUAL
 		System.out.println(" ");
 
-		ciudadano = aplicacion.getUsuariosAceptados().get(1);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(1);
 		proyecto = ciudadano.getVotoIndividual().get(0);
 		ciudadano.informePopularidad(proyecto);
 		System.out.println(" ");
 		
 		//SOLICITAR INFORMES DE POPULARIDAD COLECTIVOS
-		ColAuxiliar = aplicacion.getColectivos().get(0);
+		ColAuxiliar = Aplicacion.getColectivos().get(0);
 		proyecto = ColAuxiliar.getVotoColectivo().get(0);		
 		ColAuxiliar.informePopularidad(proyecto);
 		System.out.println(" ");
@@ -376,68 +373,68 @@ public class Prueba {
 		CiuAuxiliar = new CiudadanoNoRegistrado ("Pedro", "contra", "87654321P");
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
 		
-		numero = aplicacion.getUsuariosPorAceptar().size();
+		numero = Aplicacion.getUsuariosPorAceptar().size();
 		System.out.println("Numero de Usuarios por aceptar: "+numero+"");
-		System.out.println("Numero de Usuarios aceptados: "+aplicacion.getUsuariosAceptados().size()+"");
+		System.out.println("Numero de Usuarios aceptados: "+Aplicacion.getUsuariosAceptados().size()+"");
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = aplicacion.getUsuariosPorAceptar().get(0);
+			ciudadano = Aplicacion.getUsuariosPorAceptar().get(0);
 			ciudadano.aceptarUsuario(ciudadano);
 		}
 		
-		System.out.println("Numero de Usuarios por aceptar: "+aplicacion.getUsuariosPorAceptar().size()+"");
-		System.out.println("Numero de Usuarios aceptados: "+aplicacion.getUsuariosAceptados().size()+"");
-		numero = aplicacion.getUsuariosAceptados().size();
+		System.out.println("Numero de Usuarios por aceptar: "+Aplicacion.getUsuariosPorAceptar().size()+"");
+		System.out.println("Numero de Usuarios aceptados: "+Aplicacion.getUsuariosAceptados().size()+"");
+		numero = Aplicacion.getUsuariosAceptados().size();
 		System.out.println(" ");
 
 		for (i = 0;i < numero; i++) {
-			System.out.println(aplicacion.getUsuariosAceptados().get(i));
+			System.out.println(Aplicacion.getUsuariosAceptados().get(i));
 		}
 		
 		System.out.println(" ");
 		
-		aplicacion.getUsuariosAceptados().get(6).crearColectivo("Infectados");
-		System.out.println(aplicacion.getUsuariosAceptados().get(6).getColectivos());
-		ciudadano = aplicacion.getUsuariosAceptados().get(6);
-		aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
-		ciudadano = aplicacion.getUsuariosAceptados().get(5);
-		aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
-		ciudadano = aplicacion.getUsuariosAceptados().get(7);
-		aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
-		ciudadano = aplicacion.getUsuariosAceptados().get(3);
-		aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
-		System.out.println(aplicacion.getColectivos().get(9).getMiembros());
+		Aplicacion.getUsuariosAceptados().get(6).crearColectivo("Infectados");
+		System.out.println(Aplicacion.getUsuariosAceptados().get(6).getColectivos());
+		ciudadano = Aplicacion.getUsuariosAceptados().get(6);
+		Aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(5);
+		Aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(7);
+		Aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(3);
+		Aplicacion.getColectivos().get(9).agregarMiembro(ciudadano);
+		System.out.println(Aplicacion.getColectivos().get(9).getMiembros());
 		System.out.println(" ");
 		
 		//INFORME POPULARIDAD ENTRE DOS COLECTIVOS
 		
-		ciudadano = aplicacion.getUsuariosAceptados().get(3); //TOMAMOS UN USUARIO QUE PERTENEZCA A DOS COLECTIVOS
+		ciudadano = Aplicacion.getUsuariosAceptados().get(3); //TOMAMOS UN USUARIO QUE PERTENEZCA A DOS COLECTIVOS
 		System.out.println(ciudadano.getMiembro());
 		System.out.println(" ");
 		
 		//CREAMOS PROYECTOS PARA PODER REALIZAR EL INFORME DE POPULARIDAD	
 		
-		ColAuxiliar = aplicacion.getColectivos().get(9);
+		ColAuxiliar = Aplicacion.getColectivos().get(9);
 		ColAuxiliar.proponerProyecto("Porros", "Fiesta post pandemia", 100, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
 		System.out.println(" ");	
 		System.out.println(ColAuxiliar.getMiembros());
 		System.out.println(proyecto.getVotos());
 		System.out.println(" ");
 		
-		ColAuxiliar = aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
+		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
 		ColAuxiliar.proponerProyecto("Anarquia Y Cerveza Fría", "Fiesta post pandemia", 1000, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
 		System.out.println(" ");	
 		System.out.println(ColAuxiliar.getMiembros());
 		System.out.println(proyecto.getVotos());
 		System.out.println(" ");
 
-		ColAuxiliar = aplicacion.getColectivos().get(9);
+		ColAuxiliar = Aplicacion.getColectivos().get(9);
 		ColAuxiliar.proponerProyecto("Chalet", "Alcalde corrupto se hace una casa", 1000000, EstadoProyecto.poraceptar, "Infraestructura", "que mas da", true, distrito);
-		proyecto = aplicacion.getProyectosPorAceptar().get(0);
+		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
 		System.out.println(" ");	
 		System.out.println(ColAuxiliar.getMiembros());
@@ -446,44 +443,44 @@ public class Prueba {
 						
 		//REALIZAMOS LAS VOTACIONES NECESARIAS
 		
-		proyecto = aplicacion.getProyectosAceptados().get(3);
+		proyecto = Aplicacion.getProyectosAceptados().get(3);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
-		ColAuxiliar = aplicacion.getColectivos().get(0);
+		ColAuxiliar = Aplicacion.getColectivos().get(0);
 		proyecto.votarProyectoColectivo(ColAuxiliar);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
 		System.out.println(" ");
 		
-		proyecto = aplicacion.getProyectosAceptados().get(4);
+		proyecto = Aplicacion.getProyectosAceptados().get(4);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
-		ColAuxiliar = aplicacion.getColectivos().get(9);
+		ColAuxiliar = Aplicacion.getColectivos().get(9);
 		proyecto.votarProyectoColectivo(ColAuxiliar);
 		System.out.println (proyecto.getnVotos());
 		System.out.println (proyecto.getVotos());
 		System.out.println(" ");
 		
-		System.out.println (aplicacion.getColectivos());
+		System.out.println (Aplicacion.getColectivos());
 
 		System.out.println(" ");
 		
-		ciudadano = aplicacion.getUsuariosAceptados().get(3);
-		ciudadano.informeAfinidad(aplicacion.getColectivos().get(0), aplicacion.getColectivos().get(9));
+		ciudadano = Aplicacion.getUsuariosAceptados().get(3);
+		ciudadano.informeAfinidad(Aplicacion.getColectivos().get(0), Aplicacion.getColectivos().get(9));
 		
 		System.out.println(" ");
 
 		
 		//UN USUARIO PUEDE SOLICITAR VER LOS COLECTIVOS DE LOS QUE ES MIEMBRO
 		
-		aplicacion.getUsuariosAceptados().get(3).soyMiembro();
+		Aplicacion.getUsuariosAceptados().get(3).soyMiembro();
 		System.out.println(" ");
 		
 		//BLOQUEAMOS UNO DE LOS USUARIOS
 		
 		//DATOS PREVIOS AL BLOQUEO
 		
-		ciudadano = aplicacion.getUsuariosAceptados().get(2);
+		ciudadano = Aplicacion.getUsuariosAceptados().get(2);
 		
 		System.out.println(ciudadano);
 		System.out.println(" ");
@@ -501,11 +498,11 @@ public class Prueba {
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(0).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(0).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(1).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(1).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
@@ -513,20 +510,22 @@ public class Prueba {
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(3).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(3).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(4).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(4).getnVotos());
 		System.out.println(" ");
 		
 		//DATOS POSTERIORES AL BLOQUEO Y ACCIONES CANCELADAS
 		
-		administrador = aplicacion.getAdministrador();
+		administrador = Aplicacion.getAdministrador();
 		
 		administrador.bloquearUsuario(ciudadano);
 		//UN USUARIO BLOQUEADO NO PUEDE CREAR UN COLECTIVO
 		ciudadano.crearColectivo("nombre");
+		//UN USUARIO BLOQUEADO NO PUEDE VOTAR
+		Aplicacion.getProyectosAceptados().get(0).votarProyecto(ciudadano);
 		//UN USUARIO BLOQUEADO NO PUEDE PROPONER UN PROYECTO
 		ciudadano.proponerProyecto("Porros", "Fiesta post pandemia", 100, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
 		//UN USUARIO BLOQUEADO NO PUEDE PROPONER UN PROYECTO COMO REPRESENTANTE DE UN COLECTIVO
@@ -539,26 +538,26 @@ public class Prueba {
 		System.out.println(" ");
 		//EL NUMMERO DE VOTOS SE HA REDUCIDO EN UNO
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(0).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(0).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(1).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(1).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(2).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(2).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(3).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(3).getnVotos());
 		System.out.println(" ");
 		
 		System.out.println("Votos proyecto: ");
-		System.out.println(aplicacion.getProyectosAceptados().get(4).getnVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(4).getnVotos());
 		System.out.println(" ");
 		//EL USUARIO BLOQUEADO (DANI) YA NO APARECE COMO APOYO EN LOS PROYECTOS
-		System.out.println(aplicacion.getProyectosAceptados().get(0).getVotos());
+		System.out.println(Aplicacion.getProyectosAceptados().get(0).getVotos());
 		System.out.println(" ");
 		
 		//UN PROYECTO ALCANZA EL LIMITE Y SE CONVIERTE EN FINANCIABLE
@@ -567,16 +566,37 @@ public class Prueba {
 
 		CiuAuxiliar = new CiudadanoNoRegistrado ("Dolores", "contra", "65372845E");
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
-		ciudadano = aplicacion.getUsuariosPorAceptar().get(0);
+		ciudadano = Aplicacion.getUsuariosPorAceptar().get(0);
 		ciudadano.aceptarUsuario(ciudadano);
 
-		proyecto = aplicacion.getProyectosAceptados().get(0);
-		proyecto.setnVotos(aplicacion.umbral); //EL UMBRAL ESTA EN 5 VOTOS
+		proyecto = Aplicacion.getProyectosAceptados().get(0);
+		proyecto.setnVotos(Aplicacion.umbral); //EL UMBRAL ESTA EN 5 VOTOS
 		
 		proyecto.votarProyecto(ciudadano);
 		
-		System.out.println(aplicacion.getUsuariosAceptados().get(0).getNotificaciones());
+		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getNotificaciones()); //EN LAS NOTIFICACIONES DEL USUARIO PODEMOS VER QUE UN PROYECTO SE HA RECHAZADO
 
+		System.out.println(" ");
 		
+		//UN PROYECTO CADUCA
+
+		proyecto = Aplicacion.getProyectosAceptados().get(3);
+		
+		LocalDate fecha;
+		
+		//!IMPORTANTE! ES NECESARIO AJUSTAR LA FECHA PARA QUE FUNCIONE LA FUNCION
+		fecha = FechaSimulada.fijarFecha(27, 2, 2020); //MODIFICAMOS LA FECHA PARA COMPROBAR QUE LOS PROYECTOS PUEDEN CADUCAR
+
+		proyecto.setFechaUltimoVoto(fecha);
+		
+		proyecto.caducarProyecto();
+		
+		System.out.println(Aplicacion.getCaducados()); //EL PROYECTO SE ENCUENTRA EN LA LISTA DE CADUCADOS
+
+		proyecto.votarProyecto(ciudadano); //NO SE PUEDE APOYAR UN PROYECTO CADUCADO
+		
+		System.out.println(Aplicacion.getUsuariosAceptados().get(6).getNotificaciones()); 
+
+
 	}
 }

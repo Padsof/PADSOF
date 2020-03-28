@@ -31,7 +31,11 @@ public enum TipoNotificacion {
 	/**
 	 * El proyecto es financiable
 	 */
-	financiable(5);
+	financiable(5),
+	/**
+	 * El proyecto ha caducado
+	 */
+	caducado(6);
 	
 	/**
 	 * Tipo de la notificacion

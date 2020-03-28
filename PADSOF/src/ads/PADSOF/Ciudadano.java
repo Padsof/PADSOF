@@ -66,37 +66,59 @@ public class Ciudadano extends Usuario {
 
 	 */
     private List<Proyecto> proyectos = new ArrayList<>();
+     
+     /**
 
-    /**
-
-	 * Una lista auxiliar en la que almacenamos los usuarios aceptados en la aplicación
-
-	 */
-	 private static List<Ciudadano> aceptados = new ArrayList<>();
-	 
-	 /**
-
-	  * Una lista auxiliar en la que almacenamos los usuarios por aceptar en la aplicación
+	  * Una lista en la que almacenamos los colectivos de los cuales el usuario es miembro
 
 	  */
-     private  List<Ciudadano> poraceptar = new ArrayList<>();
      
      private List<Colectivo> miembro = new ArrayList<>();
      
+     /**
+
+	  * Una lista en la que almacenamos los proyectos a los que se ha suscrito el usuario
+
+	  */
+     
      private  List<Proyecto> suscrito = new ArrayList<>();
+     
+     /**
+
+ 	 * Lista en la que almacenamos los proyectos a los que el usuario ha votado
+
+ 	 */
      
      private List<Proyecto> votado = new ArrayList<>();
      
+     /**
+
+ 	 * Lista en la que almacenamos los proyectos a los que el usuario ha votado de forma individual
+
+ 	 */
+     
      private List<Proyecto> votoIndividual = new ArrayList<>();
+     
+     /**
+
+ 	 * Lista en la que almacenamos las notificaciones recibidas de la aplicacion
+
+ 	 */
 
      private List<Notificacion> notificaciones = new ArrayList<>();
+     
+     /**
+
+ 	 * Lista en la que almacenamos las notificaciones leidas
+
+ 	 */
      
      private List<Notificacion> notificacionesLeidas = new ArrayList<>();
 
      
      /**
 
-      * Constructor de la clase Usuario.
+      * Constructor de la clase Ciudadano.
 
       * 
 
@@ -113,12 +135,8 @@ public class Ciudadano extends Usuario {
 		  DNI = dni;
 		  bloqueado = false;
 		  representanteProyecto = false;
-		  
-		  poraceptar = Aplicacion.getUsuariosPorAceptar();
 
-		  poraceptar.add(this); //Cuando se crea un usuario debe aniadirse a un array de usuarios por aceptar en la aplicacion
-
-		  Aplicacion.setUsuariosPorAceptar(poraceptar);
+		  Aplicacion.getUsuariosPorAceptar().add(this);
 	 }
 
 	 /**
@@ -153,7 +171,8 @@ public class Ciudadano extends Usuario {
 			}
 		}
 
-		asociacion = new Colectivo (name, this); //Creamos un colectivo
+		asociacion = new Colectivo (name, this); //Creamos un colectivo. El constructor se encarga de introducirlo en el array de colectivos de la aplicacion
+												 //y en array de colectivos creados por el usuario
 
 		this.setRepresentanteProyecto(true);
 				
@@ -247,8 +266,6 @@ public class Ciudadano extends Usuario {
 
      * @param C objeto de clase Ciudadano 
      * 
-     * @return true en el caso de que no ocurra ningun error
-
 
      */
 	public void aceptarUsuario(Ciudadano C) {
@@ -264,36 +281,89 @@ public class Ciudadano extends Usuario {
 
      * Funcion mediante la cual se rechazan los usuarios en la aplicacion.
 
-     * 
-
      * @param C objeto de clase Ciudadano 
      * 
-     * @return true en el caso de que no ocurra ningun error
-
 
      */
 	public void rechazarUsuario(Usuario C) {
 		
 		Aplicacion.getUsuariosPorAceptar().remove((Ciudadano)C); //Eliminamos al ciudadano de la lista de usuarios por aceptar
-		//C = null; //Eliminamos la clase creada.
+
+	}
+	
+	/**
+
+     * Funcion mediante la cual eliminamos notificaciones del array de notificaciones del usuario.
+
+     * @param n objeto de clase Notificacion 
+     * 
+
+     */
+
+
+	public void eliminarNotificacion(Notificacion n) {
+
+		int tamanio = this.getNotificaciones().size();
+		int i;
 		
-	}
+		for (i = 0; i < tamanio; i++) {
+			
+			if(this.getNotificaciones().get(i) == n) {
+				
+				this.getNotificaciones().remove(this.getNotificaciones().get(i));
 
-
-	public void eliminarNotificacion() {
-
-
-	}
-
-
-	public void leerNotificacion() {
-
+			}
+		}
 
 	}
+	
+	/**
+
+     * Funcion mediante la cual leemos notificaciones del array de notificaciones del usuario y las añadimos a un array donde se almacenan las notificaciones leidas.
+
+     * @param n objeto de clase Notificacion 
+     * 
+
+     */
+
+
+	public void leerNotificacion(Notificacion n) {
+
+		int tamanio = this.getNotificaciones().size();
+		int i;
+		
+		for (i = 0; i < tamanio; i++) {
+			
+			if(this.getNotificaciones().get(i) == n) {
+				
+				this.getNotificacionesLeidas().add(n);
+				this.getNotificaciones().remove(n);
+
+			}
+		}
+
+	}
+		
+	/**
+
+     * Este metodo devuelve la Lista de colectivos de los que el usuario es administrador
+
+     * @return colectivos Lista de colectivos de los que el usuario es administrador
+
+     */
+
 
 	public List<Colectivo> getColectivos() {
 		return colectivos;
 	}
+	
+	/**
+
+     * Este metodo modifica la Lista de colectivos de los que el usuario es administrador
+
+     * @param colectivos Lista de colectivos de los que el usuario es administrador
+
+     */
 
 	public void setColectivos(ArrayList<Colectivo> colectivos) {
 		this.colectivos = colectivos;
@@ -302,6 +372,21 @@ public class Ciudadano extends Usuario {
 	public String toString() {
 		return "Nombre: " +this.getNombre()+ "  Contraseña: " +this.getcontrasenia()+" DNI: "+this.getDNI()+"";
 	}
+	
+	/**
+
+     * Este metodo crea un proyecto
+
+     * @param titulo titulo del proyecto
+     * @param descripcion descripcion del proyecto
+     * @param presupuesto presupuesto del proyecto
+     * @param estado estado del proyecto
+     * @param tipo tipo del proyecto (social o innfraestructuras)
+     * @param claseSocial clase social del proyecto
+     * @param nacional indica si el proyecto es de ambito nacional o interncional
+     * @param distrito lista de distritos en los que se va aplicar el proyecto
+
+     */
 	
 	public void proponerProyecto(String titulo, String descripcion, double presupuesto, EstadoProyecto estado, String tipo, String claseSocial, boolean nacional, List<String> distrito) {
 		
@@ -343,60 +428,142 @@ public class Ciudadano extends Usuario {
 		}
 	}
 
+	/**
+
+     * Este metodo devuelve la Lista de proyectos creados por el usuario
+
+     * @return proyectos Lista de proyectos creados por el usuario
+
+     */
 	public List<Proyecto> getProyectos() {
 		return proyectos;
 	}
+	/**
+
+     * Este metodo modifica la Lista de proyectos creados por el usuario
+
+     * @param proyectos Lista de proyectos creados por el usuario
+
+     */
 
 	public void setProyectos(List<Proyecto> proyectos) {
 		this.proyectos = proyectos;
 	}
+	
+	/**
+     * Este metodo devuelve la Lista de proyectos apoyados por el Usuario
+
+     * @return votado Lista de proyectos apoyados por el Usuario
+
+     */
 
 	public List<Proyecto> getVotado() {
 		return votado;
 	}
+	
+	/**
+
+     * Este metodo modifica la Lista de proyectos apoyados por el Usuario
+
+     * @param votado Lista de proyectos apoyados por el Usuario
+
+     */
 
 	public void setVotado(List<Proyecto> votado) {
 		this.votado = votado;
 	}
+	
+	/**
+     * Este metodo devuelve la Lista de proyectos apoyados por el Usuario de forma individual
+
+     * @return votado Lista de proyectos apoyados por el Usuario de forma individual
+
+     */
 
 	public List<Proyecto> getVotoIndividual() {
 		return votoIndividual;
 	}
+	
+	/**
+
+     * Este metodo modifica la Lista de proyectos apoyados por el Usuario
+
+     * @param votoIndividual Lista de proyectos apoyados por el Usuario
+
+     */
 
 	public void setVotoIndividual(List<Proyecto> votoIndividual) {
 		this.votoIndividual = votoIndividual;
 	}
+	
+	/**
+     * Este metodo devuelve la Lista de proyectos a los que el Usuario se ha suscrito
+
+     * @return suscrito Lista de proyectos a los que el Usuario se ha suscrito
+
+     */
 
 	public List<Proyecto> getSuscrito() {
 		return suscrito;
 	}
+	
+	/**
+
+     * Este metodo modifica la Lista de proyectos a los que el Usuario se ha suscrito
+
+     * @param suscrito Lista de proyectos a los que el Usuario se ha suscrito
+
+     */
 
 	public void setSuscrito(List<Proyecto> suscrito) {
 		this.suscrito = suscrito;
 	}
 	
-	public void informePopularidad(Proyecto informe) {
+	/**
+
+     * Este metodo genera un informe de popularidad en el que se informa del número de votos del proyecto
+
+     * @param suscrito Lista de proyectos a los que el Usuario se ha suscrito
+
+     */
+	
+	public boolean informePopularidad(Proyecto informe) {
 		List<Proyecto> votadosI = this.votoIndividual;
 		
 		for (Proyecto aux: votadosI) {
 			if (aux == informe) { 
 				System.out.println("INFORME DE POPULARIDAD: El proyecto: "+informe.getTitulo()+" ha recibido "+informe.getnVotos()+" votos");
-				return;
+				return true;
 			}		
 		}
+		return false;
 	}
 	
-	
+	/**
+
+     * Este metodo devuelve una lista de todos los colectivos de los cuales el usuario es miembro
+
+     * @return miembro lista de todos los colectivos de los cuales el usuario es miembro
+
+     */
 	
 	public List<Colectivo> getMiembro() {
 		return miembro;
 	}
 
+	/**
+
+     * Este metodo modifica la lista de todos los colectivos de los cuales el usuario es miembro
+
+     * @param miembro lista de todos los colectivos de los cuales el usuario es miembro
+
+     */
+	
 	public void setMiembro(List<Colectivo> miembro) {
 		this.miembro = miembro;
 	}
 
-	public void informeAfinidad(Colectivo uno, Colectivo dos) {
+	public boolean informeAfinidad(Colectivo uno, Colectivo dos) {
 		
 		List<Colectivo> colectivos = this.getMiembro();
 		List<Proyecto> proyectosA = uno.getProyectos();
@@ -415,7 +582,7 @@ public class Ciudadano extends Usuario {
 
 		if (this.getMiembro().size() < 2) {
 			System.out.println("El usuario debe de pertener al menos a DOS colectivos");
-			return;
+			return false;
 		}
 		
 		for (Colectivo aux: colectivos) {
@@ -430,7 +597,7 @@ public class Ciudadano extends Usuario {
 		
 		if (i == 0 || m == 0) {
 			System.out.println("El usuario debe de pertenecer a los DOS colectivos");
-			return;
+			return false;
 		}
 		
 		for(Proyecto aux: proyectosA) {
@@ -458,34 +625,67 @@ public class Ciudadano extends Usuario {
 				
 		System.out.println("Los colectivos "+uno.getNombre()+ " y "+dos.getNombre()+" tienen una afinidad del: "+porcentaje+ " %");
 		
+		return true;
 	}
+	
+	/**
+
+     * Este metodo permite al usuario consultar a que colectivos pertenece
+
+     */
 	
 	public void soyMiembro() {
 		
 		System.out.println(this.getMiembro());
 
 	}
+	
+	/**
+
+     * Este metodo devuelve la lista de todas las notificaciones pendientes de leer por el usuario
+
+     * @return notificaciones lista de todas las notificaciones pendientes de leer por el usuario
+
+     */
 
 	public List<Notificacion> getNotificaciones() {
 		return notificaciones;
 	}
+	
+	/**
+
+     * Este metodo modifica la lista de todas las notificaciones pendientes de leer por el usuario
+
+     * @param notificaciones lista de todas las notificaciones pendientes de leer por el usuario
+
+     */
 
 	public void setNotificaciones(List<Notificacion> notificaciones) {
 		this.notificaciones = notificaciones;
 	}
+	
+	/**
+
+     * Este metodo devuelve la lista de todas las notificaciones leidas por el usuario
+
+     * @return notificacionesLeidas lista de todas las notificaciones leidas por el usuario
+
+     */
 
 	public List<Notificacion> getNotificacionesLeidas() {
 		return notificacionesLeidas;
 	}
+	
+	/**
+
+     * Este metodo modifica la lista de todas las notificaciones leidas por el usuario
+
+     * @param notificacionesLeidas lista de todas las notificaciones leidas por el usuario
+
+     */
 
 	public void setNotificacionesLeidas(List<Notificacion> notificacionesLeidas) {
 		this.notificacionesLeidas = notificacionesLeidas;
 	}
 	
-	
-	
-	
-
-
-
 }

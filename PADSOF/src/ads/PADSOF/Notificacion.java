@@ -28,6 +28,11 @@ public class Notificacion {
 	private TipoNotificacion tipo;
 	
 	/**
+	 * Motivo de rechazo de proyecyo
+	 */
+	private String motivo;
+	
+	/**
 	 * Constructor de la clase ProyInfraestuctura
 	 * 
 	 * @param texto Texto de la notificacion
@@ -39,6 +44,14 @@ public class Notificacion {
 		this.texto = texto;
 		this.fecha = fecha;
 		this.tipo = tipo;
+	}
+	
+	public Notificacion(String texto, String motivo, LocalDate fecha, TipoNotificacion tipo) {
+		super();
+		this.texto = texto;
+		this.fecha = fecha;
+		this.tipo = tipo;
+		this.motivo = motivo;
 	}
 
 	/**
@@ -90,7 +103,7 @@ public class Notificacion {
 	}
 	
 	public String toString() {
-		return ""+this.texto+"  "+this.fecha+" "+this.tipo+"";
+		return ""+this.texto+" "+this.motivo+" "+this.fecha+" "+this.tipo+"";
 	}
 	
 	

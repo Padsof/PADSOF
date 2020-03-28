@@ -145,38 +145,29 @@ public abstract class Usuario {
 		this.contrasenia = contrasenia;
 	}
 
+	/**
 
+	 * Este metodo devuelve el DNI del usuario
+
+	 * @return DNI DNI del usuario
+
+	 */
 
 	public String getDNI() {
 		return DNI;
 	}
 
+	/**
+
+	 * Este metodo modifica el DNI del usuario
+
+	 * @param dNI Contrasenia del usuario
+
+	 */
 
 	public void setDNI(String dNI) {
 		DNI = dNI;
 	}
-
-
-	public Ciudadano getPersona() {
-		return persona;
-	}
-
-
-	public void setPersona(Ciudadano persona) {
-		this.persona = persona;
-	}
-
-
-	protected List<Colectivo> getColectivos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	protected abstract void setRepresentanteProyecto(boolean b);
-
-
-	protected abstract boolean isRepresentanteProyecto();
 
 	
 	

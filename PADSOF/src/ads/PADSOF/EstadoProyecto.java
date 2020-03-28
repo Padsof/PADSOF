@@ -40,7 +40,11 @@ public enum EstadoProyecto {
 	/**
 	 * El proyecto espera a ser financiado
 	 */
-	esperando;
+	esperando,
+	/**
+	 * El proyecto ha sido creado
+	 */
+	creado;
 	
 	/**
 	 * Este metodo devuelve si el estado del parametro ese igual al estado del proyecto actual

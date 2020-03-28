@@ -46,75 +46,62 @@ public class Administrador extends Usuario {
 		  Aplicacion.setAdministradorCreado(1);
 		  Aplicacion.setAdministrador(this);
 	  }
+	  
+   /**
+	* Este metodo devuelve la variable auxiliar para saber si el usuario administrador ha sido creado
+	* @return creado variable auxiliar para saber si el usuario administrador ha sido creado
+	*/
 
 	public static int getCreado() {
 		return creado;
 	}
+	
+	/**
+	 * Este metodo cambia la variable auxiliar para saber si el usuario administrador ha sido creado
+	 * @param creado variable auxiliar para saber si el usuario administrador ha sido creado
+	 */
 
 	public static void setCreado(int creado) {
 		Administrador.creado = creado;
 	}
 	
-
-	@Override
-	protected void setRepresentanteProyecto(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected boolean isRepresentanteProyecto() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	protected void crearColectivo(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	protected void setBloqueado(boolean b) {
-		// TODO Auto-generated method stub 
-		
-	}
-
-	protected boolean isBloqueado() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Este metodo bloquea al usuario
+	 * @param c Usuario de clase ciudadano al que queremos bloquear
+	 */
 	
-	protected void bloquearUsuario(Ciudadano c) {
+	public void bloquearUsuario(Ciudadano c) {
 
 		List<Proyecto> numero = c.getVotado();
 		int numero1 = c.getVotado().size();
+		int numero2 = c.getVotoIndividual().size();
 		int votos;
 		int i;
 		
 		c.setBloqueado(true);
 		System.out.println("Se ha bloqueado correctamente al usuario: "+c+"");
+		Aplicacion.getBloqueados().add(c); //AÑADIMOS EL OBJETO CIUDADANO A UN ARRAY QUE GUARDA TODOS LOS USUARIOS BLOQUEADOS
 		
 		for (i = 0; i < numero1; i++) {
-			c.getVotado().get(0).getVotos().remove(c);
+			c.getVotado().get(0).getVotos().remove(c); //UN USUARIO BLOQUEADO NO PUEDE APOYAR NINGUN PROYECTO
 			votos = c.getVotado().get(0).getnVotos();
-			votos--;
-			c.getVotado().get(0).setnVotos(votos);
-			c.getVotado().remove(c.getVotado().get(0));
-			
+			votos--; //SE QUITA EL APOYO DEL USUARIO BLOQUEADO
+			c.getVotado().get(0).setnVotos(votos); 
+			c.getVotado().remove(c.getVotado().get(0)); //SE ELIMINA AL USUARIO DE LA LISTA DE USUARIOS QUE HAN APOYADO UN DETERMINADO PROYECTO
 		}
 		
-		/*for(Proyecto aux: numero) {
-			aux.getVotos().remove(c);
-			votos = aux.getnVotos();
-			votos--;
-			aux.setnVotos(votos);
-		}*/
-		
+		for (i = 0; i < numero2; i++) {
+			c.getVotoIndividual().remove(c.getVotoIndividual().get(i));
+		}
 		
 	}
 
+	/**
+	 * Este metodo desbloquea al usuario
+	 * @param c Usuario de clase ciudadano al que queremos desbloquear
+	 */
 	
-	protected void desbloquearUsuario(Ciudadano c) {
+	public void desbloquearUsuario(Ciudadano c) {
 		
 		c.setBloqueado(false);
 	}
@@ -122,6 +109,11 @@ public class Administrador extends Usuario {
 	public String toString() {
 		return "Nombre: " +this.getNombre()+ "  Contraseña: " +this.getcontrasenia()+"  DNI: "+this.getDNI()+"";
 	}
+	
+	/**
+	 * Este metodo establece el umbral límite de votos
+	 * @param limite umbral límite de votos
+	 */
 	
 	public void limiteVotos (int limite) {
 		
