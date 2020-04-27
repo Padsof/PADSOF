@@ -7,7 +7,7 @@ public class AdministradorUsuario {
 
 	public static void main(String[] args) {
 		
-		new AdministradorUsuarioFrame();
+		new AdministradorUsuarioFrame(null);
 	
 	}
 	
