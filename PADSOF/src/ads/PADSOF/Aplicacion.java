@@ -211,30 +211,60 @@ public class Aplicacion {
 	 * @param motivo por el cual el administrador ha decidido rechazar el proyecto
 	 */
 
-	public static void generarNotificacion(Proyecto p, String motivo) {
+	public static void generarNotificacion(Proyecto p, String motivo, String abrev) {
 		Notificacion notificacion;
 		int suscritos = p.getSuscritos().size();
 		int i;
 		FechaSimulada.restablecerHoyReal();
 		
 		if (p.getEstado() == EstadoProyecto.financiable) {
-			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ya es financiable", FechaSimulada.getHoy(), TipoNotificacion.financiable);
+			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ya es financiable", FechaSimulada.getHoy(), abrev, TipoNotificacion.financiable);
 			for(i = 0; i < suscritos; i++) {
 				p.getSuscritos().get(i).getNotificaciones().add(notificacion);
 			}
 			
 		}
 		else if (p.getEstado() == EstadoProyecto.rechazado) {
-			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ha sido rechazado.", "El motivo se indica a continuacion: "+motivo+"" ,FechaSimulada.getHoy(), TipoNotificacion.rechazado);
+			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ha sido rechazado.", "El motivo se indica a continuacion: "+motivo+"" ,FechaSimulada.getHoy(), abrev, TipoNotificacion.rechazado);
 			p.getProponente().getNotificaciones().add(notificacion);
 			
 		}
 		else if (p.getEstado() == EstadoProyecto.caducado) {
-			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ha caducado.", motivo ,FechaSimulada.getHoy(), TipoNotificacion.caducado);
+			notificacion = new Notificacion("El proyecto "+p.getTitulo()+" ha caducado.", motivo ,FechaSimulada.getHoy(), abrev, TipoNotificacion.caducado);
 			for(i = 0; i < suscritos; i++) {
 				p.getSuscritos().get(i).getNotificaciones().add(notificacion);
 			}
 		}
+		
+		return;
+	}
+	
+	public static void generarNotificacionUsuario(Ciudadano c, String motivo, String abrev) {
+		Notificacion notificacion;
+		FechaSimulada.restablecerHoyReal();
+
+		
+		if(c.isBloqueado() == true) {
+			System.out.println("Hola");
+			notificacion = new Notificacion("Ha sido bloqueado por el administrador de la aplicacion. Todas las funciones han dejado de estar disponibles", motivo,FechaSimulada.getHoy(), abrev, TipoNotificacion.bloqueado);
+			c.getNotificaciones().add(notificacion);
+		}
+		
+		if(c.isBloqueado() == false) {
+			notificacion = new Notificacion("Ha sido desbloqueado por el administrador de la aplicacion. Todas las funciones vuelven a estar disponibles", motivo, FechaSimulada.getHoy(), abrev, TipoNotificacion.desbloqueado);
+			c.getNotificaciones().add(notificacion);
+		}
+		
+		return;
+		
+	}
+		
+		
+		public static void generarNotificacionAceptado(Ciudadano c, String motivo, String abrev) {
+			Notificacion notificacion;
+			FechaSimulada.restablecerHoyReal();
+			notificacion = new Notificacion("Enhorabuena, has sido aceptado en la aplicacion", motivo, FechaSimulada.getHoy(), abrev, TipoNotificacion.aceptadoU);
+			c.getNotificaciones().add(notificacion);
 		
 		return;
 	}
@@ -381,6 +411,8 @@ public class Aplicacion {
 	public static void setBloqueados(List<Ciudadano> bloqueados) {
 		Aplicacion.bloqueados = bloqueados;
 	}
+	
+	
 	
 	
 	

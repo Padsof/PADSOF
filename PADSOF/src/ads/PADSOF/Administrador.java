@@ -70,7 +70,7 @@ public class Administrador extends Usuario {
 	 * @param c Usuario de clase ciudadano al que queremos bloquear
 	 */
 	
-	public void bloquearUsuario(Ciudadano c) {
+	public void bloquearUsuario(Ciudadano c, String motivo) {
 
 		List<Proyecto> numero = c.getVotado();
 		int numero1 = c.getVotado().size();
@@ -81,6 +81,7 @@ public class Administrador extends Usuario {
 		c.setBloqueado(true);
 		System.out.println("Se ha bloqueado correctamente al usuario: "+c+"");
 		Aplicacion.getBloqueados().add(c); //AÑADIMOS EL OBJETO CIUDADANO A UN ARRAY QUE GUARDA TODOS LOS USUARIOS BLOQUEADOS
+		Aplicacion.getUsuariosAceptados().remove(c);
 		
 		for (i = 0; i < numero1; i++) {
 			c.getVotado().get(0).getVotos().remove(c); //UN USUARIO BLOQUEADO NO PUEDE APOYAR NINGUN PROYECTO
@@ -94,6 +95,8 @@ public class Administrador extends Usuario {
 			c.getVotoIndividual().remove(c.getVotoIndividual().get(i));
 		}
 		
+		Aplicacion.generarNotificacionUsuario(c, motivo, "Bloqueado");
+		
 	}
 
 	/**
@@ -104,6 +107,12 @@ public class Administrador extends Usuario {
 	public void desbloquearUsuario(Ciudadano c) {
 		
 		c.setBloqueado(false);
+		
+		Aplicacion.getBloqueados().remove(c);
+		Aplicacion.getUsuariosAceptados().add(c);
+		
+		Aplicacion.generarNotificacionUsuario(c, "Has sido desbloqueado. Aprovecha esta nueva oportunidad y no hagas que me arrepienta.", "Desbloqueado");
+
 	}
 	
 	public String toString() {

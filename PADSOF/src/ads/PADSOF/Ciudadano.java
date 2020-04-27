@@ -274,6 +274,8 @@ public class Ciudadano extends Usuario {
 		
 		Aplicacion.getUsuariosPorAceptar().remove(C); //Borramos al ciudadano de la lista de usuarios por aceptar
 		
+		Aplicacion.generarNotificacionAceptado(C, "Te consideramos apto para formar parte de nuestra comunidad ", "Aceptado");
+		
 		
 	}
 
@@ -301,19 +303,25 @@ public class Ciudadano extends Usuario {
      */
 
 
-	public void eliminarNotificacion(Notificacion n) {
+	public boolean eliminarNotificacion(Notificacion n) {
 
-		int tamanio = this.getNotificaciones().size();
+		int tamanio = this.getNotificacionesLeidas().size();
 		int i;
 		
 		for (i = 0; i < tamanio; i++) {
 			
-			if(this.getNotificaciones().get(i) == n) {
+			if(this.getNotificacionesLeidas().get(i).equals(n)) {
 				
-				this.getNotificaciones().remove(this.getNotificaciones().get(i));
+				this.getNotificacionesLeidas().remove(n);
+				
+				return true;
 
 			}
 		}
+		
+		System.out.println("adios");
+		
+		return false;
 
 	}
 	
@@ -327,20 +335,24 @@ public class Ciudadano extends Usuario {
      */
 
 
-	public void leerNotificacion(Notificacion n) {
+	public boolean leerNotificacion(Notificacion n) {
 
 		int tamanio = this.getNotificaciones().size();
 		int i;
 		
 		for (i = 0; i < tamanio; i++) {
 			
-			if(this.getNotificaciones().get(i) == n) {
+			if(this.getNotificaciones().get(i).equals(n)) {
 				
 				this.getNotificacionesLeidas().add(n);
 				this.getNotificaciones().remove(n);
+				
+				return true;
 
 			}
 		}
+		
+		return false;
 
 	}
 		
@@ -687,5 +699,9 @@ public class Ciudadano extends Usuario {
 	public void setNotificacionesLeidas(List<Notificacion> notificacionesLeidas) {
 		this.notificacionesLeidas = notificacionesLeidas;
 	}
+	
+	
+	
+	
 	
 }

@@ -156,14 +156,14 @@ public class Colectivo {
 
 	 */
 
-	public void agregarMiembro(Ciudadano c) {
+	public boolean agregarMiembro(Ciudadano c) {
 		String name = c.getNombre();
 		int miembros;
 		int i, m;
 		
 		if (this.representante.getNombre() == name) {
 			System.out.println("El usuario: "+name+ " es Representante del colectivo "+this.nombre+"");
-			return;
+			return false;
 		}
 		
 		if (this.hijo == true) {
@@ -172,14 +172,14 @@ public class Colectivo {
 			for (i = 0; i < miembros; i++) {
 				if (name == this.getPadre().getMiembros().get(i).getNombre()) {
 					System.out.println("El usuario: "+name+ " ya es miembro del colectivo padre "+this.padre.nombre+"");
-					return;
+					return false;
 				}
 			}
 			
 			this.miembros.add(c);
 			c.getMiembro().add(this);
 			this.numMiembros++;
-			return;
+			return true;
 		}
 		
 		miembros = this.getMiembros().size();
@@ -187,7 +187,7 @@ public class Colectivo {
 		for (i = 0; i < miembros; i++) {
 			if (name == this.getMiembros().get(i).getNombre()) {
 				System.out.println("El usuario: "+name+ " ya es miembro del colectivo "+this.nombre+"");
-				return;
+				return false;
 			}
 		}
 		
@@ -197,7 +197,7 @@ public class Colectivo {
 			for (m = 0; m < miembros; m ++) {
 				if (name == this.getHijos().get(i).getMiembros().get(m).getNombre()) {
 					System.out.println("El usuario: "+name+ " ya es miembro del colectivo hijo "+this.getHijos().get(i).nombre+"");
-					return;
+					return false;
 				}
 			}
 		}
@@ -205,7 +205,7 @@ public class Colectivo {
 		c.getMiembro().add(this);
 		this.numMiembros++;
 
-		return;
+		return true;
 	}
 
 	/**
@@ -735,6 +735,9 @@ public class Colectivo {
 	public void setHijo(boolean hijo) {
 		this.hijo = hijo;
 	}
+	
+	
+	
 	
 	
     

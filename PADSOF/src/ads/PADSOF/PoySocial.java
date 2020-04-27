@@ -588,7 +588,7 @@ public class PoySocial extends Proyecto{
 		this.estado = EstadoProyecto.financiable;
 		
 		if (this.estado == EstadoProyecto.financiable) {
-			Aplicacion.generarNotificacion(this," ");
+			Aplicacion.generarNotificacion(this," ", "Financiacion "+this.getTitulo()+"");
 			return true;
 
 		}
@@ -625,7 +625,7 @@ public class PoySocial extends Proyecto{
 			Aplicacion.getProyectosPorAceptar().remove(this);
 			
 			if (motivo.length() <= 50) {
-				Aplicacion.generarNotificacion(this, motivo);
+				Aplicacion.generarNotificacion(this, motivo, ""+this.getTitulo()+" Rechazado");
 			}
 					
 			c.getProyectos().remove(this);
@@ -647,7 +647,7 @@ public class PoySocial extends Proyecto{
 		
 		if(this.estado == EstadoProyecto.rechazado) {
 			if (motivo.length() <= 50) {
-				Aplicacion.generarNotificacion(this, motivo);
+				Aplicacion.generarNotificacion(this, motivo, ""+this.getTitulo()+" Rechazado");
 			}
 			
 			Aplicacion.getProyectosPorAceptar().remove(this);
@@ -678,7 +678,7 @@ public class PoySocial extends Proyecto{
 			this.estado = EstadoProyecto.caducado;
 			Aplicacion.getCaducados().add(this);
 			Aplicacion.getProyectosAceptados().remove(this);
-			Aplicacion.generarNotificacion(this, "Ha pasado 30 días sin recibir apoyo  ");
+			Aplicacion.generarNotificacion(this, "Han pasado 30 días y el proyecto no ha recibido nuevos apoyos. Sentimos comunicarle que su proyecto ha caducado", ""+this.getTitulo()+" Caducado");
 
 		}
 		
