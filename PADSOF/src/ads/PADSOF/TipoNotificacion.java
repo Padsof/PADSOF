@@ -35,7 +35,19 @@ public enum TipoNotificacion {
 	/**
 	 * El proyecto ha caducado
 	 */
-	caducado(6);
+	caducado(6),
+	/**
+	 * Un Usuario ha sido bloqueado
+	 */
+	bloqueado(7),
+	/**
+	 * Un Usuario ha sido desbloqueado
+	 */
+	desbloqueado(8),
+	/**
+	 * Un Usuario ha sido aceptado
+	 */
+	aceptadoU(9);
 	
 	/**
 	 * Tipo de la notificacion

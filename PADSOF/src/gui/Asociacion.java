@@ -6,7 +6,7 @@ public class Asociacion {
 
 	public static void main(String[] args) {
 		
-		new AsociacionFrame();
+		new AsociacionFrame(null);
 	
 	}
 	

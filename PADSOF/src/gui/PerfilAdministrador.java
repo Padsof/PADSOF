@@ -7,7 +7,7 @@ public class PerfilAdministrador {
 
 	public static void main(String[] args) {
 		
-		new PerfilAdministradorFrame();
+		new PerfilAdministradorFrame(null);
 	
 	}
 	

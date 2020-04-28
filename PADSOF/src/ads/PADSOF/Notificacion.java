@@ -32,6 +32,10 @@ public class Notificacion implements Serializable{
 	 * Motivo de rechazo de proyecyo
 	 */
 	private String motivo;
+	/**
+	 * Abreviatura de la notificacion
+	 */
+	private String abreviatura;
 	
 	/**
 	 * Constructor de la clase ProyInfraestuctura
@@ -40,19 +44,22 @@ public class Notificacion implements Serializable{
 	 * @param fecha Fecha en la que se creo el proyecto
 	 * @param tipo Tipo de notificacion
 	 */
-	public Notificacion(String texto, LocalDate fecha, TipoNotificacion tipo) {
+	public Notificacion(String texto, LocalDate fecha, String Abreviatura, TipoNotificacion tipo) {
 		super();
 		this.texto = texto;
 		this.fecha = fecha;
 		this.tipo = tipo;
+		this.abreviatura = Abreviatura;
 	}
 	
-	public Notificacion(String texto, String motivo, LocalDate fecha, TipoNotificacion tipo) {
+	public Notificacion(String texto, String motivo, LocalDate fecha, String Abreviatura, TipoNotificacion tipo) {
 		super();
 		this.texto = texto;
 		this.fecha = fecha;
 		this.tipo = tipo;
 		this.motivo = motivo;
+		this.abreviatura = Abreviatura;
+
 	}
 
 	/**
@@ -106,6 +113,18 @@ public class Notificacion implements Serializable{
 	public String toString() {
 		return ""+this.texto+" "+this.motivo+" "+this.fecha+" "+this.tipo+"";
 	}
+
+	public String getAbreviatura() {
+		return abreviatura;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+	
+	
+	
+	
 	
 	
 }

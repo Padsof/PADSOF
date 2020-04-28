@@ -1,5 +1,8 @@
 package gui.mainform;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+
 import javax.swing.*;
 
 public class BusquedaAdministradorFrame extends JFrame{
@@ -7,10 +10,14 @@ public class BusquedaAdministradorFrame extends JFrame{
 	private FormPanelBusquedaAdministrador fp = new FormPanelBusquedaAdministrador(this);
 	
 	public BusquedaAdministradorFrame() {
-		//this. = new JFrame("Registrarse");
-		this.setContentPane(fp);
+		
+		super("Administrador Busqueda");
+		Container cp = this.getContentPane();
+		cp.setLayout(new BorderLayout()); 
+		
+		cp.add(fp, BorderLayout.CENTER); 
+		this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(250,140);
 		this.setVisible(true);
 		
 	}

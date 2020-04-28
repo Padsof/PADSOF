@@ -18,6 +18,7 @@ public class Prueba {
 		List<String> distrito = new ArrayList<>();
 		distrito.add("Usera");
 		distrito.add("Estrecho");
+		Aplicacion aplicacion = new Aplicacion (5);
 		
 		
 		int numero = 5; //COMENZAMOS TRABAJANDO CON 5 USUARIOS
@@ -521,7 +522,9 @@ public class Prueba {
 		
 		administrador = Aplicacion.getAdministrador();
 		
-		administrador.bloquearUsuario(ciudadano);
+		administrador.bloquearUsuario(ciudadano, "Porque me da la gana");
+		
+		System.out.println(ciudadano.getNotificaciones());
 		//UN USUARIO BLOQUEADO NO PUEDE CREAR UN COLECTIVO
 		ciudadano.crearColectivo("nombre");
 		//UN USUARIO BLOQUEADO NO PUEDE VOTAR

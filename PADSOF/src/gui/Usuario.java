@@ -5,7 +5,7 @@ public class Usuario {
 
 public static void main(String[] args) {
 		
-		new UsuarioFrame();
+		new UsuarioFrame(null);
 		
 		}
 	
