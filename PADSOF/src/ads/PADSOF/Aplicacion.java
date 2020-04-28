@@ -1,5 +1,6 @@
 package ads.PADSOF;
 
+import java.io.*;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import fechasimulada.FechaSimulada;
 */
 
 
-public class Aplicacion {
+public class Aplicacion implements Serializable{
 
 	/**
 
@@ -33,7 +34,7 @@ public class Aplicacion {
 
 	 */
 	
-	static int umbral;
+	int umbral;
 	
 	/**
 
@@ -41,7 +42,7 @@ public class Aplicacion {
 
 	 */
 
-	static Administrador administrador;
+	Administrador administrador;
 	
 	/**
 
@@ -49,7 +50,7 @@ public class Aplicacion {
 
 	 */
 	 
-	private static int administradorCreado;
+	private int administradorCreado;
 	
 	/**
 
@@ -57,7 +58,7 @@ public class Aplicacion {
 
 	 */
 	
-	private static List<CiudadanoNoRegistrado> CNR = new ArrayList<>();
+	private List<CiudadanoNoRegistrado> CNR = new ArrayList<>();
 	
 	/**
 
@@ -65,14 +66,14 @@ public class Aplicacion {
 
 	 */
 	
-	private static List<Ciudadano> usuariosAceptados = new ArrayList<>();
+	private List<Ciudadano> usuariosAceptados = new ArrayList<>();
 	/**
 
 	 * Lista en la que almacenamos los usuarios registrados en espera de ser aceptados en la aplicacion.
 
 	 */
 
-    private static List<Ciudadano> usuariosPorAceptar = new ArrayList<>();
+    private List<Ciudadano> usuariosPorAceptar = new ArrayList<>();
     
 	/**
 
@@ -80,7 +81,7 @@ public class Aplicacion {
 
 	 */
     
-    private static List<Colectivo> colectivos = new ArrayList<>();
+    private List<Colectivo> colectivos = new ArrayList<>();
     
 	/**
 
@@ -88,7 +89,7 @@ public class Aplicacion {
 
 	 */
     
-    private static List<Proyecto> proyectosAceptados = new ArrayList<>();
+    private List<Proyecto> proyectosAceptados = new ArrayList<>();
     
 	/**
 
@@ -96,7 +97,7 @@ public class Aplicacion {
 
 	 */
     
-    private static List<Proyecto> proyectosPorAceptar = new ArrayList<>();
+    private List<Proyecto> proyectosPorAceptar = new ArrayList<>();
     
 	/**
 
@@ -105,7 +106,7 @@ public class Aplicacion {
 	 */
     
         
-    private static List<Proyecto> caducados = new ArrayList<>();
+    private List<Proyecto> caducados = new ArrayList<>();
     
     /**
 
@@ -114,15 +115,15 @@ public class Aplicacion {
 	 */
     
         
-    private static List<Ciudadano> bloqueados = new ArrayList<>();
+    private List<Ciudadano> bloqueados = new ArrayList<>();
         
 	/**
 	 * Este metodo genera un identificador unico a cada proyecto
 	 * @param p al que se le asigna el identificador
 	 */
-    public static void generarIdentificador(Proyecto p) {
+    public void generarIdentificador(Proyecto p) {
     	    	
-    	int i = Aplicacion.getProyectosAceptados().size();
+    	int i = this.getProyectosAceptados().size();
     	p.setCodigo(i);
     	
     }
@@ -146,7 +147,7 @@ public class Aplicacion {
 	 * Este metodo devuelve la lista de usuarios de tipo ciudadano aceptados en la aplicacion
 	 * @return usuariosAceptados lista con los usuarios de tipo ciudadano aceptados en la aplicacion
 	 */
-	public static List<Ciudadano> getUsuariosAceptados() {
+	public List<Ciudadano> getUsuariosAceptados() {
 		return usuariosAceptados;
 	}
 
@@ -155,8 +156,8 @@ public class Aplicacion {
 	 * @param usuariosAceptados lista con los usuarios de tipo ciudadano aceptados en la aplicacion
 	 */
 
-	public static void setUsuariosAceptados(List<Ciudadano> usuariosAceptados) {
-		Aplicacion.usuariosAceptados = usuariosAceptados;
+	public void setUsuariosAceptados(List<Ciudadano> usuariosAceptados) {
+		this.usuariosAceptados = usuariosAceptados;
 	}
 
 	/**
@@ -164,7 +165,7 @@ public class Aplicacion {
 	 * @return usuariosPorAceptar  lista de usuarios de tipo ciudadano en espera de ser aceptados en la aplicacion
 	 */
 
-	public static List<Ciudadano> getUsuariosPorAceptar() {
+	public List<Ciudadano> getUsuariosPorAceptar() {
 		return usuariosPorAceptar;
 	}
 
@@ -173,8 +174,8 @@ public class Aplicacion {
 	 * @param usuariosPorAceptar  lista de usuarios de tipo ciudadano en espera de ser aceptados en la aplicacion
 	 */
 
-	public static void setUsuariosPorAceptar(List poraceptar) {
-		Aplicacion.usuariosPorAceptar = poraceptar;
+	public void setUsuariosPorAceptar(List poraceptar) {
+		this.usuariosPorAceptar = poraceptar;
 	}
 
 	/**
@@ -182,7 +183,7 @@ public class Aplicacion {
 	 * @return colectivos lista de colectivos creados
 	 */
 
-	public static List<Colectivo> getColectivos() {
+	public List<Colectivo> getColectivos() {
 		return colectivos;
 	}
 
@@ -191,27 +192,33 @@ public class Aplicacion {
 	 * @param colectivos lista de colectivos creados
 	 */
 
-	public static void setColectivos(List<Colectivo> colectivos) {
-		Aplicacion.colectivos = colectivos;
+	public void setColectivos(List<Colectivo> colectivos) {
+		this.colectivos = colectivos;
 	}
 
 
 	public void login (String user, String contrasenia, String DNI) {
-
+		
 	}
 
 	public void logout () {
-
+		try {
+			ObjectOutputStream guardando_datos = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data"));
+			guardando_datos.writeObject(this);
+			guardando_datos.close();
+		}catch(Exception e) {
+			System.out.println("Error al gurdar los datos");;
+		}
 	}
 	
 	/**
-	 * Este metodo genera una notificacion (objeto de tipo Notificacion) y la envía al ciudadano correspondiente (la almacena en una lista de Notificaciones 
+	 * Este metodo genera una notificacion (objeto de tipo Notificacion) y la envï¿½a al ciudadano correspondiente (la almacena en una lista de Notificaciones 
 	 * particular del usuario)
 	 * @param p proyecto del cual debemos conocer informacion como el estado para saber que tipo de notificacion generar o los miembros y el proponente para saber a que usuarios enviar la notificacion
 	 * @param motivo por el cual el administrador ha decidido rechazar el proyecto
 	 */
 
-	public static void generarNotificacion(Proyecto p, String motivo) {
+	public void generarNotificacion(Proyecto p, String motivo) {
 		Notificacion notificacion;
 		int suscritos = p.getSuscritos().size();
 		int i;
@@ -244,7 +251,7 @@ public class Aplicacion {
 	 * @return administrador administrador de la aplicacion
 	 */
 
-	public static Administrador getAdministrador() {
+	public Administrador getAdministrador() {
 		return administrador;
 	}
 
@@ -254,8 +261,8 @@ public class Aplicacion {
 	 */
 
 
-	public static void setAdministrador(Administrador administrador) {
-		Aplicacion.administrador = administrador;
+	public void setAdministrador(Administrador administrador) {
+		this.administrador = administrador;
 	}
 
 	/**
@@ -263,7 +270,7 @@ public class Aplicacion {
 	 * @return administradorCreado Variable que nos indica si el Administrador ha sido creado
 	 */
 
-	public static int getAdministradorCreado() {
+	public int getAdministradorCreado() {
 		return administradorCreado;
 	}
 
@@ -272,15 +279,15 @@ public class Aplicacion {
 	 * @param administradorCreado variable que nos indica si el Administrador ha sido creado
 	 */
 
-	public static void setAdministradorCreado(int administradorCreado) {
-		Aplicacion.administradorCreado = administradorCreado;
+	public void setAdministradorCreado(int administradorCreado) {
+		this.administradorCreado = administradorCreado;
 	}
 
 	/**
 	 * Este metodo cambia la lista en la que almacenamos los usuarios de tipo ciudadano que no se han registrado en la aplicacion
 	 * @param cNR lista en la que almacenamos los usuarios de tipo ciudadano que no se han registrado en la aplicacion
 	 */
-	public static void setCNR(List<CiudadanoNoRegistrado> cNR) {
+	public void setCNR(List<CiudadanoNoRegistrado> cNR) {
 		CNR = cNR;
 	}
 
@@ -289,7 +296,7 @@ public class Aplicacion {
 	 * @return CNR Lista en la que almacenamos los usuarios de tipo ciudadano que no se han registrado en la aplicacion
 	 */
 
-	public static List<CiudadanoNoRegistrado> getCNR() {
+	public List<CiudadanoNoRegistrado> getCNR() {
 		return CNR;
 	}
 	
@@ -298,7 +305,7 @@ public class Aplicacion {
 	 * @return proyectosAceptados Lista en la que almacenamos los proyectos aceptados en la aplicacion.
 	 */
 
-	public static List<Proyecto> getProyectosAceptados() {
+	public List<Proyecto> getProyectosAceptados() {
 		return proyectosAceptados;
 	}
 
@@ -307,8 +314,8 @@ public class Aplicacion {
 	 * @param proyectosAceptados Lista en la que almacenamos los proyectos aceptados en la aplicacion.
 	 */
 	
-	public static void setProyectosAceptados(List<Proyecto> proyectosAceptados) {
-		Aplicacion.proyectosAceptados = proyectosAceptados;
+	public void setProyectosAceptados(List<Proyecto> proyectosAceptados) {
+		this.proyectosAceptados = proyectosAceptados;
 	}
 	
 	/**
@@ -316,7 +323,7 @@ public class Aplicacion {
 	 * @return proyectosPorAceptar Lista en la que almacenamos los proyectos pendientes de ser aceptados en la aplicacion.
 	 */
 
-	public static List<Proyecto> getProyectosPorAceptar() {
+	public List<Proyecto> getProyectosPorAceptar() {
 		return proyectosPorAceptar;
 	}
 
@@ -326,8 +333,8 @@ public class Aplicacion {
 	 */
 	
 
-	public static void setProyectosPorAceptar(List<Proyecto> proyectosPorAceptar) {
-		Aplicacion.proyectosPorAceptar = proyectosPorAceptar;
+	public void setProyectosPorAceptar(List<Proyecto> proyectosPorAceptar) {
+		this.proyectosPorAceptar = proyectosPorAceptar;
 	}
 
 	/**
@@ -335,7 +342,7 @@ public class Aplicacion {
 	 * @return umbral umbral que marca el limite de votos que debe alcanzar un proyecto para considerar su financiacion
 	 */
 
-	public static int getUmbral() {
+	public int getUmbral() {
 		return umbral;
 	}
 
@@ -344,8 +351,8 @@ public class Aplicacion {
 	 * @param umbral umbral que marca el limite de votos que debe alcanzar un proyecto para considerar su financiacion
 	 */
 
-	public static void setUmbral(int umbral) {
-		Aplicacion.umbral = umbral;
+	public void setUmbral(int umbral) {
+		this.umbral = umbral;
 	}
 	
 	/**
@@ -353,7 +360,7 @@ public class Aplicacion {
 	 * @return caducados lista de proyectos caducados
 	 */
 
-	public static List<Proyecto> getCaducados() {
+	public List<Proyecto> getCaducados() {
 		return caducados;
 	}
 	
@@ -362,15 +369,15 @@ public class Aplicacion {
 	 * @param caducados lista de proyectos caducados
 	 */
 
-	public static void setCaducados(List<Proyecto> caducados) {
-		Aplicacion.caducados = caducados;
+	public void setCaducados(List<Proyecto> caducados) {
+		this.caducados = caducados;
 	}
 
 	/**
 	 * Este metodo devuelve la lista de usuarios de tipo ciudadano bloqueados
 	 * @return bloqueados Lista de Usuarios de tipo Ciudadano bloqueados
 	 */
-	public static List<Ciudadano> getBloqueados() {
+	public List<Ciudadano> getBloqueados() {
 		return bloqueados;
 	}
 
@@ -378,8 +385,8 @@ public class Aplicacion {
 	 * Este metodo modifica la lista de usuarios de tipo ciudadano bloqueados
 	 * @param bloqueados Lista de Usuarios de tipo Ciudadano bloqueados
 	 */
-	public static void setBloqueados(List<Ciudadano> bloqueados) {
-		Aplicacion.bloqueados = bloqueados;
+	public void setBloqueados(List<Ciudadano> bloqueados) {
+		this.bloqueados = bloqueados;
 	}
 	
 	

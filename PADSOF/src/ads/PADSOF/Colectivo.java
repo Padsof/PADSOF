@@ -2,6 +2,7 @@ package ads.PADSOF;
 
 
 
+import java.io.Serializable;
 import java.util.*;
 
 import fechasimulada.FechaSimulada;
@@ -26,7 +27,7 @@ import fechasimulada.FechaSimulada;
 
 
 
-public class Colectivo {
+public class Colectivo implements Serializable{
 
 	
 
@@ -48,7 +49,7 @@ public class Colectivo {
 
     /**
 
-     * Un objeto Ciudadano que indicará quién es el creador y representante del colectivo
+     * Un objeto Ciudadano que indicarï¿½ quiï¿½n es el creador y representante del colectivo
 
      */
 
@@ -238,7 +239,7 @@ public class Colectivo {
 	}
 	
 
-	public void añadirColectivoHijo (Colectivo asociacion) {
+	public void aï¿½adirColectivoHijo (Colectivo asociacion) {
 		
 		if (this.representante == asociacion.getRepresentante() && asociacion.getMiembros().isEmpty() == true && asociacion.getPadre() == null) {
 			this.getHijos().add(asociacion);
