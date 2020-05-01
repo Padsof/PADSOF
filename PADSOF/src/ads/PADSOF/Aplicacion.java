@@ -213,7 +213,7 @@ public class Aplicacion implements Serializable{
 			guardando_datos.writeObject(this);
 			guardando_datos.close();
 		}catch(Exception e) {
-			System.out.println("Error al gurdar los datos");;
+			System.out.println("Error al gurdar los datos");
 		}
 	}
 	
