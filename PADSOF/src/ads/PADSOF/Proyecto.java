@@ -3,7 +3,6 @@ import java.util.*;
 
 import fechasimulada.FechaSimulada;
 
-import java.io.Serializable;
 import java.time.*;
 
 /**
@@ -14,7 +13,7 @@ import java.time.*;
  * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
  *
 */
-public abstract class Proyecto implements Serializable{
+public abstract class Proyecto {
 
 	/**
 	 * El titulo del proyecto
@@ -314,7 +313,7 @@ public abstract class Proyecto implements Serializable{
 	public abstract void votarProyecto(Ciudadano c);
 	
 	/**
-	 * Este metodo aï¿½ade los miembros de un colectivo a la lista de votos y suma el mismo numero de votos a nVotos (sin contar los que estan repetidos)
+	 * Este metodo añade los miembros de un colectivo a la lista de votos y suma el mismo numero de votos a nVotos (sin contar los que estan repetidos)
 	 * @param c Ciudadano que vota el proyecto
 	 */
 	public abstract void votarProyectoColectivo (Colectivo colectivo);
