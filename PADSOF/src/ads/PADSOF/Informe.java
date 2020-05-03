@@ -1,7 +1,5 @@
 package ads.PADSOF;
 
-import java.io.Serializable;
-
 /**
  * Esta clase abstracta forma los informes generales.
  *
@@ -10,6 +8,6 @@ import java.io.Serializable;
  * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
  *
 */
-public abstract class Informe implements Serializable{
+public abstract class Informe {
 
 }

@@ -74,10 +74,14 @@ public class CiudadanoNoRegistrado extends Usuario {
 			return false;
 		}
 		
-		else if (dni == null){
+		else if (dni == null && name.equals("Administrador")){
 			new Administrador (name, password, null);
 			System.out.println("Te has registrado como Administrador");
 			return true;
+		}
+		else if(dni == null) {
+			System.out.println("No has conseguido registrarte");
+			return false;
 		}
 		else {
 			if (dni.length() != 9) {

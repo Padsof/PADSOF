@@ -700,6 +700,29 @@ public class Ciudadano extends Usuario {
 		this.notificacionesLeidas = notificacionesLeidas;
 	}
 	
+	/**
+
+     * Este metodo modifica la lista de colectivos creados por el usuario (elimina el colectivo indicado)
+
+     * @param colectivo Colectivo que queremos eliminar
+     
+     */
+	
+	public void EliminarColectivo(Colectivo colectivo) {
+		
+		this.getColectivos().remove(colectivo);
+		Aplicacion.getColectivos().remove(colectivo);
+		
+		int tam = colectivo.getNumMiembros();
+		int i;
+		
+		for(i = 0; i < tam; i++) {
+			colectivo.getMiembros().get(i).getMiembro().remove(colectivo);
+		}
+		
+		return;	
+	}
+	
 	
 	
 	

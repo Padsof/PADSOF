@@ -47,7 +47,15 @@ public enum TipoNotificacion {
 	/**
 	 * Un Usuario ha sido aceptado
 	 */
-	aceptadoU(9);
+	aceptadoU(9),
+	/**
+	 * Un Usuario se ha unido a un colectivo
+	 */
+	colectivoU(10),
+	/**
+	 * Un Usuario ha abandonado un colectivo
+	 */
+	colectivoA(10);
 	
 	/**
 	 * Tipo de la notificacion

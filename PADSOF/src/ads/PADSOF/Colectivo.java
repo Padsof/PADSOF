@@ -2,7 +2,6 @@ package ads.PADSOF;
 
 
 
-import java.io.Serializable;
 import java.util.*;
 
 import fechasimulada.FechaSimulada;
@@ -27,7 +26,7 @@ import fechasimulada.FechaSimulada;
 
 
 
-public class Colectivo implements Serializable{
+public class Colectivo {
 
 	
 
@@ -49,7 +48,7 @@ public class Colectivo implements Serializable{
 
     /**
 
-     * Un objeto Ciudadano que indicarï¿½ quiï¿½n es el creador y representante del colectivo
+     * Un objeto Ciudadano que indicará quién es el creador y representante del colectivo
 
      */
 
@@ -180,6 +179,7 @@ public class Colectivo implements Serializable{
 			this.miembros.add(c);
 			c.getMiembro().add(this);
 			this.numMiembros++;
+			Aplicacion.generarNotificacionColectivoU(c, "", this.nombre);
 			return true;
 		}
 		
@@ -205,6 +205,8 @@ public class Colectivo implements Serializable{
 		this.miembros.add(c);
 		c.getMiembro().add(this);
 		this.numMiembros++;
+		
+		Aplicacion.generarNotificacionColectivoU(c, "", this.nombre);
 
 		return true;
 	}
@@ -227,11 +229,23 @@ public class Colectivo implements Serializable{
 
 	 */
 
-	public void quitarMiembro(Ciudadano c) {
+	public boolean quitarMiembro(Ciudadano c) {
+		
+		if(this.getMiembros().contains(c) == false) {
+			return false;
+		}
+		
+		if(c.equals(this.representante)) {
+			return false;
+		}
 
 		this.getMiembros().remove(c);
 		c.getMiembro().remove(this);
 		this.numMiembros--;
+		
+		Aplicacion.generarNotificacionColectivoA(c, "", this.nombre);
+		
+		return true;
 	}
 	
 	public String toString() {
@@ -239,7 +253,7 @@ public class Colectivo implements Serializable{
 	}
 	
 
-	public void aï¿½adirColectivoHijo (Colectivo asociacion) {
+	public void añadirColectivoHijo (Colectivo asociacion) {
 		
 		if (this.representante == asociacion.getRepresentante() && asociacion.getMiembros().isEmpty() == true && asociacion.getPadre() == null) {
 			this.getHijos().add(asociacion);

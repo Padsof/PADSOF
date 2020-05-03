@@ -1,6 +1,5 @@
 package ads.PADSOF;
 
-import java.io.Serializable;
 import java.time.LocalDate; 
 
 /**
@@ -11,7 +10,7 @@ import java.time.LocalDate;
  * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
  *
 */
-public class Notificacion implements Serializable{
+public class Notificacion {
 
 	/**
 	 * Texto que se muestra en la notificacion
