@@ -1,8 +1,6 @@
 package ads.PADSOF;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -118,7 +116,14 @@ public class Aplicacion implements Serializable{
     
         
     private static List<Ciudadano> bloqueados = new ArrayList<>();
+    
+    /**
+     * Usuario cuya sesion esta iniciada actualmente
+     */
         
+    private static Usuario sesion = null;
+    
+    
 	/**
 	 * Este metodo genera un identificador unico a cada proyecto
 	 * @param p al que se le asigna el identificador
@@ -189,7 +194,7 @@ public class Aplicacion implements Serializable{
 	 * @param usuariosPorAceptar  lista de usuarios de tipo ciudadano en espera de ser aceptados en la aplicacion
 	 */
 
-	public static void setUsuariosPorAceptar(List poraceptar) {
+	public static void setUsuariosPorAceptar(List<Ciudadano> poraceptar) {
 		Aplicacion.usuariosPorAceptar = poraceptar;
 	}
 
@@ -212,48 +217,176 @@ public class Aplicacion implements Serializable{
 	}
 
 
-	public static boolean login (String user, String contrasenia, String DNI) {
-		
-		
-		int tam = Aplicacion.getUsuariosAceptados().size();
-		int i, flag = 0;
-		
-		for(i = 0; i < tam; i++) {
-			if(Aplicacion.getUsuariosAceptados().get(i).getNombre().equals(user) || Aplicacion.getUsuariosAceptados().get(i).getDNI().equals(DNI) && Aplicacion.getUsuariosAceptados().get(i).getcontrasenia().equals(contrasenia)) {
-				flag = 1;
-			}
-		}
-		
-		if(flag == 1) {
-			return true;
-		}
-		
-		tam = Aplicacion.getBloqueados().size();
-		
-		for(i = 0; i < tam; i++) {
-			if(Aplicacion.getBloqueados().get(i).getNombre().equals(user) || Aplicacion.getBloqueados().get(i).getDNI().equals(DNI) && Aplicacion.getBloqueados().get(i).getcontrasenia().equals(contrasenia)) {
-				flag = 1;
-			}
-		}
-		
-		if(flag == 1) {
-			return true;
-		}
-		
-		
-		return false;
-
+	
+	/**
+	 * Este metodo devuelve el usuario que ha iniciado sesion en la aplicacion
+	 * @return bloqueados Lista de Usuarios de tipo Ciudadano bloqueados
+	 */
+	public static Usuario getSesion() {
+		return sesion;
 	}
 
-	public void logout () {
+	/**
+	 * Este metodo modifica la lista de usuarios de tipo ciudadano bloqueados
+	 * @param bloqueados Lista de Usuarios de tipo Ciudadano bloqueados
+	 */
+	public static void setSesion(Usuario sesion) {
+		Aplicacion.sesion = sesion;
+	}
+	
+	/**
+	 * Este metodo realiza el guardado de todos los datos de la aplicacion
+	 */
+	private static void cargaDatos() {
 		try {
-			ObjectOutputStream guardando_datos = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data"));
-			guardando_datos.writeObject(this);
-			guardando_datos.close();
+			ObjectInputStream cargando_administrador = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/administrador.dat"));
+			Aplicacion.setAdministrador((Administrador) cargando_administrador.readObject());
+			cargando_administrador.close();
+			
+			ObjectInputStream cargando_administradorcreado = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/administradorcreado.dat"));
+			Aplicacion.setAdministradorCreado((int) cargando_administradorcreado.readObject());
+			cargando_administradorcreado.close();
+			
+			ObjectInputStream cargando_bloqueados = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/bloqueados.dat"));
+			Aplicacion.setBloqueados((List<Ciudadano>) cargando_bloqueados.readObject());
+			cargando_bloqueados.close();
+			
+			ObjectInputStream cargando_caducados = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/caducados.dat"));
+			Aplicacion.setCaducados((List<Proyecto>)cargando_caducados.readObject());
+			cargando_caducados.close();
+			
+			ObjectInputStream cargando_cnr = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/cnr.dat"));
+			Aplicacion.setCNR((List<CiudadanoNoRegistrado>)cargando_cnr.readObject());
+			cargando_cnr.close();
+			
+			ObjectInputStream cargando_colectivos = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/colectivos.dat"));
+			Aplicacion.setColectivos((List<Colectivo>)cargando_colectivos.readObject());
+			cargando_colectivos.close();
+			
+			ObjectInputStream cargando_proyectosaceptados = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/proyectosaceptados.dat"));
+			Aplicacion.setProyectosAceptados((List<Proyecto>)cargando_proyectosaceptados.readObject());
+			cargando_proyectosaceptados.close();
+			
+			ObjectInputStream cargando_proyectosporaceptar= new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/proyectosporaceptar.dat"));
+			Aplicacion.setProyectosPorAceptar((List<Proyecto>)cargando_proyectosporaceptar.readObject());
+			cargando_proyectosporaceptar.close();
+			
+			ObjectInputStream cargando_umbral= new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/umbral.dat"));
+			Aplicacion.setUmbral((int)cargando_umbral.readObject());
+			cargando_umbral.close();
+			
+			ObjectInputStream cargando_usuariosaceptados = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/usuariosaceptados.dat"));
+			Aplicacion.setUsuariosAceptados((List<Ciudadano>)cargando_usuariosaceptados.readObject());
+			cargando_usuariosaceptados.close();
+			
+			ObjectInputStream cargando_usuariosporaceptar = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/usuariosporaceptar.dat"));
+			Aplicacion.setUsuariosPorAceptar((List<Ciudadano>)cargando_usuariosporaceptar.readObject());
+			cargando_usuariosporaceptar.close();
+			
+			ObjectInputStream cargando_sesion = new ObjectInputStream(new FileInputStream(System.getProperty("user.dir") + "/data/sesion.dat"));
+			Aplicacion.setSesion((Usuario)cargando_sesion.readObject());
+			cargando_sesion.close();
+			
+		} catch(Exception e){
+			System.out.println("Error al cargar los datos");
+		}
+	}
+	
+	/**
+	 * Este metodo realiza el inicio de sesion de un usuario en la aplicacion
+	 * @param user
+	 * @param contrasenia
+	 * @return
+	 */
+	public static boolean login (String user, String contrasenia) {
+		
+		Aplicacion.cargaDatos();
+		
+		/*if(Aplicacion.getAdministrador().getNombre().equals(user) && Aplicacion.getAdministrador().getcontrasenia().equals(contrasenia)) {
+			
+			return true;
+			
+		}else {*/
+			for(Ciudadano u : Aplicacion.getUsuariosAceptados()) {
+				if((u.getNombre().equals(user) || u.getDNI().equals(user)) && u.getcontrasenia().equals(contrasenia) ) {
+					
+					for(Ciudadano c : Aplicacion.getBloqueados()) {
+						if(u.equals(c)) {
+							return false;
+						}
+					}
+					return true;
+				}
+			}
+		/*}*/
+		
+		return false;
+			
+	}
+
+	/**
+	 * Este metodo realiza el cerrado de sesion de un usuario y el guardado de los datos de la aplicacion
+	 */
+	public static void logout () {
+		try {
+			Aplicacion.sesion = null;
+			
+			
+			ObjectOutputStream guardando_administrador = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/administrador.dat"));
+			guardando_administrador.writeObject(Aplicacion.getAdministrador());
+			guardando_administrador.close();
+			
+			ObjectOutputStream guardando_administradorcreado = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/administradorcreado.dat"));
+			guardando_administradorcreado.writeObject(Aplicacion.getAdministradorCreado());
+			guardando_administradorcreado.close();
+			
+			ObjectOutputStream guardando_bloqueados = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/bloqueados.dat"));
+			guardando_bloqueados.writeObject(Aplicacion.getBloqueados());
+			guardando_bloqueados.close();
+			
+			ObjectOutputStream guardando_caducados = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/caducados.dat"));
+			guardando_caducados.writeObject(Aplicacion.getCaducados());
+			guardando_caducados.close();
+			
+			ObjectOutputStream guardando_cnr = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/cnr.dat"));
+			guardando_cnr.writeObject(Aplicacion.getCNR());
+			guardando_cnr.close();
+			
+			ObjectOutputStream guardando_colectivos = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/colectivos.dat"));
+			guardando_colectivos.writeObject(Aplicacion.getColectivos());
+			guardando_colectivos.close();
+			
+			ObjectOutputStream guardando_proyectosaceptados = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/proyectosaceptados.dat"));
+			guardando_proyectosaceptados.writeObject(Aplicacion.getProyectosAceptados());
+			guardando_proyectosaceptados.close();
+			
+			ObjectOutputStream guardando_proyectosporaceptar= new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/proyectosporaceptar.dat"));
+			guardando_proyectosporaceptar.writeObject(Aplicacion.getProyectosPorAceptar());
+			guardando_proyectosporaceptar.close();
+			
+			ObjectOutputStream guardando_umbral= new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/umbral.dat"));
+			guardando_umbral.writeObject(Aplicacion.getUmbral());
+			guardando_umbral.close();
+			
+			ObjectOutputStream guardando_usuariosaceptados = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/usuariosaceptados.dat"));
+			guardando_usuariosaceptados.writeObject(Aplicacion.getUsuariosAceptados());
+			guardando_usuariosaceptados.close();
+			
+			ObjectOutputStream guardando_usuariosporaceptar = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/usuariosporaceptar.dat"));
+			guardando_usuariosporaceptar.writeObject(Aplicacion.getUsuariosPorAceptar());
+			guardando_usuariosporaceptar.close();
+			
+			ObjectOutputStream guardando_sesion = new ObjectOutputStream(new FileOutputStream(System.getProperty("user.dir") + "/data/sesion.dat"));
+			guardando_sesion.writeObject(Aplicacion.getSesion());
+			guardando_sesion.close();
+
 		}catch(Exception e) {
 			System.out.println("Error al gurdar los datos");
 		}
+		
 	}
+
+	
 	
 	/**
 	 * Este metodo genera una notificacion (objeto de tipo Notificacion) y la env�a al ciudadano correspondiente (la almacena en una lista de Notificaciones 

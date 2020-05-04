@@ -1,5 +1,6 @@
 package ads.PADSOF;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 */
 
-public abstract class Usuario {
+public abstract class Usuario implements Serializable{
 
 	/**
 
@@ -38,7 +39,7 @@ public abstract class Usuario {
 	
 	/**
 
-	 * La contraseña con la que el usuario se ha registrado
+	 * La contraseï¿½a con la que el usuario se ha registrado
 
 	 */
 	private String contrasenia;
@@ -75,7 +76,7 @@ public abstract class Usuario {
 	
 	/**
 
-	 * Una lista auxiliar en la que almacenamos los usuarios por aceptar en la aplicación
+	 * Una lista auxiliar en la que almacenamos los usuarios por aceptar en la aplicaciï¿½n
 
 	 */
 	private static List<Ciudadano> poraceptar = new ArrayList<>();
@@ -88,7 +89,7 @@ public abstract class Usuario {
 
      * @param nombre El nombre con el que el usuario se ha registrado
      * 
-     * @param password La contraseña con la que el usuario se ha registrado
+     * @param password La contraseï¿½a con la que el usuario se ha registrado
 
      * @param DNI El DNI del usuario 
 
@@ -125,9 +126,9 @@ public abstract class Usuario {
 
 	 /**
 
-     * Este metodo devuelve la contraseña del Usuario
+     * Este metodo devuelve la contraseï¿½a del Usuario
 
-     * @return la contraseña del usuario
+     * @return la contraseï¿½a del usuario
 
      */
 	public String getcontrasenia() {

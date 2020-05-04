@@ -1,5 +1,7 @@
 package ads.PADSOF;
 
+import java.io.Serializable;
+
 /**
  * Esta clase enumera TipoNotificacion
  *
@@ -8,7 +10,7 @@ package ads.PADSOF;
  * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
  *
 */
-public enum TipoNotificacion {
+public enum TipoNotificacion implements Serializable{
 	/**
 	 * El proyecto ha sido aceptado
 	 */

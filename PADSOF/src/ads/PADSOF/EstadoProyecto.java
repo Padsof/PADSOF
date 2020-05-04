@@ -1,5 +1,7 @@
 package ads.PADSOF;
 
+import java.io.Serializable;
+
 /**
  * Esta clase enumera los distintos estados de Proyecto.
  *
@@ -8,7 +10,7 @@ package ads.PADSOF;
  * @author Javier Benitez Miguel javier.benitezm@estudiante.uam.es
  *
 */
-public enum EstadoProyecto {
+public enum EstadoProyecto implements Serializable{
 	/** 
 	 * El proyecto ha sido aceptado
 	 */
@@ -30,7 +32,7 @@ public enum EstadoProyecto {
 	 */
 	financiado,
 	/**
-	 * El proyecto todavía no ha sido aprobado
+	 * El proyecto todavï¿½a no ha sido aprobado
 	 */
 	poraceptar,
 	/**

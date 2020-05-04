@@ -28,7 +28,7 @@ public class Prueba {
 		String[] DNIS = {"12345678Q", "12345678A", "12345678D", "12345678I", "12345678R"};
 		String[]nombreColectivo = {"CQ", "CA", "CD", "CI", "CR"};
 		String[]nombreColectivoHijo = {"CQH", "CAH", "CDH", "CIH", "CRH"};
-		String[]identificadorAdministrador = {"Javier", "contraseña"}; //IDENTIFICADOR DE ADMINISTRADOR usuario y contraseña predefinidos y no modificables.
+		String[]identificadorAdministrador = {"Javier", "contraseï¿½a"}; //IDENTIFICADOR DE ADMINISTRADOR usuario y contraseï¿½a predefinidos y no modificables.
 		
 		
 		//CREAMOS UN ADMINISTRADOR PARA LA APLICACION
@@ -36,7 +36,7 @@ public class Prueba {
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
 		System.out.println(Aplicacion.getAdministrador());
 		//INTENTAMOS INTRODUCIR UN NUEVO ADMINISTRADOR
-		CiuAuxiliar = new CiudadanoNoRegistrado ("Ciro", "contraseña", null);
+		CiuAuxiliar = new CiudadanoNoRegistrado ("Ciro", "contraseï¿½a", null);
 		CiuAuxiliar.Registrarse(CiuAuxiliar.getNombre(), CiuAuxiliar.getcontrasenia(), CiuAuxiliar.getDNI());
 		System.out.println(Aplicacion.getAdministrador());
 		
@@ -92,7 +92,7 @@ public class Prueba {
 
 		System.out.println(" ");
 
-		//CADA USUARIO CREARÁ UN COLECTIVO
+		//CADA USUARIO CREARï¿½ UN COLECTIVO
 		for (i = 0;i < numero; i++) {
 			Aplicacion.getUsuariosAceptados().get(i).crearColectivo(nombreColectivo[i]);
 		}
@@ -113,6 +113,27 @@ public class Prueba {
 		}
 		System.out.println(" ");
 		
+		
+		
+		
+		
+		Aplicacion.logout();
+		
+	
+		
+		Aplicacion.login("Quique", "CQ");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//UN USUARIO PUEDE TENER SER REPRESENTANTE DE MAS DE UN COLECTIVO
 		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos());
 		System.out.println(" ");
@@ -126,16 +147,16 @@ public class Prueba {
 		//CREAMOS COLECTIVOS HIJOS (IGUAL NO SE PUEDEN CREAR SI EL NOMBRE ESTA REPETIDO)
 
 		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).crearColectivo(nombreColectivoHijo[0]);
-		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).aniadirColectivoHijo(ColAuxiliar);
 		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).crearColectivo("CQH2");
-		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).aniadirColectivoHijo(ColAuxiliar);
 
 		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0).getHijos()); 
 		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos());
 		System.out.println(Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(1).getHijos());
 		
 		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(1).crearColectivo(nombreColectivoHijo[1]);
-		Aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).añadirColectivoHijo(ColAuxiliar);
+		Aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).aniadirColectivoHijo(ColAuxiliar);
 
 		System.out.println(Aplicacion.getUsuariosAceptados().get(1).getColectivos().get(0).getHijos()); 
 		System.out.println(Aplicacion.getUsuariosAceptados().get(1).getColectivos());
@@ -149,7 +170,7 @@ public class Prueba {
 		
 		
 		for (i = 1; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE Aï¿½ADE)
 			Aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
 		}
 		
@@ -159,8 +180,8 @@ public class Prueba {
 
 				
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
-																  //EL RESTO DE CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO (NO SE AÑADEN)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE Aï¿½ADE)
+																  //EL RESTO DE CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO (NO SE Aï¿½ADEN)
 			Aplicacion.getColectivos().get(0).agregarMiembro(ciudadano);
 		}
 		
@@ -168,23 +189,23 @@ public class Prueba {
 
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO PADRE (NO SE AÑADEN)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO PADRE (NO SE Aï¿½ADEN)
 			Aplicacion.getColectivos().get(0).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		
 		System.out.println(" ");
 		
 		//LOS CIUDADANOS SE UNEN AL COLECTIVO DEL HIJO DE UNO DE LOS MIEMBROS SIN PERTENECER AL COLECTIVO PADRE
-		//NO ESTAN INCLUIDOS EN EL COLECTIVO PADRE (SE AÑADEN)
+		//NO ESTAN INCLUIDOS EN EL COLECTIVO PADRE (SE Aï¿½ADEN)
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE Aï¿½ADE)
 			Aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		System.out.println(" ");
 
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO HIJO (NO SE AÑADEN)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i);  //LOS CIUDADANOS YA ESTAN INCLUIDOS EN EL COLECTIVO HIJO (NO SE Aï¿½ADEN)
 			Aplicacion.getColectivos().get(1).agregarMiembro(ciudadano);
 		}
 
@@ -196,17 +217,17 @@ public class Prueba {
 
 		//BORRAMOS LOS MIEMBROS DEL COLECTIVO HIJO
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE Aï¿½ADE)
 			Aplicacion.getColectivos().get(1).getHijos().get(0).quitarMiembro(ciudadano);
 		}
 		System.out.println("Miembros del colectivo: "+Aplicacion.getColectivos().get(1).getHijos().get(0)+"");
 		System.out.println(Aplicacion.getColectivos().get(1).getHijos().get(0).getMiembros());
 		System.out.println(" ");	
 
-		//LOS AÑADIMOS DE NUEVO. VAMOS A NECESITARLOS MAS ADELANTE
+		//LOS Aï¿½ADIMOS DE NUEVO. VAMOS A NECESITARLOS MAS ADELANTE
 		
 		for (i = 0; i < numero; i++) {
-			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE AÑADE)
+			ciudadano = Aplicacion.getUsuariosAceptados().get(i); //EL PRIMER CIUDADANO ES REPRESENTANTE DEL COLECTIVO (NO SE Aï¿½ADE)
 			Aplicacion.getColectivos().get(1).getHijos().get(0).agregarMiembro(ciudadano);
 		}
 		
@@ -229,7 +250,7 @@ public class Prueba {
 
 		System.out.println("Creamos un proyecto de Infraestructura");
 		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
-		ciudadano.proponerProyecto("Hospitales", "España se va a la mierda", 1000, EstadoProyecto.poraceptar, "Infraestructura", "que mas da", true, distrito);
+		ciudadano.proponerProyecto("Hospitales", "Espaï¿½a se va a la mierda", 1000, EstadoProyecto.poraceptar, "Infraestructura", "que mas da", true, distrito);
 
 		System.out.println(Aplicacion.getProyectosPorAceptar());
 		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
@@ -244,7 +265,7 @@ public class Prueba {
 		//NOMBRE DE PROYECTO (MAX 50 CARACTERERES) DESCRIPCION (MAX 500 CARACTERES)
 		
 		ciudadano = Aplicacion.getUsuariosAceptados().get(0);
-		ciudadano.proponerProyecto("qwertyuiopasdfghjklñzxcvbn", "Recaudar dinero", 1000, EstadoProyecto.poraceptar, "Social", "Infectados", true, null);
+		ciudadano.proponerProyecto("qwertyuiopasdfghjklï¿½zxcvbn", "Recaudar dinero", 1000, EstadoProyecto.poraceptar, "Social", "Infectados", true, null);
 		System.out.println(" ");	
 
 		//RECHAZAMOS PROYECTO
@@ -290,7 +311,7 @@ public class Prueba {
 		System.out.println (proyecto.getVotos());
 		System.out.println(" ");	
 
-		//NO SE PUEDEN AÑADIR VOTOS PORQUE EL USUARIO HA VOTADO CON ANTERIORIDAD
+		//NO SE PUEDEN Aï¿½ADIR VOTOS PORQUE EL USUARIO HA VOTADO CON ANTERIORIDAD
 		//COGEMOS COMO EJEMPLO EL PROYECTO CREADO POR UN COLECTIVO (LOS VOTOS YA HAN SIDO CONTABILIZADOS)
 
 		proyecto = Aplicacion.getProyectosAceptados().get(2);
@@ -425,7 +446,7 @@ public class Prueba {
 		System.out.println(" ");
 		
 		ColAuxiliar = Aplicacion.getUsuariosAceptados().get(0).getColectivos().get(0);
-		ColAuxiliar.proponerProyecto("Anarquia Y Cerveza Fría", "Fiesta post pandemia", 1000, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
+		ColAuxiliar.proponerProyecto("Anarquia Y Cerveza Frï¿½a", "Fiesta post pandemia", 1000, EstadoProyecto.poraceptar, "Social", "Estudiantes", false, null);
 		proyecto = Aplicacion.getProyectosPorAceptar().get(0);
 		proyecto.aceptarProyecto();
 		System.out.println(" ");	
