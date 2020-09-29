@@ -1,6 +1,7 @@
 package gui.mainform;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainFrame extends JFrame{
 	

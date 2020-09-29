@@ -302,11 +302,11 @@ public class Aplicacion implements Serializable{
 		
 		Aplicacion.cargaDatos();
 		
-		/*if(Aplicacion.getAdministrador().getNombre().equals(user) && Aplicacion.getAdministrador().getcontrasenia().equals(contrasenia)) {
+		if(Aplicacion.getAdministrador().getNombre().equals(user) && Aplicacion.getAdministrador().getcontrasenia().equals(contrasenia)) {
 			
 			return true;
 			
-		}else {*/
+		}else {
 			for(Ciudadano u : Aplicacion.getUsuariosAceptados()) {
 				if((u.getNombre().equals(user) || u.getDNI().equals(user)) && u.getcontrasenia().equals(contrasenia) ) {
 					
@@ -318,7 +318,7 @@ public class Aplicacion implements Serializable{
 					return true;
 				}
 			}
-		/*}*/
+		}
 		
 		return false;
 			
